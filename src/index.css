@@ -1,8 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: 'Raleway',sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -10,4 +10,95 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+::placeholder{
+  color:#8176d6;
+  opacity: 1;
+}
+
+.utama {
+  padding: 3%;
+}
+
+.bt-orange{
+  background: #FFB000;
+  border: none;
+  color: white;
+  padding : 1%;
+  font-weight: 600;
+  border-radius: 0;
+}
+
+.bt-orange:hover{
+  background: #2B2273;
+}
+
+.font-price{
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.clr-blue{
+  color: #2B2273;
+}
+
+.clr-orange{
+  color: #FFB000;
+}
+
+.clr-orange2{
+  color: #FE5F01;
+}
+
+.card{
+  border : none;
+  cursor: pointer;
+}
+
+.card:hover{
+  border-style: solid;
+  border-width: 0.5px;
+  border-color: #dbd8f3;
+}
+
+.input-blue{
+  color:#2B2273;
+}
+
+#filter-kategori:hover{
+  color: #FFB000;
+}
+
+.sort{
+  border-color: #FFB000;
+  color: #FFB000;
+  border-radius: 20px;
+  padding : 5%;
+  font-size: 14px;
+}
+
+.sort:hover{
+  background: #FFB000;
+  border : none;
+}
+
+.sort-box{
+  border-radius: 15px;
+  border-color: #2B2273;
+  border-style: solid;
+  border-width: 0.5px;
+}
+
+.bt-pagination{
+  background-color: white;
+  border : none;
+  color: #FFB000;
+  font-size: 23px;
+}
+
+.bt-pagination:hover{
+  background-color: white;
+  border : none;
+  color: #2B2273;
+  font-size: 20px;
 }
