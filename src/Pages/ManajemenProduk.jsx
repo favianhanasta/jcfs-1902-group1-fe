@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Button } from 'reactstrap';
+import { Button, Table } from 'reactstrap';
 import ModalAdd from '../Components/ModalAdd';
 
 
@@ -8,16 +8,38 @@ class ManajemenProduk extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            modalAdd: false
+            modalAdd: false,
+            page: 1,
+            handle: 12,
         }
     }
 
-    printProduct = ()=>{
-        return this.props.product.map((val,idx)=>{
+    printProduct = () => {
+        let {page,handle} = this.state;
+        return this.props.product.slice(page>1? (page-1)*handle :page-1,page*handle).map((val, idx) => {
             return (
-                <div></div>
+                <tr className='text-center' key={idx}>
+                    <td>{page > 1 ? (page - 1) * handle + idx + 1 : idx + 1}</td>
+                    <td style={{ width: '40%' }}>
+                        <img src={val.url} style={{ width: '30%' }} />
+                    </td>
+                    <td>{val.nama}</td>
+                    <td>{val.harga}</td>
+                    <td>
+                        <Button style={{ background: '#2B2273', border: 'none' }}>Edit</Button>
+                        <Button className='mx-2' color='danger'>Delete</Button>
+                    </td>
+                </tr>
             )
         })
+    }
+
+    btnPagination = () => {
+        let btn = []
+        for (let i = 0; i < Math.ceil(this.props.product.length / 12); i++) {
+            btn.push(<Button className='bt-pagination' onClick={() => this.setState({ page: i + 1 })}>{i + 1}</Button>)
+        }
+        return btn;
     }
 
     render() {
@@ -34,7 +56,25 @@ class ManajemenProduk extends React.Component {
                         <div className='col-md-6 d-flex justify-content-end'>
                             <Button className='bt-orange' onClick={() => this.setState({ modalAdd: !this.state.modalAdd })}>Tambah Produk</Button>
                         </div>
-
+                    </div>
+                    <div style={{height:'100vh'}}>
+                        <Table hover responsive className='my-4'>
+                            <thead>
+                                <tr className='text-center'>
+                                    <th>No</th>
+                                    <th>Gambar</th>
+                                    <th>Nama</th>
+                                    <th>Harga</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {this.printProduct()}
+                            </tbody>
+                        </Table>
+                    </div>
+                    <div className='text-center'>
+                        {this.btnPagination()}
                     </div>
                 </div>
             </>
@@ -42,10 +82,10 @@ class ManajemenProduk extends React.Component {
     }
 }
 
-const mapToProps =(state)=>{
+const mapToProps = (state) => {
     return {
-        product : state.productReducer.productList
+        product: state.productReducer.productList
     }
 }
 
-export default connect(mapToProps) (ManajemenProduk);
+export default connect(mapToProps)(ManajemenProduk);
