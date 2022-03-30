@@ -24,7 +24,7 @@ class ManajemenProduk extends React.Component {
                         <img src={val.url} style={{ width: '30%' }} />
                     </td>
                     <td>{val.nama}</td>
-                    <td>{val.harga}</td>
+                    <td>Rp. {val.harga}</td>
                     <td>
                         <Button style={{ background: '#2B2273', border: 'none' }}>Edit</Button>
                         <Button className='mx-2' color='danger'>Delete</Button>
@@ -58,7 +58,7 @@ class ManajemenProduk extends React.Component {
                         </div>
                     </div>
                     <div style={{height:'100vh'}}>
-                        <Table hover responsive className='my-4'>
+                        <Table hover responsive className='my-4' bordered>
                             <thead>
                                 <tr className='text-center'>
                                     <th>No</th>
