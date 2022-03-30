@@ -1,55 +1,13 @@
 import React from 'react';
 import { Card, CardBody, CardImg, Input, InputGroup, Button } from 'reactstrap';
 import { RiShoppingCartLine, RiSearch2Line } from "react-icons/ri";
+import { connect } from 'react-redux';
 const logo = require('../assets/pharma.png')
 
 class ProductPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: [
-                {
-                    url: "https://www.kimiafarma.co.id/images/PRODUK/TRAMADOL.jpg",
-                    name: "Tramadol",
-                    price: 2450
-                },
-                {
-                    url: "https://www.kimiafarma.co.id/images/PRODUK/PETHIDINE.jpg",
-                    name: "Pethidin Hcl",
-                    price: 2450
-                },
-                {
-                    url: "https://www.kimiafarma.co.id/images/PRODUK/NATRIUM-DIKLOFENAK-.jpg",
-                    name: "Natrium Diklofenak",
-                    price: 2450
-                },
-                {
-                    url: "https://www.kimiafarma.co.id/images/PRODUK/NATRIUM-DIKLOFENAK-.jpg",
-                    name: "Natrium Diklofenak",
-                    price: 2450
-                },
-                {
-                    url: "https://www.kimiafarma.co.id/images/PRODUK/NATRIUM-DIKLOFENAK-.jpg",
-                    name: "Natrium Diklofenak",
-                    price: 2450
-                },
-                {
-                    url: "https://www.kimiafarma.co.id/images/PRODUK/MORFINA-GAB-420.jpg",
-                    name: "Morphine Tablet 10MG",
-                    price: 2450
-                },
-                {
-                    url: "https://www.kimiafarma.co.id/images/PRODUK/ASAM-MEFENAMAT-STRIP-424.jpg",
-                    name: "Asam Mefanamat",
-                    price: 2450
-                },
-                {
-                    url: "https://www.kimiafarma.co.id/images/PRODUK/METRONIDAZOLE-GAB.jpg",
-                    name: "Metronidazole Tablet",
-                    price: 2450
-                }
-            ],
-            category: ["Obat Batuk", "Kecantikan", "Facial", "Masker", "Obat Generik"],
             dropdownHarga: false,
             dropdownNama: false,
             page : 1,
@@ -77,9 +35,9 @@ class ProductPage extends React.Component {
     }
 
     printCategory = () => {
-        return this.state.category.map((val, idx) => {
+        return this.props.category.map((val, idx) => {
             return (
-                <p className='clr-blue' id='filter-kategori' key={idx} style={{ cursor: 'pointer' }}>{val}</p>
+                <p className='clr-blue' id='filter-kategori' key={idx} style={{ cursor: 'pointer' }}>{val.category}</p>
             )
         })
     }
@@ -137,7 +95,7 @@ class ProductPage extends React.Component {
                                 <RiSearch2Line />
                             </Button>
                         </InputGroup>
-                        <div className='row'>
+                        <div className='row' style={{height:'100vh'}}>
                             {this.printProductList()}
                         </div>
                     </div>
@@ -152,8 +110,9 @@ class ProductPage extends React.Component {
 
 const mapToProps = (state) => {
     return {
-        product: state.productReducer.productList
+        product: state.productReducer.productList,
+        category: state.productReducer.categoryList
     }
 }
 
-export default ProductPage;
+export default connect(mapToProps)(ProductPage);
