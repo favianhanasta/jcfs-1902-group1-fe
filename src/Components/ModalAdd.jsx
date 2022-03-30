@@ -5,6 +5,7 @@ import imgupload from '../assets/imageupload.svg'
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { API_URL } from '../helper';
+import {getProduct} from '../redux/actions'
 
 class ModalAdd extends React.Component {
     constructor(props) {
@@ -73,6 +74,7 @@ class ModalAdd extends React.Component {
         });
         axios.post(`${API_URL}/product/addproduct`,formData)
         .then((res)=>{
+            this.props.getProduct();
             this.props.toggle();
         })
         .catch((err)=>{
@@ -174,4 +176,4 @@ const mapToProps =(state)=>{
     }
 }
 
-export default connect(mapToProps) (ModalAdd);
+export default connect(mapToProps,{getProduct}) (ModalAdd);

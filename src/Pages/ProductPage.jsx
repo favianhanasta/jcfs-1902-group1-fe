@@ -58,15 +58,15 @@ class ProductPage extends React.Component {
 
     printProductList = () => {
         let {page} = this.state;
-        return this.state.data.slice(page>1? (page-1)*12 :page-1,page*12).map((val, idx) => {
+        return this.props.product.slice(page>1? (page-1)*12 :page-1,page*12).map((val, idx) => {
             return (
                 <div className='col-md-3 my-3' key={idx}>
                     <Card className='card'>
                         <CardImg src={val.url} top width='100%' style={{ height: '140px' }} />
                         <CardBody style={{ height: '160px' }}>
                             <div style={{ height: '95px' }}>
-                                <p className='clr-blue' style={{ fontSize: '15px', fontWeight: '500' }}>{val.name}</p>
-                                <p className='font-price text-muted' style={{ fontSize: '15px' }}>IDR {val.price}/tablet</p>
+                                <p className='clr-blue' style={{ fontSize: '15px', fontWeight: '500' }}>{val.nama}</p>
+                                <p className='font-price text-muted' style={{ fontSize: '15px' }}>IDR {val.harga}</p>
                             </div>
                             <RiShoppingCartLine style={{ color: '#2A2172', float: 'right', marginTop: '10%', fontSize: '18px', cursor: 'pointer' }} />
                         </CardBody>
@@ -147,6 +147,12 @@ class ProductPage extends React.Component {
                 </div>
             </div>
         );
+    }
+}
+
+const mapToProps = (state) => {
+    return {
+        product: state.productReducer.productList
     }
 }
 

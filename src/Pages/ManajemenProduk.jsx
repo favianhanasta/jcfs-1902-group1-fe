@@ -1,7 +1,10 @@
+import axios from 'axios';
 import React from 'react';
 import { connect } from 'react-redux';
 import { Button, Table } from 'reactstrap';
 import ModalAdd from '../Components/ModalAdd';
+import { API_URL } from '../helper';
+import {getProduct} from '../redux/actions'
 
 
 class ManajemenProduk extends React.Component {
@@ -24,10 +27,10 @@ class ManajemenProduk extends React.Component {
                         <img src={val.url} style={{ width: '30%' }} />
                     </td>
                     <td>{val.nama}</td>
-                    <td>Rp. {val.harga}</td>
+                    <td className='font-price'>Rp. {val.harga}</td>
                     <td>
                         <Button style={{ background: '#2B2273', border: 'none' }}>Edit</Button>
-                        <Button className='mx-2' color='danger'>Delete</Button>
+                        <Button className='mx-2' color='danger' onClick={()=>this.btnDelete(val.idproduct)}>Delete</Button>
                     </td>
                 </tr>
             )
@@ -37,9 +40,19 @@ class ManajemenProduk extends React.Component {
     btnPagination = () => {
         let btn = []
         for (let i = 0; i < Math.ceil(this.props.product.length / 12); i++) {
-            btn.push(<Button className='bt-pagination' onClick={() => this.setState({ page: i + 1 })}>{i + 1}</Button>)
+            btn.push(<Button className='bt-pagination' key={i} onClick={() => this.setState({ page: i + 1 })}>{i + 1}</Button>)
         }
         return btn;
+    }
+
+    btnDelete = (i) =>{
+        axios.delete(`${API_URL}/product/${i}`)
+        .then((res)=>{
+            this.props.getProduct()
+        })
+        .catch((err)=>{
+            console.log('delete error',err)
+        })
     }
 
     render() {
@@ -58,7 +71,7 @@ class ManajemenProduk extends React.Component {
                         </div>
                     </div>
                     <div style={{height:'100vh'}}>
-                        <Table hover responsive className='my-4' bordered>
+                        <Table hover responsive className='my-4'>
                             <thead>
                                 <tr className='text-center'>
                                     <th>No</th>
@@ -88,4 +101,4 @@ const mapToProps = (state) => {
     }
 }
 
-export default connect(mapToProps)(ManajemenProduk);
+export default connect(mapToProps,{getProduct})(ManajemenProduk);
