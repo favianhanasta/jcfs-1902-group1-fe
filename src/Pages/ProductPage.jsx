@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, CardBody, CardImg, Input, InputGroup, Button } from 'reactstrap';
 import { RiShoppingCartLine, RiSearch2Line } from "react-icons/ri";
 import { connect } from 'react-redux';
-import { getProduct } from '../redux/actions'
+import { getProduct,sortAction } from '../redux/actions'
 const logo = require('../assets/pharma.png');
 
 class ProductPage extends React.Component {
@@ -67,6 +67,13 @@ class ProductPage extends React.Component {
         this.props.getProduct()
     }
 
+    btSort = (sort,type) =>{
+        this.props.sortAction({
+            field : sort,
+            sortType : type
+        })
+    }
+
 
 
     render() {
@@ -88,13 +95,13 @@ class ProductPage extends React.Component {
                             <div className='px-4'>
                                 <p className='clr-blue'>Harga</p>
                                 <div>
-                                    <Button className='sort' outline>Terendah-Tertinggi</Button>
-                                    <Button className='sort my-2' outline>Tertinggi-Terendah</Button>
+                                    <Button className='sort' outline onClick={()=>this.btSort("harga","asc")}>Terendah-Tertinggi</Button>
+                                    <Button className='sort my-2' outline onClick={()=>this.btSort("harga","desc")}>Tertinggi-Terendah</Button>
                                 </div>
                                 <p className='clr-blue'>Nama Obat</p>
                                 <div>
-                                    <Button className='sort' outline>A-Z</Button>
-                                    <Button className='sort mx-2' outline>Z-A</Button>
+                                    <Button className='sort' outline onClick={()=>this.btSort("nama","asc")}>A-Z</Button>
+                                    <Button className='sort mx-2' outline onClick={()=>this.btSort("nama","desc")}>Z-A</Button>
                                 </div>
                             </div>
                         </div>
@@ -137,4 +144,4 @@ const mapToProps = (state) => {
     }
 }
 
-export default connect(mapToProps, { getProduct })(ProductPage);
+export default connect(mapToProps, { getProduct,sortAction })(ProductPage);
