@@ -10,6 +10,9 @@ import LoginPage from './Pages/Login';
 import VerificationPage from './Pages/Verification';
 import EditPage from './Pages/Edit';
 import ResetPasswordPage from './Pages/ResetPassword';
+import ManajemenProduk from './Pages/ManajemenProduk';
+import ProductPage from './Pages/ProductPage';
+import { getCategory, getProduct } from '../src/redux/actions'
 
 class App extends React.Component {
   constructor(props) {
@@ -19,6 +22,8 @@ class App extends React.Component {
 
   componentDidMount() {
     this.props.keepAction()
+    this.props.getProduct()
+    this.props.getCategory()
   }
 
   render() {
@@ -29,6 +34,8 @@ class App extends React.Component {
           <Route path='/' element={<HomePage />} />
           <Route path='/register' element={<RegisterPage />} />
           <Route path='/login' element={<LoginPage />} />
+          <Route path='/product-page' element={<ProductPage />} />
+          <Route path='/manajemen-produk' element={<ManajemenProduk />} />
           <Route path='/verification/:token' element={<VerificationPage />} />
           <Route path='/resetpassword/:token' element={<ResetPasswordPage />} />
           <Route path='/edit' element={<EditPage />} />
@@ -44,4 +51,4 @@ const mapToProps = (state) => {
   }
 }
 
-export default connect(mapToProps, { keepAction })(App);
+export default connect(mapToProps, { keepAction, getCategory, getProduct })(App);
