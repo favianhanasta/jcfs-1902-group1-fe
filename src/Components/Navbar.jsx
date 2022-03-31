@@ -1,15 +1,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { logoutAction } from '../redux/actions/userAction';
-import { Link } from 'react-router-dom';
-import logo from '../Assets/pharma.png';
+import { Link, Navigate } from 'react-router-dom';
+import logo from '../assets/pharma.png';
 import { Button, DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from 'reactstrap';
 
 class NavbarComponent extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {
+
+        }
     }
+
     render() {
         return (
             <div className='container py-3 clr-blue'>
@@ -43,12 +46,20 @@ class NavbarComponent extends React.Component {
                                                 Profil
                                             </Link>
                                         </DropdownItem>
+                                        <DropdownItem>
+                                            <Link to="/edit" className="nav-link" style={{ color: "#2d3436" }}>
+                                                Edit Profile
+                                            </Link>
+                                        </DropdownItem>
                                         <div style={{ borderTopWidth: 2 }}>
                                             <DropdownItem onClick={() => {
                                                 localStorage.removeItem("data");
-                                                this.props.logoutAction();
+                                                this.props.logoutAction()
+                                                this.setState({ redirect: true })
                                             }}>
-                                                Keluar
+                                                <Link to="/ ">
+                                                    Keluar
+                                                </Link>
                                             </DropdownItem>
                                         </div>
                                     </DropdownMenu>
