@@ -2,7 +2,8 @@ import React from 'react';
 import { Card, CardBody, CardImg, Input, InputGroup, Button } from 'reactstrap';
 import { RiShoppingCartLine, RiSearch2Line } from "react-icons/ri";
 import { connect } from 'react-redux';
-const logo = require('../assets/pharma.png')
+import { getProduct } from '../redux/actions'
+const logo = require('../assets/pharma.png');
 
 class ProductPage extends React.Component {
     constructor(props) {
@@ -10,13 +11,14 @@ class ProductPage extends React.Component {
         this.state = {
             dropdownHarga: false,
             dropdownNama: false,
-            page : 1,
+            page: 1,
+            idcategory: null
         }
     }
 
     printProductList = () => {
-        let {page} = this.state;
-        return this.props.product.slice(page>1? (page-1)*12 :page-1,page*12).map((val, idx) => {
+        let { page } = this.state;
+        return this.props.product.slice(page > 1 ? (page - 1) * 12 : page - 1, page * 12).map((val, idx) => {
             return (
                 <div className='col-md-3 my-3' key={idx}>
                     <Card className='card'>
@@ -37,18 +39,35 @@ class ProductPage extends React.Component {
     printCategory = () => {
         return this.props.category.map((val, idx) => {
             return (
-                <p className='clr-blue' id='filter-kategori' key={idx} style={{ cursor: 'pointer' }}>{val.category}</p>
+                <p className='clr-blue' id='filter-kategori' key={idx} style={{ cursor: 'pointer' }} onClick={() => this.btFilter(val.idcategory)}>{val.category}</p>
             )
         })
     }
 
-    printBtPagination = () =>{
-        let btn=[]
-        for(let i=0;i< Math.ceil(this.props.product.length/12);i++){
-            btn.push(<Button className='bt-pagination' onClick={()=>this.setState({page: i+1})} key={i}>{i+1}</Button>)
+    printBtPagination = () => {
+        let btn = []
+        for (let i = 0; i < Math.ceil(this.props.product.length / 12); i++) {
+            btn.push(<Button className='bt-pagination' onClick={() => this.setState({ page: i + 1 })} key={i}>{i + 1}</Button>)
         }
         return btn;
     }
+
+    btFilter = async (category) => {
+        await this.setState({ idcategory: category })
+        this.props.getProduct({
+            nama: this.cariByNama.value,
+            category: this.state.idcategory
+        })
+       
+    }
+
+    btResetSearch = () => {
+        this.setState({ idcategory: null });
+        this.cariByNama.value = null;
+        this.props.getProduct()
+    }
+
+
 
     render() {
         return (
@@ -86,16 +105,19 @@ class ProductPage extends React.Component {
                                 <img src={logo} style={{ width: '40%' }} />
                             </div>
                             <div className='col-6'>
-                                <h5 className='clr-orange my-1' style={{float: 'right' }}>| Produk</h5>
+                                <h5 className='clr-orange my-1' style={{ float: 'right' }}>| Produk</h5>
                             </div>
                         </div>
                         <InputGroup className='my-2'>
-                            <Input className='input-blue' type='text' placeholder='Cari Produk atau Obat' />
-                            <Button style={{ background: '#2B2273', borderLeft: 'none', borderRadius: '0' }}>
+                            <Input className='input-blue' type='text' placeholder='Cari Produk atau Obat' innerRef={(e) => this.cariByNama = e} />
+                            <Button style={{ background: '#2B2273', borderLeft: 'none', borderRadius: '0' }} onClick={this.btFilter} >
                                 <RiSearch2Line />
                             </Button>
                         </InputGroup>
-                        <div className='row' style={{height:'100vh'}}>
+                        <div className='d-flex justify-content-end'>
+                            <a className='clr-blue' id="reset-search" style={{ textDecoration: 'none', cursor: 'pointer', fontSize: '14px' }} onClick={this.btResetSearch}>Tampilkan Semua</a>
+                        </div>
+                        <div className='row' style={{ height: '100vh' }}>
                             {this.printProductList()}
                         </div>
                     </div>
@@ -115,4 +137,4 @@ const mapToProps = (state) => {
     }
 }
 
-export default connect(mapToProps)(ProductPage);
+export default connect(mapToProps, { getProduct })(ProductPage);

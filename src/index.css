@@ -102,3 +102,7 @@ code {
   color: #2B2273;
   font-size: 20px;
 }
+
+#reset-search:hover{
+  color:#FE5F01
+}
