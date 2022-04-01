@@ -45,19 +45,19 @@ class ModalAdd extends React.Component {
             inImage: temp
         })
     }
-
+    
     handleSatuan = (e,index) =>{
         let temp = [...this.state.inStock];
         temp[index].satuan=e.target.value
         this.setState({inStock:temp})
     }
-
+    
     handleQty = (e,index) =>{
         let temp = [...this.state.inStock];
         temp[index].qty=parseInt(e.target.value)
         this.setState({inStock:temp})
     }
-
+    
     btnSave = ()=>{
         let data = {
             idcategory : parseInt(this.kategori.value),
