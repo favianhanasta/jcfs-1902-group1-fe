@@ -3,8 +3,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Button, Table } from 'reactstrap';
 import ModalAdd from '../Components/ModalAdd';
+import ModalEdit from '../Components/ModalEdit';
 import { API_URL } from '../helper';
-import {getProduct} from '../redux/actions'
+import { getProduct } from '../redux/actions'
 
 
 class ManajemenProduk extends React.Component {
@@ -14,12 +15,14 @@ class ManajemenProduk extends React.Component {
             modalAdd: false,
             page: 1,
             handle: 12,
+            modalEdit: false,
+            dataForEdit: {}
         }
     }
 
     printProduct = () => {
-        let {page,handle} = this.state;
-        return this.props.product.slice(page>1? (page-1)*handle :page-1,page*handle).map((val, idx) => {
+        let { page, handle } = this.state;
+        return this.props.product.slice(page > 1 ? (page - 1) * handle : page - 1, page * handle).map((val, idx) => {
             return (
                 <tr className='text-center' key={idx}>
                     <td>{page > 1 ? (page - 1) * handle + idx + 1 : idx + 1}</td>
@@ -29,8 +32,8 @@ class ManajemenProduk extends React.Component {
                     <td>{val.nama}</td>
                     <td className='font-price'>Rp. {val.harga}</td>
                     <td>
-                        <Button style={{ background: '#2B2273', border: 'none' }}>Edit</Button>
-                        <Button className='mx-2' color='danger' onClick={()=>this.btnDelete(val.idproduct)}>Delete</Button>
+                        <Button style={{ background: '#2B2273', border: 'none' }} onClick={()=>this.btOnEdit(val)}>Edit</Button>
+                        <Button className='mx-2' color='danger' onClick={() => this.btnDelete(val.idproduct)}>Delete</Button>
                     </td>
                 </tr>
             )
@@ -45,13 +48,20 @@ class ManajemenProduk extends React.Component {
         return btn;
     }
 
-    btnDelete = (i) =>{
+    btnDelete = (i) => {
         axios.delete(`${API_URL}/product/${i}`)
-        .then((res)=>{
-            this.props.getProduct()
-        })
-        .catch((err)=>{
-            console.log('delete error',err)
+            .then((res) => {
+                this.props.getProduct()
+            })
+            .catch((err) => {
+                console.log('delete error', err)
+            })
+    }
+
+    btOnEdit = (data) =>{
+        this.setState({ 
+            dataForEdit: data,
+            modalEdit : !this.state.modalEdit 
         })
     }
 
@@ -59,6 +69,7 @@ class ManajemenProduk extends React.Component {
         return (
             <>
                 <ModalAdd open={this.state.modalAdd} toggle={() => this.setState({ modalAdd: !this.state.modalAdd })} />
+                <ModalEdit openEdit={this.state.modalEdit} data={this.state.dataForEdit} toggleEdit={()=>this.setState({modalEdit: !this.state.modalEdit})} />
                 <div className='container utama'>
                     <div className='row'>
                         <div className='col-md-6 d-flex py-1'>
@@ -70,7 +81,7 @@ class ManajemenProduk extends React.Component {
                             <Button className='bt-orange' onClick={() => this.setState({ modalAdd: !this.state.modalAdd })}>Tambah Produk</Button>
                         </div>
                     </div>
-                    <div style={{height:'100vh'}}>
+                    <div style={{ height: '100vh' }}>
                         <Table hover responsive className='my-4'>
                             <thead>
                                 <tr className='text-center'>
@@ -101,4 +112,4 @@ const mapToProps = (state) => {
     }
 }
 
-export default connect(mapToProps,{getProduct})(ManajemenProduk);
+export default connect(mapToProps, { getProduct })(ManajemenProduk);
