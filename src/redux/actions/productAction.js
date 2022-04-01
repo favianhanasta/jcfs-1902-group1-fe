@@ -50,3 +50,18 @@ export const getCategory = () =>{
         }
     }
 }
+
+export const sortAction =(sorting=null)=>{
+    return async(dispatch)=>{
+        try{
+            let res = await axios.get(`${API_URL}/product?sort=${sorting.field}&order=${sorting.sortType}`);
+            dispatch({
+                type:'GET_PRODUCT',
+                payload: res.data.dataProduct
+            })
+        }
+        catch(error){
+            console.log('sort error', error);
+        }
+    }
+}
