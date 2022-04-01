@@ -33,6 +33,27 @@ code {
   background: #2B2273;
 }
 
+.bt-blue{
+  background: transparent;
+  border: none;
+  color: #2B2273;
+  font-weight: 600;
+  border-radius: 0;
+}
+
+.bt-blue:hover{
+  background: #2B2273;
+}
+
+#btregis{
+  color: #2B2273;
+}
+
+#btregis:hover{
+  background: #2B2273;
+  color: white;
+}
+
 .font-price{
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
