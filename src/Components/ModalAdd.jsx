@@ -1,7 +1,7 @@
 import React from 'react';
 import { Input, FormGroup, Label, Modal, ModalBody, ModalHeader, Button, ModalFooter } from 'reactstrap';
 import { AiOutlinePlusSquare } from "react-icons/ai";
-import imgupload from '../assets/imageupload.svg'
+import imgupload from '../Assets/imageupload.svg'
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { API_URL } from '../helper';
