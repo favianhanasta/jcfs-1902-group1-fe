@@ -2,7 +2,8 @@ import React from 'react';
 import { Card, CardBody, CardImg, Input, InputGroup, Button } from 'reactstrap';
 import { RiShoppingCartLine, RiSearch2Line } from "react-icons/ri";
 import { connect } from 'react-redux';
-import { getProduct } from '../redux/actions'
+import { getProduct, sortAction } from '../redux/actions'
+import { Link } from 'react-router-dom';
 const logo = require('../assets/pharma.png');
 
 class ProductPage extends React.Component {
@@ -21,16 +22,18 @@ class ProductPage extends React.Component {
         return this.props.product.slice(page > 1 ? (page - 1) * 12 : page - 1, page * 12).map((val, idx) => {
             return (
                 <div className='col-md-3 my-3' key={idx}>
-                    <Card className='card'>
-                        <CardImg src={val.url} top width='100%' style={{ height: '140px' }} />
-                        <CardBody style={{ height: '160px' }}>
-                            <div style={{ height: '95px' }}>
-                                <p className='clr-blue' style={{ fontSize: '15px', fontWeight: '500' }}>{val.nama}</p>
-                                <p className='font-price text-muted' style={{ fontSize: '15px' }}>IDR {val.harga}</p>
-                            </div>
-                            <RiShoppingCartLine style={{ color: '#2A2172', float: 'right', marginTop: '10%', fontSize: '18px', cursor: 'pointer' }} />
-                        </CardBody>
-                    </Card>
+                    <Link to={`/product-detail?idproduct=${val.idproduct}`} style={{textDecoration:'none'}}>
+                        <Card className='card'>
+                            <CardImg src={val.url} top width='100%' style={{ height: '140px' }} />
+                            <CardBody style={{ height: '160px' }}>
+                                <div style={{ height: '95px' }}>
+                                    <p className='clr-blue' style={{ fontSize: '15px', fontWeight: '500' }}>{val.nama}</p>
+                                    <p className='font-price text-muted' style={{ fontSize: '15px' }}>IDR {val.harga}</p>
+                                </div>
+                                <RiShoppingCartLine style={{ color: '#2A2172', float: 'right', marginTop: '10%', fontSize: '18px', cursor: 'pointer' }} />
+                            </CardBody>
+                        </Card>
+                    </Link>
                 </div>
             )
         })
@@ -58,13 +61,20 @@ class ProductPage extends React.Component {
             nama: this.cariByNama.value,
             category: this.state.idcategory
         })
-       
+
     }
 
     btResetSearch = () => {
         this.setState({ idcategory: null });
         this.cariByNama.value = null;
         this.props.getProduct()
+    }
+
+    btSort = (sort, type) => {
+        this.props.sortAction({
+            field: sort,
+            sortType: type
+        })
     }
 
 
@@ -88,13 +98,13 @@ class ProductPage extends React.Component {
                             <div className='px-4'>
                                 <p className='clr-blue'>Harga</p>
                                 <div>
-                                    <Button className='sort' outline>Terendah-Tertinggi</Button>
-                                    <Button className='sort my-2' outline>Tertinggi-Terendah</Button>
+                                    <Button className='sort' outline onClick={() => this.btSort("harga", "asc")}>Terendah-Tertinggi</Button>
+                                    <Button className='sort my-2' outline onClick={() => this.btSort("harga", "desc")}>Tertinggi-Terendah</Button>
                                 </div>
                                 <p className='clr-blue'>Nama Obat</p>
                                 <div>
-                                    <Button className='sort' outline>A-Z</Button>
-                                    <Button className='sort mx-2' outline>Z-A</Button>
+                                    <Button className='sort' outline onClick={() => this.btSort("nama", "asc")}>A-Z</Button>
+                                    <Button className='sort mx-2' outline onClick={() => this.btSort("nama", "desc")}>Z-A</Button>
                                 </div>
                             </div>
                         </div>
@@ -137,4 +147,4 @@ const mapToProps = (state) => {
     }
 }
 
-export default connect(mapToProps, { getProduct })(ProductPage);
+export default connect(mapToProps, { getProduct, sortAction })(ProductPage);
