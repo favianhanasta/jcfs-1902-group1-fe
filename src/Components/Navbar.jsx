@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { logoutAction } from '../redux/actions/userAction';
 import { Link, Navigate } from 'react-router-dom';
-import logo from '../assets/pharma.png';
+import logo from '../Assets/pharma.png';
 import { Button, DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from 'reactstrap';
 
 class NavbarComponent extends React.Component {
