@@ -126,3 +126,7 @@ code {
 #reset-search:hover{
   color:#FE5F01
 }
+
+.bdr-radius10 {
+  border-radius: 10px;
+}

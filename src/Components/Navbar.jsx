@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { logoutAction } from '../redux/actions/userAction';
-import { Link, Navigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import logo from '../assets/pharma.png';
 import { Button, DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from 'reactstrap';
 
@@ -73,25 +73,30 @@ class NavbarComponent extends React.Component {
                                             <DropdownMenu>
                                                 <DropdownItem>
                                                     <Link to="/" className="nav-link" style={{ color: "#2d3436" }}>
+                                                        Keranjang
+                                                    </Link>
+                                                </DropdownItem>
+                                                <hr />
+                                                <DropdownItem>
+                                                    <Link to="/editprofile" className="nav-link" style={{ color: "#2d3436" }}>
                                                         Profil
                                                     </Link>
                                                 </DropdownItem>
                                                 <DropdownItem>
-                                                    <Link to="/edit" className="nav-link" style={{ color: "#2d3436" }}>
+                                                    <Link to="/editpassword" className="nav-link" style={{ color: "#2d3436" }}>
                                                         Ubah Password
                                                     </Link>
                                                 </DropdownItem>
-                                                <div style={{ borderTopWidth: 2 }}>
-                                                    <DropdownItem onClick={() => {
-                                                        localStorage.removeItem("data");
-                                                        this.props.logoutAction()
-                                                        this.setState({ redirect: true })
-                                                    }}>
-                                                        <Link to="/     ">
-                                                            Keluar
-                                                        </Link>
-                                                    </DropdownItem>
-                                                </div>
+                                                <hr />
+                                                <DropdownItem onClick={() => {
+                                                    localStorage.removeItem("data");
+                                                    this.props.logoutAction()
+                                                    this.setState({ redirect: true })
+                                                }}>
+                                                    <Link to="/" style={{ textDecoration: "none" }}>
+                                                        <p className='clr-blue'>Keluar</p>
+                                                    </Link>
+                                                </DropdownItem>
                                             </DropdownMenu>
                                     }
 
