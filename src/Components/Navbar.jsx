@@ -1,16 +1,20 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { logoutAction } from '../redux/actions/userAction';
-import { Link } from 'react-router-dom';
-import logo from '../Assets/pharma.png';
+import { Link, Navigate } from 'react-router-dom';
+import logo from '../assets/pharma.png';
 import { Button, DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from 'reactstrap';
 
 class NavbarComponent extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {
+
+        }
     }
+
     render() {
+        console.log("idrole", this.props.idrole)
         return (
             <div className='container py-3 clr-blue'>
                 <div className='row'>
@@ -24,7 +28,9 @@ class NavbarComponent extends React.Component {
                             <Link to="/" style={{ textDecoration: "none" }}>
                                 <p className='mx-4 clr-blue'>Home</p>
                             </Link>
-                            <p className='mx-4'>Produk</p>
+                            <Link to="/product-page" style={{ textDecoration: "none" }}>
+                                <p className='mx-4 clr-blue'>Produk</p>
+                            </Link>
                             <p className='mx-4'>Tentang Kami</p>
                             <p className='mx-4'>Kontak Kami</p>
                         </div>
@@ -37,21 +43,58 @@ class NavbarComponent extends React.Component {
                                     <DropdownToggle caret nav size="sm" className="d-flex align-items-center clr-blue">
                                         Hello, {this.props.username}
                                     </DropdownToggle>
-                                    <DropdownMenu>
-                                        <DropdownItem>
-                                            <Link to="/" className="nav-link" style={{ color: "#2d3436" }}>
-                                                Profil
-                                            </Link>
-                                        </DropdownItem>
-                                        <div style={{ borderTopWidth: 2 }}>
-                                            <DropdownItem onClick={() => {
-                                                localStorage.removeItem("data");
-                                                this.props.logoutAction();
-                                            }}>
-                                                Keluar
-                                            </DropdownItem>
-                                        </div>
-                                    </DropdownMenu>
+                                    {
+                                        this.props.idrole === 1
+                                            ?
+                                            <DropdownMenu>
+                                                <DropdownItem>
+                                                    <Link to="/manajemen-produk" className="nav-link" style={{ color: "#2d3436" }}>
+                                                        Manajemen Produk
+                                                    </Link>
+                                                </DropdownItem>
+                                                <DropdownItem>
+                                                    <Link to="/" className="nav-link" style={{ color: "#2d3436" }}>
+                                                        Manajemen Transaksi
+                                                    </Link>
+                                                </DropdownItem>
+                                                <div style={{ borderTopWidth: 2 }}>
+                                                    <DropdownItem onClick={() => {
+                                                        localStorage.removeItem("data");
+                                                        this.props.logoutAction()
+                                                        this.setState({ redirect: true })
+                                                    }}>
+                                                        <Link to="/     ">
+                                                            Keluar
+                                                        </Link>
+                                                    </DropdownItem>
+                                                </div>
+                                            </DropdownMenu>
+                                            :
+                                            <DropdownMenu>
+                                                <DropdownItem>
+                                                    <Link to="/" className="nav-link" style={{ color: "#2d3436" }}>
+                                                        Profil
+                                                    </Link>
+                                                </DropdownItem>
+                                                <DropdownItem>
+                                                    <Link to="/edit" className="nav-link" style={{ color: "#2d3436" }}>
+                                                        Ubah Password
+                                                    </Link>
+                                                </DropdownItem>
+                                                <div style={{ borderTopWidth: 2 }}>
+                                                    <DropdownItem onClick={() => {
+                                                        localStorage.removeItem("data");
+                                                        this.props.logoutAction()
+                                                        this.setState({ redirect: true })
+                                                    }}>
+                                                        <Link to="/     ">
+                                                            Keluar
+                                                        </Link>
+                                                    </DropdownItem>
+                                                </div>
+                                            </DropdownMenu>
+                                    }
+
                                 </UncontrolledDropdown>
                                 :
                                 <>
@@ -70,7 +113,8 @@ class NavbarComponent extends React.Component {
 
 const mapToProps = (state) => {
     return {
-        username: state.userReducer.username
+        username: state.userReducer.username,
+        idrole: state.userReducer.idrole
     }
 }
 

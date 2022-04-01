@@ -14,6 +14,7 @@ import ManajemenProduk from './Pages/ManajemenProduk';
 import ProductPage from './Pages/ProductPage';
 import { getCategory, getProduct } from '../src/redux/actions';
 import ProductDetail from './Pages/ProductDetail';
+import NotFound from './Pages/NotFound';
 
 class App extends React.Component {
   constructor(props) {
@@ -40,7 +41,23 @@ class App extends React.Component {
           <Route path='/product-detail' element={<ProductDetail/>}/>
           <Route path='/verification/:token' element={<VerificationPage />} />
           <Route path='/resetpassword/:token' element={<ResetPasswordPage />} />
-          <Route path='/edit' element={<EditPage />} />
+          <Route path='/product-page' element={<ProductPage />} />
+          {
+            this.props.idrole === 2 ?
+              <>
+                <Route path='/edit' element={<EditPage />} />
+              </>
+              :
+              this.props.idrole === 1 ?
+                <>
+                  <Route path='/manajemen-produk' element={<ManajemenProduk />} />
+                </>
+                :
+                <>
+                  <Route path='*' element={<NotFound />} />
+                </>
+          }
+          <Route path='*' element={<NotFound />} />
         </Routes>
       </div>
     );
@@ -49,7 +66,8 @@ class App extends React.Component {
 
 const mapToProps = (state) => {
   return {
-    role: state.userReducer.role
+    username: state.userReducer.username,
+    idrole: state.userReducer.idrole
   }
 }
 

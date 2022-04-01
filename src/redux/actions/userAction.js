@@ -75,7 +75,6 @@ export const newPassword = (password) => {
     return async (dispatch) => {
         try {
             let token = window.location.pathname.split('/')[2]
-            // let token = localStorage.getItem('data')
             console.log("token", token)
             let res = await axios.post(`${API_URL}/users/newpassword`, { password }, {
                 headers: {

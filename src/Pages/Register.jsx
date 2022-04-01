@@ -3,13 +3,16 @@ import React from 'react';
 import { Form, FormGroup, Input, Button, InputGroup, InputGroupText } from 'reactstrap';
 import { API_URL } from '../helper';
 import { BsEyeSlash, BsEye } from 'react-icons/bs';
+import swal from 'sweetalert';
+import { Navigate } from 'react-router-dom';
 
 class RegisterPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             passType: "password",
-            passText: "Show"
+            passText: "Show",
+            redirect: false
         }
     }
 
@@ -27,7 +30,7 @@ class RegisterPage extends React.Component {
         }
     }
 
-    btRegis = () => {
+    btRegis = async () => {
         let dataRegis = {
             idrole: 2,
             idstatus: 1,
@@ -37,17 +40,27 @@ class RegisterPage extends React.Component {
             phone: 0,
             profile_image: "https://media.istockphoto.com/photos/mr-who-picture-id619400810?k=20&m=619400810&s=612x612&w=0&h=TpStSri-iDsSaBcniqzLQz8100MdEw0hQh8cIw16T6s="
         }
-        if (this.passwordRegis.value === this.confPasswordRegis.value) {
-            console.log(dataRegis)
-            axios.post(`${API_URL}/users/regis`, dataRegis)
-            alert("Register berhasil")
-            window.location = "http://localhost:3000/"
+        if (this.emailRegis.value === "" || this.usernameRegis.value === "" || this.passwordRegis.value === "" || this.confPasswordRegis.value === "") {
+            swal("Email, Username, Password, dan Konfirmasi Password tidak boleh kosong")
         } else {
-            alert("password tidak sama")
+            if (this.passwordRegis.value === this.confPasswordRegis.value) {
+                console.log(dataRegis)
+                axios.post(`${API_URL}/users/regis`, dataRegis)
+                swal("Daftar berhasil")
+                    .then(() => {
+                        swal("Silahkan cek email untuk verifikasi akun kamu")
+                    })
+                await this.setState({ redirect: true })
+            } else {
+                swal("password tidak sama")
+            }
         }
     }
 
     render() {
+        if (this.state.redirect) {
+            return <Navigate to="/" />
+        }
         return (
             <div className='container clr-blue'>
                 <div style={{ textAlign: "center", marginTop: "10%" }}>
@@ -99,8 +112,8 @@ class RegisterPage extends React.Component {
                             </FormGroup>
                         </div>
                     </div>
-                    <div>
-                        <Button onClick={this.btRegis}>
+                    <div className='mt-5'>
+                        <Button className='bt-orange py-2' style={{ width: "100%", borderRadius: 20, fontSize: "20px" }} onClick={this.btRegis}>
                             Register
                         </Button>
                     </div>
