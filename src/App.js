@@ -12,7 +12,8 @@ import EditPage from './Pages/Edit';
 import ResetPasswordPage from './Pages/ResetPassword';
 import ManajemenProduk from './Pages/ManajemenProduk';
 import ProductPage from './Pages/ProductPage';
-import { getCategory, getProduct } from '../src/redux/actions'
+import { getCategory, getProduct } from '../src/redux/actions';
+import ProductDetail from './Pages/ProductDetail';
 
 class App extends React.Component {
   constructor(props) {
@@ -25,7 +26,7 @@ class App extends React.Component {
     this.props.getProduct()
     this.props.getCategory()
   }
-
+  
   render() {
     return (
       <div>
@@ -36,6 +37,7 @@ class App extends React.Component {
           <Route path='/login' element={<LoginPage />} />
           <Route path='/product-page' element={<ProductPage />} />
           <Route path='/manajemen-produk' element={<ManajemenProduk />} />
+          <Route path='/product-detail' element={<ProductDetail/>}/>
           <Route path='/verification/:token' element={<VerificationPage />} />
           <Route path='/resetpassword/:token' element={<ResetPasswordPage />} />
           <Route path='/edit' element={<EditPage />} />
