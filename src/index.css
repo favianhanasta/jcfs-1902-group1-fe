@@ -25,7 +25,6 @@ code {
   background: #FFB000;
   border: none;
   color: white;
-  padding : 1%;
   font-weight: 600;
   border-radius: 0;
 }
@@ -101,4 +100,8 @@ code {
   border : none;
   color: #2B2273;
   font-size: 20px;
+}
+
+#reset-search:hover{
+  color:#FE5F01
 }
