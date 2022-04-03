@@ -2,9 +2,9 @@ import React from 'react';
 import { Card, CardBody, CardImg, Input, InputGroup, Button } from 'reactstrap';
 import { RiShoppingCartLine, RiSearch2Line } from "react-icons/ri";
 import { connect } from 'react-redux';
-import { getProduct, sortAction } from '../redux/actions'
 import { Link } from 'react-router-dom';
-const logo = require('../Assets/pharma.png');
+import { getProduct,sortAction } from '../redux/actions'
+const logo = require('../Assets/pharma.png')
 
 class ProductPage extends React.Component {
     constructor(props) {
