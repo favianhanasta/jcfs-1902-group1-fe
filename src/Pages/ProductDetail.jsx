@@ -35,11 +35,11 @@ class ProductDetail extends React.Component {
                             <h5 className='clr-orange my-1' style={{ float: 'right' }}>| Produk Detail</h5>
                         </div>
                     </div>
-                    <hr/>
+                    <hr />
                     <div className='row p-4'>
                         <div className='col-6 p-4'>
                             <div>
-                                <img src={data.url} width="100%" />
+                                <img src={API_URL + data.url} width="100%" />
                             </div>
                         </div>
                         <div className='col-6 clr-blue py-4' style={{ paddingLeft: '5%' }}>
@@ -62,7 +62,7 @@ class ProductDetail extends React.Component {
                                     <Input type="number" defaultValue={this.state.qty} />
                                 </div>
                                 <div className='col-9'>
-                                    <Button className='bt-orange' style={{ width: '100%' }}>Tambahkan Ke Keranjang <BsCartPlusFill className='mx-2' style={{ fontSize: '18px' }}/> </Button>
+                                    <Button className='bt-orange' style={{ width: '100%' }}>Tambahkan Ke Keranjang <BsCartPlusFill className='mx-2' style={{ fontSize: '18px' }} /> </Button>
                                 </div>
                             </div>
                         </div>

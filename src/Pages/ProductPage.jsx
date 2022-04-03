@@ -3,7 +3,8 @@ import { Card, CardBody, CardImg, Input, InputGroup, Button } from 'reactstrap';
 import { RiShoppingCartLine, RiSearch2Line } from "react-icons/ri";
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getProduct,sortAction } from '../redux/actions'
+import { getProduct, sortAction } from '../redux/actions'
+import { API_URL } from '../helper';
 const logo = require('../Assets/pharma.png')
 
 class ProductPage extends React.Component {
@@ -22,9 +23,9 @@ class ProductPage extends React.Component {
         return this.props.product.slice(page > 1 ? (page - 1) * 12 : page - 1, page * 12).map((val, idx) => {
             return (
                 <div className='col-md-3 my-3' key={idx}>
-                    <Link to={`/product-detail?idproduct=${val.idproduct}`} style={{textDecoration:'none'}}>
+                    <Link to={`/product-detail?idproduct=${val.idproduct}`} style={{ textDecoration: 'none' }}>
                         <Card className='card'>
-                            <CardImg src={val.url} top width='100%' style={{ height: '140px' }} />
+                            <CardImg src={API_URL + val.url} top width='100%' style={{ height: '140px' }} />
                             <CardBody style={{ height: '160px' }}>
                                 <div style={{ height: '95px' }}>
                                     <p className='clr-blue' style={{ fontSize: '15px', fontWeight: '500' }}>{val.nama}</p>
