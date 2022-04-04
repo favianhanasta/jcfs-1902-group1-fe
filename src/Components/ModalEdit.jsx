@@ -145,7 +145,7 @@ class ModalEdit extends React.Component {
                                         this.state.inImage[0].file ?
                                             <img src={URL.createObjectURL(this.state.inImage[0].file)} width="100%" />
                                             :
-                                            <img src={url} width="100%" />
+                                            <img src={API_URL + url} width="100%" />
                                     }
                                 </div>
                                 <Input placeholder={``} type="file" onChange={(e) => this.handleImage(e)} />

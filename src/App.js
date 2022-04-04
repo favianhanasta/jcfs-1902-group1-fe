@@ -37,11 +37,9 @@ class App extends React.Component {
           <Route path='/register' element={<RegisterPage />} />
           <Route path='/login' element={<LoginPage />} />
           <Route path='/product-page' element={<ProductPage />} />
-          <Route path='/manajemen-produk' element={<ManajemenProduk />} />
           <Route path='/product-detail' element={<ProductDetail/>}/>
           <Route path='/verification/:token' element={<VerificationPage />} />
           <Route path='/resetpassword/:token' element={<ResetPasswordPage />} />
-          <Route path='/product-page' element={<ProductPage />} />
           {
             this.props.idrole === 2 ?
               <>

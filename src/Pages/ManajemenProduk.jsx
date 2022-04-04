@@ -27,7 +27,7 @@ class ManajemenProduk extends React.Component {
                 <tr className='text-center' key={idx}>
                     <td>{page > 1 ? (page - 1) * handle + idx + 1 : idx + 1}</td>
                     <td style={{ width: '40%' }}>
-                        <img src={val.url} style={{ width: '30%' }} />
+                        <img src={API_URL + val.url} style={{ width: '30%' }} />
                     </td>
                     <td>{val.nama}</td>
                     <td className='font-price'>Rp. {val.harga}</td>
