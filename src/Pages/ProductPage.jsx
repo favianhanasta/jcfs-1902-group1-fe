@@ -85,7 +85,9 @@ class ProductPage extends React.Component {
             <div className='utama container'>
                 <div className=' bg-light text-center my-2' style={{ marginBottom: '2%', padding: '3%', borderRadius: '15px' }}>
                     <p className='clr-blue' style={{ fontWeight: '400', fontSize: '18px' }}>Dapatkan obat anda melalui resep dokter dengan klik tombol dibawah !</p>
-                    <Button className='bt-orange'>Upload Resep!</Button>
+                    <Link to='/uploadresep-page'>
+                        <Button className='bt-orange'>Upload Resep!</Button>
+                    </Link>
                 </div>
                 <div className='row py-3'>
                     <div className='col-md-3'>

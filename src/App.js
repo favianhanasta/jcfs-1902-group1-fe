@@ -15,6 +15,7 @@ import ProductPage from './Pages/ProductPage';
 import { getCategory, getProduct } from '../src/redux/actions';
 import ProductDetail from './Pages/ProductDetail';
 import NotFound from './Pages/NotFound';
+import UploadResep from './Pages/UploadResep';
 
 class App extends React.Component {
   constructor(props) {
@@ -42,12 +43,13 @@ class App extends React.Component {
           <Route path='/resetpassword/:token' element={<ResetPasswordPage />} />
           {
             this.props.idrole === 2 ?
-              <>
+            <>
                 <Route path='/edit' element={<EditPage />} />
+                <Route path='/uploadresep-page' element={<UploadResep/>}/>
               </>
               :
               this.props.idrole === 1 ?
-                <>
+              <>
                   <Route path='/manajemen-produk' element={<ManajemenProduk />} />
                 </>
                 :
