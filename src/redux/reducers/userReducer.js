@@ -4,8 +4,12 @@ const INITIAL_STATE = {
     idstatus: "",
     email: "",
     username: "",
+    fullname: "",
     password: "",
+    age: "",
+    gender: "",
     phone: "",
+    address: "",
     profile_image: ""
 }
 
@@ -20,8 +24,12 @@ export const userReducer = (state = INITIAL_STATE, action) => {
                 idstatus: action.payload.idstatus,
                 email: action.payload.email,
                 username: action.payload.username,
+                fullname: action.payload.fullname,
                 password: action.payload.password,
+                age: action.payload.age,
+                gender: action.payload.gender,
                 phone: action.payload.phone,
+                address: action.payload.address,
                 profile_image: action.payload.profile_image
             }
         case "LOGOUT":
