@@ -31,8 +31,8 @@ class NavbarComponent extends React.Component {
                             <Link to="/product-page" style={{ textDecoration: "none" }}>
                                 <p className='mx-4 clr-blue'>Produk</p>
                             </Link>
+                            <p className='mx-4'>Transaksi Saya</p>
                             <p className='mx-4'>Tentang Kami</p>
-                            <p className='mx-4'>Kontak Kami</p>
                         </div>
                     </div>
                     <div className='col-2 clr-blue' style={{ fontSize: 14, fontWeight: "bold" }}>
@@ -73,25 +73,30 @@ class NavbarComponent extends React.Component {
                                             <DropdownMenu>
                                                 <DropdownItem>
                                                     <Link to="/" className="nav-link" style={{ color: "#2d3436" }}>
+                                                        Keranjang
+                                                    </Link>
+                                                </DropdownItem>
+                                                <hr />
+                                                <DropdownItem>
+                                                    <Link to="/editprofile" className="nav-link" style={{ color: "#2d3436" }}>
                                                         Profil
                                                     </Link>
                                                 </DropdownItem>
                                                 <DropdownItem>
-                                                    <Link to="/edit" className="nav-link" style={{ color: "#2d3436" }}>
+                                                    <Link to="/editpassword" className="nav-link" style={{ color: "#2d3436" }}>
                                                         Ubah Password
                                                     </Link>
                                                 </DropdownItem>
-                                                <div style={{ borderTopWidth: 2 }}>
-                                                    <DropdownItem onClick={() => {
-                                                        localStorage.removeItem("data");
-                                                        this.props.logoutAction()
-                                                        this.setState({ redirect: true })
-                                                    }}>
-                                                        <Link to="/     ">
-                                                            Keluar
-                                                        </Link>
-                                                    </DropdownItem>
-                                                </div>
+                                                <hr />
+                                                <DropdownItem onClick={() => {
+                                                    localStorage.removeItem("data");
+                                                    this.props.logoutAction()
+                                                    this.setState({ redirect: true })
+                                                }}>
+                                                    <Link to="/" style={{ textDecoration: "none" }}>
+                                                        <p className='clr-blue'>Keluar</p>
+                                                    </Link>
+                                                </DropdownItem>
                                             </DropdownMenu>
                                     }
 

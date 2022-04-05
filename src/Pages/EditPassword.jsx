@@ -6,7 +6,7 @@ import { API_URL } from '../helper';
 import { BsEyeSlash, BsEye } from 'react-icons/bs';
 import swal from 'sweetalert';
 
-class EditPage extends React.Component {
+class EditPasswordPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -97,13 +97,6 @@ class EditPage extends React.Component {
                         <Button className='bt-orange py-2' style={{ width: "100%", borderRadius: 20, fontSize: "20px" }} onClick={this.btChangeNewPassword}>Submit</Button>
                     </div>
                 </Form>
-                {/* <Form>
-                    <Label>New Password</Label>
-                    <Input type='password' innerRef={(element) => this.newPassword = element}/>
-                    <Label>Confirm New Password</Label>
-                    <Input type='password' innerRef={(element) => this.confNewPassword = element}/>
-                    <Button onClick={this.btChangeNewPassword}>Submit</Button>
-                </Form> */}
             </div>
         );
     }
@@ -117,4 +110,4 @@ const mapToProps = (state) => {
     }
 }
 
-export default connect(mapToProps)(EditPage);
+export default connect(mapToProps)(EditPasswordPage);
