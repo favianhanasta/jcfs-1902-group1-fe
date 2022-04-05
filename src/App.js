@@ -8,13 +8,14 @@ import HomePage from './Pages/LandingPage';
 import RegisterPage from './Pages/Register';
 import LoginPage from './Pages/Login';
 import VerificationPage from './Pages/Verification';
-import EditPage from './Pages/Edit';
+import EditPasswordPage from './Pages/EditPassword';
 import ResetPasswordPage from './Pages/ResetPassword';
 import ManajemenProduk from './Pages/ManajemenProduk';
 import ProductPage from './Pages/ProductPage';
 import { getCategory, getProduct } from '../src/redux/actions';
 import ProductDetail from './Pages/ProductDetail';
 import NotFound from './Pages/NotFound';
+import EditProfilePage from './Pages/EditProfile';
 import UploadResep from './Pages/UploadResep';
 
 class App extends React.Component {
@@ -43,8 +44,9 @@ class App extends React.Component {
           <Route path='/resetpassword/:token' element={<ResetPasswordPage />} />
           {
             this.props.idrole === 2 ?
-            <>
-                <Route path='/edit' element={<EditPage />} />
+              <>
+                <Route path='/editpassword' element={<EditPasswordPage />} />
+                <Route path='/editprofile' element={<EditProfilePage />} />
                 <Route path='/uploadresep-page' element={<UploadResep/>}/>
               </>
               :
