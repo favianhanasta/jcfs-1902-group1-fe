@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from '../assets/pharma.png';
+import logo from '../Assets/pharma.png';
 
 class HomePage extends React.Component {
     constructor(props) {
