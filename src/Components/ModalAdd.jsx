@@ -75,7 +75,12 @@ class ModalAdd extends React.Component {
         this.state.inImage.forEach(val => {
             formData.append('images', val.file)
         });
-        axios.post(`${API_URL}/product/addproduct`, formData)
+        let token = localStorage.getItem('data');
+        axios.post(`${API_URL}/product/addproduct`, formData, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
             .then((res) => {
                 this.props.getProduct();
                 this.props.toggle();

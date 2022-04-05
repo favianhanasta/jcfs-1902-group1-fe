@@ -67,7 +67,12 @@ class ModalEdit extends React.Component {
                 formData.append('images', val.file)
             });
         }
-        axios.patch(`${API_URL}/product/${this.props.data.idproduct}`, formData)
+        let token = localStorage.getItem('data');
+        axios.patch(`${API_URL}/product/${this.props.data.idproduct}`, formData, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
             .then((res) => {
                 this.setState({inImage:[``]})
                 this.props.getProduct();
