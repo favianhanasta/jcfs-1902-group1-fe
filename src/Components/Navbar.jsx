@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { logoutAction } from '../redux/actions/userAction';
-import { Link } from 'react-router-dom';
-import logo from '../assets/pharma.png';
+import { Link, Navigate } from 'react-router-dom';
+import logo from '../Assets/pharma.png';
 import { Button, DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from 'reactstrap';
 
 class NavbarComponent extends React.Component {
@@ -31,8 +31,8 @@ class NavbarComponent extends React.Component {
                             <Link to="/product-page" style={{ textDecoration: "none" }}>
                                 <p className='mx-4 clr-blue'>Produk</p>
                             </Link>
+                            <p className='mx-4'>Transaksi Saya</p>
                             <p className='mx-4'>Tentang Kami</p>
-                            <p className='mx-4'>Kontak Kami</p>
                         </div>
                     </div>
                     <div className='col-2 clr-blue' style={{ fontSize: 14, fontWeight: "bold" }}>

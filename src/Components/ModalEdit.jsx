@@ -1,7 +1,7 @@
 import React from 'react';
 import { Input, FormGroup, Label, Modal, ModalBody, ModalHeader, Button, ModalFooter } from 'reactstrap';
 import { AiOutlinePlusSquare } from "react-icons/ai";
-import imgupload from '../assets/imageupload.svg'
+import imgupload from '../Assets/imageupload.svg'
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { API_URL } from '../helper';
@@ -145,7 +145,7 @@ class ModalEdit extends React.Component {
                                         this.state.inImage[0].file ?
                                             <img src={URL.createObjectURL(this.state.inImage[0].file)} width="100%" />
                                             :
-                                            <img src={url} width="100%" />
+                                            <img src={API_URL + url} width="100%" />
                                     }
                                 </div>
                                 <Input placeholder={``} type="file" onChange={(e) => this.handleImage(e)} />

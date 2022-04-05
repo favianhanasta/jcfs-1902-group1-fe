@@ -2,9 +2,10 @@ import React from 'react';
 import { Card, CardBody, CardImg, Input, InputGroup, Button } from 'reactstrap';
 import { RiShoppingCartLine, RiSearch2Line } from "react-icons/ri";
 import { connect } from 'react-redux';
-import { getProduct, sortAction } from '../redux/actions'
 import { Link } from 'react-router-dom';
-const logo = require('../assets/pharma.png');
+import { getProduct, sortAction } from '../redux/actions'
+import { API_URL } from '../helper';
+const logo = require('../Assets/pharma.png')
 
 class ProductPage extends React.Component {
     constructor(props) {
@@ -22,9 +23,9 @@ class ProductPage extends React.Component {
         return this.props.product.slice(page > 1 ? (page - 1) * 12 : page - 1, page * 12).map((val, idx) => {
             return (
                 <div className='col-md-3 my-3' key={idx}>
-                    <Link to={`/product-detail?idproduct=${val.idproduct}`} style={{textDecoration:'none'}}>
+                    <Link to={`/product-detail?idproduct=${val.idproduct}`} style={{ textDecoration: 'none' }}>
                         <Card className='card'>
-                            <CardImg src={val.url} top width='100%' style={{ height: '140px' }} />
+                            <CardImg src={API_URL + val.url} top width='100%' style={{ height: '140px' }} />
                             <CardBody style={{ height: '160px' }}>
                                 <div style={{ height: '95px' }}>
                                     <p className='clr-blue' style={{ fontSize: '15px', fontWeight: '500' }}>{val.nama}</p>
@@ -84,7 +85,9 @@ class ProductPage extends React.Component {
             <div className='utama container'>
                 <div className=' bg-light text-center my-2' style={{ marginBottom: '2%', padding: '3%', borderRadius: '15px' }}>
                     <p className='clr-blue' style={{ fontWeight: '400', fontSize: '18px' }}>Dapatkan obat anda melalui resep dokter dengan klik tombol dibawah !</p>
-                    <Button className='bt-orange'>Upload Resep!</Button>
+                    <Link to='/uploadresep-page'>
+                        <Button className='bt-orange'>Upload Resep!</Button>
+                    </Link>
                 </div>
                 <div className='row py-3'>
                     <div className='col-md-3'>

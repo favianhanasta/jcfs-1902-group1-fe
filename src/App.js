@@ -16,6 +16,7 @@ import { getCategory, getProduct } from '../src/redux/actions';
 import ProductDetail from './Pages/ProductDetail';
 import NotFound from './Pages/NotFound';
 import EditProfilePage from './Pages/EditProfile';
+import UploadResep from './Pages/UploadResep';
 
 class App extends React.Component {
   constructor(props) {
@@ -38,21 +39,19 @@ class App extends React.Component {
           <Route path='/register' element={<RegisterPage />} />
           <Route path='/login' element={<LoginPage />} />
           <Route path='/product-page' element={<ProductPage />} />
-          <Route path='/manajemen-produk' element={<ManajemenProduk />} />
           <Route path='/product-detail' element={<ProductDetail/>}/>
           <Route path='/verification/:token' element={<VerificationPage />} />
           <Route path='/resetpassword/:token' element={<ResetPasswordPage />} />
-          <Route path='/product-page' element={<ProductPage />} />
           {
             this.props.idrole === 2 ?
               <>
                 <Route path='/editpassword' element={<EditPasswordPage />} />
                 <Route path='/editprofile' element={<EditProfilePage />} />
-                
+                <Route path='/uploadresep-page' element={<UploadResep/>}/>
               </>
               :
               this.props.idrole === 1 ?
-                <>
+              <>
                   <Route path='/manajemen-produk' element={<ManajemenProduk />} />
                 </>
                 :

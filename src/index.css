@@ -130,3 +130,19 @@ code {
 .bdr-radius10 {
   border-radius: 10px;
 }
+
+#input-file{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 3px dashed #cbd5e0;
+  min-width: 380px;
+  min-height: 380px;
+  padding: 20px;
+}
+
+#input-file>input{
+  height: 60px;
+  max-width: 200px;
+}
