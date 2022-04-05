@@ -42,12 +42,12 @@ class App extends React.Component {
           <Route path='/product-detail' element={<ProductDetail/>}/>
           <Route path='/verification/:token' element={<VerificationPage />} />
           <Route path='/resetpassword/:token' element={<ResetPasswordPage />} />
+          <Route path='/uploadresep-page' element={<UploadResep/>}/>
           {
             this.props.idrole === 2 ?
               <>
                 <Route path='/editpassword' element={<EditPasswordPage />} />
                 <Route path='/editprofile' element={<EditProfilePage />} />
-                <Route path='/uploadresep-page' element={<UploadResep/>}/>
               </>
               :
               this.props.idrole === 1 ?
