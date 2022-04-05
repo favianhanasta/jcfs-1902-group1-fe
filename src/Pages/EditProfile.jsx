@@ -9,11 +9,20 @@ class EditProfilePage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-
+            inImage: ['']
         }
     }
 
+    handleImages = (e) => {
+        let temp = [...this.state.inImage]
+        temp[0] = { name: e.target.files[0].name, file: e.target.files[0] }
+        this.setState({
+            inImage: temp
+        })
+    }
+
     btSimpan = () => {
+        let token = localStorage.getItem("data");
         let dataBaru = {
             username: this.inUsername.value,
             fullname: this.inFullname.value,
@@ -22,15 +31,21 @@ class EditProfilePage extends React.Component {
             address: this.inAlamat.value,
             gender: this.inGender.value,
             age: this.inAge.value,
-            profile_image: this.inProfilePicture.value
+            url: this.props.profile_image
         }
+        let formData = new FormData();
         console.log("TESTING SAVE : ", dataBaru)
-        axios.patch(`${API_URL}/users/${this.props.iduser}`, dataBaru)
-            .then((res) => {
-                swal("Berhasil Merubah Data")
-            }).catch((err) => {
-                console.log(err)
-            })
+        formData.append('dataBaru', JSON.stringify(dataBaru));
+        formData.append('images', this.state.inImage[0].file)
+        axios.patch(`${API_URL}/users/${this.props.iduser}`, formData, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }).then((res) => {
+            swal("Berhasil Merubah Data")
+        }).catch((err) => {
+            console.log(err)
+        })
     }
 
     render() {
@@ -50,7 +65,14 @@ class EditProfilePage extends React.Component {
                             <h4 className='mt-4'>Alamat</h4>
                             <Input className='input-radius' innerRef={elemen => this.inAlamat = elemen} defaultValue={address} />
                             <h4 className='mt-4'>Profile Picture</h4>
-                            <Input className='input-radius' innerRef={elemen => this.inProfilePicture = elemen} defaultValue={profile_image} />
+                            <Input type='file' onChange={(e) => this.handleImages(e)} innerRef={(e) => this.inProfilePicture = e} className='input-radius' />
+                            {
+                                this.state.images ?
+                                    <img src={URL.createObjectURL(this.state.images.file)} alt='...' style={{ width: "500px" }} />
+                                    :
+                                    <img src={API_URL + profile_image} alt='...' style={{ width: "500px" }} />
+                            }
+
                         </FormGroup>
                         <FormGroup className='col-6'>
                             <h4>Full Name</h4>
