@@ -7,7 +7,7 @@ class ModalDetailPembayaran extends React.Component {
         this.state = {}
     }
     render() {
-        console.log('data', this.props.data)
+        console.log('data mod', this.props.data)
         return (
             <Modal isOpen={this.props.open} toggle={this.props.toggle} className='clr-blue' >
                 <ModalHeader >
@@ -17,6 +17,7 @@ class ModalDetailPembayaran extends React.Component {
                     <p style={{ fontWeight: 'bold' }}>Pesanan Anda</p>
                     <div>
                         {
+                            this.props.data.idtransaction &&
                             this.props.data.detail.map((val, i) => {
                                 return (
                                     <div className='row' key={i}>
@@ -40,7 +41,7 @@ class ModalDetailPembayaran extends React.Component {
                         <p className='col-6' style={{ fontWeight: 'bold' }}>Shipping</p>
                         <p className='font-price col-6 clr-orange2'>Rp{this.props.data.shipping}</p>
                     </div>
-                    <hr/>
+                    <hr />
                     <div className='row'>
                         <p className='col-6' style={{ fontWeight: 'bold' }}>Total Pembayaran</p>
                         <h4 className='font-price col-6 clr-orange2'>Rp{this.props.data.totalpembayaran}</h4>

@@ -58,7 +58,7 @@ class NavbarComponent extends React.Component {
                                                     </Link>
                                                 </DropdownItem>
                                                 <DropdownItem>
-                                                    <Link to="/" className="nav-link" style={{ color: "#2d3436" }}>
+                                                    <Link to="/manajemen-transaksi" className="nav-link" style={{ color: "#2d3436" }}>
                                                         Manajemen Transaksi
                                                     </Link>
                                                 </DropdownItem>

@@ -18,6 +18,7 @@ import NotFound from './Pages/NotFound';
 import EditProfilePage from './Pages/EditProfile';
 import UploadResep from './Pages/UploadResep';
 import TransaksiPage from './Pages/TransaksiPage';
+import ManajemenTransaksi from './Pages/ManajemenTransaksi';
 
 class App extends React.Component {
   constructor(props) {
@@ -56,6 +57,7 @@ class App extends React.Component {
               this.props.idrole === 1 ?
               <>
                   <Route path='/manajemen-produk' element={<ManajemenProduk />} />
+                  <Route path='/manajemen-transaksi' element={<ManajemenTransaksi />} />
                 </>
                 :
                 <>

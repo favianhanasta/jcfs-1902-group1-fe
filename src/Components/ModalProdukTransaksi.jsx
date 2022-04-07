@@ -11,7 +11,7 @@ class ModalProdukTransaksi extends React.Component {
         this.state = {}
     }
     render() {
-        console.log('data', this.props.data[0].url)
+        console.log('data',this.props.data)
         return (
             <Modal isOpen={this.props.open} toggle={this.props.toggle} >
                 <ModalHeader >
@@ -19,6 +19,7 @@ class ModalProdukTransaksi extends React.Component {
                 </ModalHeader>
                 <ModalBody>
                     {
+                        this.props.data.length>0 &&
                         this.props.data.map((val, i) => {
                             return (
                                 <div key={i} className='row' style={{padding:'10%'}}>
