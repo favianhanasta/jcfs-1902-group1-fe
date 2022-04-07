@@ -31,7 +31,12 @@ class NavbarComponent extends React.Component {
                             <Link to="/product-page" style={{ textDecoration: "none" }}>
                                 <p className='mx-4 clr-blue'>Produk</p>
                             </Link>
-                            <p className='mx-4'>Transaksi Saya</p>
+                            {
+                                this.props.idrole == 2 &&
+                                <Link to="/halaman-transaksi" className='clr-blue' style={{ textDecoration: "none" }}>
+                                    <p className='mx-4'>Transaksi Saya</p>
+                                </Link>
+                            }
                             <p className='mx-4'>Tentang Kami</p>
                         </div>
                     </div>

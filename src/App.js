@@ -17,6 +17,7 @@ import ProductDetail from './Pages/ProductDetail';
 import NotFound from './Pages/NotFound';
 import EditProfilePage from './Pages/EditProfile';
 import UploadResep from './Pages/UploadResep';
+import TransaksiPage from './Pages/TransaksiPage';
 
 class App extends React.Component {
   constructor(props) {
@@ -49,6 +50,7 @@ class App extends React.Component {
               <>
                 <Route path='/editpassword' element={<EditPasswordPage />} />
                 <Route path='/editprofile' element={<EditProfilePage />} />
+                <Route path='/halaman-transaksi' element={<TransaksiPage/>} />
               </>
               :
               this.props.idrole === 1 ?
