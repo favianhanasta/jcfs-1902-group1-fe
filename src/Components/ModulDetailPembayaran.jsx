@@ -1,9 +1,5 @@
 import React from 'react';
 import { Modal, ModalBody, ModalFooter, ModalHeader, Button } from 'reactstrap';
-import { API_URL } from '../helper';
-
-
-
 
 class ModalDetailPembayaran extends React.Component {
     constructor(props) {
@@ -23,7 +19,7 @@ class ModalDetailPembayaran extends React.Component {
                         {
                             this.props.data.detail.map((val, i) => {
                                 return (
-                                    <div className='row'>
+                                    <div className='row' key={i}>
                                         <div className='col-6'>
                                             <p>{val.nama}</p>
                                         </div>
@@ -56,7 +52,6 @@ class ModalDetailPembayaran extends React.Component {
                     </Button>
                 </ModalFooter>
             </Modal>
-
         );
     }
 }
