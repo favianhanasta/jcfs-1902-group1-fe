@@ -82,7 +82,7 @@ export const newPassword = (password) => {
                 }
             })
             if (res.data.success) {
-                console.log("res.data ",res.data)
+                console.log("res.data ", res.data)
                 localStorage.setItem("data", res.data.dataReset.token)
                 dispatch({
                     type: "LOGIN_SUCCESS",
@@ -96,8 +96,28 @@ export const newPassword = (password) => {
     }
 }
 
+export const getAddress = () => {
+    return async (dispatch) => {
+        try {
+            let token = localStorage.getItem('data')
+            let res = await axios.get(`${API_URL}/users/getaddress`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+            dispatch({
+                type: "GET_ADDRESS",
+                payload: res.data.address
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}
+
 export const logoutAction = () => {
     return {
         type: "LOGOUT"
     }
 }
+

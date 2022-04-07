@@ -2,6 +2,7 @@ const INITIAL_STATE = {
     iduser: null,
     idrole: "",
     idstatus: "",
+    idaddress: "",
     email: "",
     username: "",
     fullname: "",
@@ -9,8 +10,8 @@ const INITIAL_STATE = {
     age: "",
     gender: "",
     phone: "",
-    address: "",
-    profile_image: ""
+    profile_image: "",
+    addressList :[]
 }
 
 export const userReducer = (state = INITIAL_STATE, action) => {
@@ -22,6 +23,7 @@ export const userReducer = (state = INITIAL_STATE, action) => {
                 iduser: action.payload.iduser,
                 idrole: action.payload.idrole,
                 idstatus: action.payload.idstatus,
+                idaddress: action.payload.idaddress,
                 email: action.payload.email,
                 username: action.payload.username,
                 fullname: action.payload.fullname,
@@ -29,8 +31,12 @@ export const userReducer = (state = INITIAL_STATE, action) => {
                 age: action.payload.age,
                 gender: action.payload.gender,
                 phone: action.payload.phone,
-                address: action.payload.address,
                 profile_image: action.payload.profile_image
+            }
+        case "GET_ADDRESS":
+            console.log("GET_ADDRESS REDUCER", action.payload)
+            return {
+                ...state, addressList:action.payload
             }
         case "LOGOUT":
             return INITIAL_STATE

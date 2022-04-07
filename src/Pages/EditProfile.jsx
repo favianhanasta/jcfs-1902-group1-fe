@@ -28,7 +28,6 @@ class EditProfilePage extends React.Component {
             fullname: this.inFullname.value,
             email: this.inEmail.value,
             phone: this.inPhone.value,
-            address: this.inAlamat.value,
             gender: this.inGender.value,
             age: this.inAge.value,
             url: this.props.profile_image
@@ -49,7 +48,7 @@ class EditProfilePage extends React.Component {
     }
 
     render() {
-        let { username, fullname, email, phone, address, gender, age, profile_image } = this.props
+        let { username, fullname, email, phone, gender, age, profile_image } = this.props
         return (
             <div className='container clr-blue'>
                 <div style={{ textAlign: "center", marginTop: "5%" }}>
@@ -62,8 +61,6 @@ class EditProfilePage extends React.Component {
                             <Input className='input-radius' innerRef={elemen => this.inUsername = elemen} defaultValue={username} />
                             <h4 className='mt-4'>Email</h4>
                             <Input className='input-radius' innerRef={elemen => this.inEmail = elemen} defaultValue={email} />
-                            <h4 className='mt-4'>Alamat</h4>
-                            <Input className='input-radius' innerRef={elemen => this.inAlamat = elemen} defaultValue={address} />
                             <h4 className='mt-4'>Profile Picture</h4>
                             <Input type='file' onChange={(e) => this.handleImages(e)} innerRef={(e) => this.inProfilePicture = e} className='input-radius' />
                             {
@@ -99,14 +96,13 @@ class EditProfilePage extends React.Component {
 }
 
 const mapToProps = (state) => {
-    let { iduser, username, fullname, email, phone, address, gender, age, profile_image } = state.userReducer
+    let { iduser, username, fullname, email, phone, gender, age, profile_image } = state.userReducer
     return {
         iduser: iduser,
         username: username,
         fullname: fullname,
         email: email,
         phone: phone,
-        address: address,
         gender: gender,
         age: age,
         profile_image: profile_image
