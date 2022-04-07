@@ -11,7 +11,9 @@ class TransaksiPage extends React.Component {
         this.state = {
             dataTransaksi: [],
             openModProduk: false,
-            openModPembayaran: false
+            openModPembayaran: false,
+            dataModProduk: {},
+            dataModPembayaran: {}
         }
     }
 
@@ -31,12 +33,20 @@ class TransaksiPage extends React.Component {
             })
     }
 
+    onClickDetailProduk = (data) => {
+        this.setState({ dataModProduk: data });
+        this.setState({ openModProduk: !this.state.openModProduk });
+    }
+
+    onClickDetailPembayaran = (data) => {
+        this.setState({ dataModPembayaran: data });
+        this.setState({ openModPembayaran: !this.state.openModPembayaran });
+    }
+
     printTransaksi = () => {
         return this.state.dataTransaksi.map((val, i) => {
             return (
-                <div key={i} className='row transaksi-box'>
-                    <ModalProdukTransaksi open={this.state.openModProduk} toggle={() => this.setState({ openModProduk: !this.state.openModProduk })} data={val.detail} />
-                    <ModalDetailPembayaran open={this.state.openModPembayaran} toggle={() => this.setState({ openModPembayaran: !this.state.openModPembayaran })} data={val} />
+                <div key={i} className='row transaksi-box my-4'>
                     <div className='col-4 transaksi-item'>
                         <p className='font-price clr-orange2' style={{ fontWeight: 'bold' }}>{val.invoice}</p>
                         <div className='d-flex'>
@@ -46,7 +56,7 @@ class TransaksiPage extends React.Component {
                                 <p className='font-price'>{val.detail[0].qty} x Rp. {val.detail[0].harga_persatuan}</p>
                                 {
                                     val.detail.length > 1 ?
-                                        <a className='text-muted' style={{ cursor: 'pointer' }} onClick={() => this.setState({ openModProduk: !this.state.openModProduk })}>{val.detail.length - 1} produk lainnya</a>
+                                        <a className='text-muted' style={{ cursor: 'pointer' }} onClick={() => this.onClickDetailProduk(val.detail)}>{val.detail.length - 1} produk lainnya</a>
                                         :
                                         null
                                 }
@@ -66,7 +76,7 @@ class TransaksiPage extends React.Component {
                         <div className='clr-blue'>
                             <p className='clr-orange2 lead' style={{ fontWeight: '600' }}>Total Pembayaran</p>
                             <h2 className='font-price'>Rp{val.totalpembayaran}</h2>
-                            <a className='text-muted' style={{ cursor: 'pointer' }} onClick={() => this.setState({ openModPembayaran: !this.state.openModPembayaran })}>Detail Pembayaran</a>
+                            <a className='text-muted' style={{ cursor: 'pointer' }} onClick={() => this.onClickDetailPembayaran(val)}>Detail Pembayaran</a>
                         </div>
                         <div style={{ marginTop: '16px', color: 'white' }} className='d-flex justify-content-end'>
                             <Badge className='p-1'
@@ -84,6 +94,8 @@ class TransaksiPage extends React.Component {
         console.log(this.state.dataTransaksi)
         return (
             <>
+                <ModalProdukTransaksi open={this.state.openModProduk} toggle={() => this.setState({ openModProduk: !this.state.openModProduk })} data={this.state.dataModProduk} />
+                <ModalDetailPembayaran open={this.state.openModPembayaran} toggle={() => this.setState({ openModPembayaran: !this.state.openModPembayaran })} data={this.state.dataModPembayaran} />
                 <div className='container' style={{ marginTop: "3%" }}>
                     <div className='row my-2'>
                         <div className='col-6'>
