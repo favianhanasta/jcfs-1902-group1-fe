@@ -11,34 +11,59 @@ class ModalAdd extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            inStock: [{
-                id: null,
-                satuan: '',
-                qty: null
-            }],
+            inStock: [
+                {
+                    id: null,
+                    idsatuan: null,
+                    qty: null,
+                    isnetto : 0
+                },
+                {
+                    id: null,
+                    idsatuan: null,
+                    qty: null,
+                    isnetto : 1
+                },
+                {
+                    id: null,
+                    idsatuan: null,
+                    qty: null,
+                    isnetto : 0
+                }
+            ],
             inImage: [``]
         }
     }
 
-    addStock = () => {
-        let newStock = {
-            id: null,
-            satuan: '',
-            qty: null
-        }
-        this.setState({ inStock: this.state.inStock.concat([newStock]) });
-        console.log('arr stock', this.state.inStock);
-    }
-
     printInStock = () => {
-        return this.state.inStock.map((val, idx) => {
-            return (
-                <div key={idx} className='col-7' >
-                    <Input placeholder='Satuan' className='my-1' onChange={(e) => this.handleSatuan(e, idx)} />
-                    <Input placeholder='qty' className='my-1' onChange={(e) => this.handleQty(e, idx)} />
+        return (
+            <>
+                <div className='col-6'>
+                    <p>Input Stok Item</p>
+                    <Input placeholder='Satuan' type='select' className='my-1' onChange={(e) => this.handleSatuan(e, 0)}>
+                        <option>Pilih Satuan</option>
+                        {
+                            this.props.satuan.map((val, i) => {
+                                return <option value={val.idsatuan} key={i}>{val.satuan}</option>
+                            })
+                        }
+                    </Input>
+                    <Input placeholder='qty' className='my-1' onChange={(e) => this.handleQty(e, 0)} />
                 </div>
-            )
-        })
+                <div>
+                    <p>Input Netto/Item</p>
+                    <Input placeholder='Satuan' type='select' className='my-1' onChange={(e) => this.handleSatuan(e, 1)}>
+                        <option>Pilih Satuan</option>
+                        {
+                            this.props.satuan.map((val, i) => {
+                                return <option value={val.idsatuan} key={i}>{val.satuan}</option>
+                            })
+                        }
+                    </Input>
+                    <Input placeholder='qty' className='my-1' onChange={(e) => this.handleQty(e, 1)} />
+                </div>
+            </>
+        )
     }
 
     handleImage = (e) => {
@@ -51,7 +76,7 @@ class ModalAdd extends React.Component {
 
     handleSatuan = (e, index) => {
         let temp = [...this.state.inStock];
-        temp[index].satuan = e.target.value
+        temp[index].idsatuan = parseInt(e.target.value);
         this.setState({ inStock: temp })
     }
 
@@ -62,6 +87,10 @@ class ModalAdd extends React.Component {
     }
 
     btnSave = () => {
+        let temp = [...this.state.inStock];
+        temp[2].qty = this.state.inStock[0].qty * this.state.inStock[1].qty;
+        temp[2].idsatuan = this.state.inStock[1].idsatuan;
+        this.setState({ inStock: temp })
         let data = {
             idcategory: parseInt(this.kategori.value),
             nama: this.namaProduk.value,
@@ -75,7 +104,12 @@ class ModalAdd extends React.Component {
         this.state.inImage.forEach(val => {
             formData.append('images', val.file)
         });
-        axios.post(`${API_URL}/product/addproduct`, formData)
+        let token = localStorage.getItem('data');
+        axios.post(`${API_URL}/product/addproduct`, formData, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
             .then((res) => {
                 this.props.getProduct();
                 this.props.toggle();
@@ -83,7 +117,7 @@ class ModalAdd extends React.Component {
             .catch((err) => {
                 console.log("add error fe", err);
             })
-        console.log(data);
+        console.log('datain', data);
     }
 
     deleteStock = (i) => {
@@ -98,7 +132,7 @@ class ModalAdd extends React.Component {
     }
 
     render() {
-        console.log(this.props.category)
+        console.log('satuan', this.state.satuan);
         return (
             <div>
                 <Modal isOpen={this.props.open} toggle={this.btToggle} centered size='xl'>
@@ -145,8 +179,7 @@ class ModalAdd extends React.Component {
                         </div>
                         <div className='row'>
                             <FormGroup className='col-md-6'>
-                                <p className='clr-blue'>Input Stok</p>
-                                <div className='row'>
+                                <div className='row clr-blue'>
                                     {this.printInStock()}
                                 </div>
                             </FormGroup>
@@ -177,7 +210,8 @@ class ModalAdd extends React.Component {
 
 const mapToProps = (state) => {
     return {
-        category: state.productReducer.categoryList
+        category: state.productReducer.categoryList,
+        satuan: state.productReducer.satuanList
     }
 }
 

@@ -30,7 +30,12 @@ class NavbarComponent extends React.Component {
                             <Link to="/product-page" style={{ textDecoration: "none" }}>
                                 <p className='mx-4 clr-blue'>Produk</p>
                             </Link>
-                            <p className='mx-4'>Transaksi Saya</p>
+                            {
+                                this.props.idrole == 2 &&
+                                <Link to="/halaman-transaksi" className='clr-blue' style={{ textDecoration: "none" }}>
+                                    <p className='mx-4'>Transaksi Saya</p>
+                                </Link>
+                            }
                             <p className='mx-4'>Tentang Kami</p>
                         </div>
                     </div>
@@ -52,7 +57,7 @@ class NavbarComponent extends React.Component {
                                                     </Link>
                                                 </DropdownItem>
                                                 <DropdownItem>
-                                                    <Link to="/" className="nav-link" style={{ color: "#2d3436" }}>
+                                                    <Link to="/manajemen-transaksi" className="nav-link" style={{ color: "#2d3436" }}>
                                                         Manajemen Transaksi
                                                     </Link>
                                                 </DropdownItem>

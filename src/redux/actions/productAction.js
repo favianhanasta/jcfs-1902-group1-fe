@@ -51,6 +51,21 @@ export const getCategory = () =>{
     }
 }
 
+export const getSatuan = () =>{
+    return async(dispatch)=>{
+        try{
+            let res = await axios.get(`${API_URL}/product/satuan`);
+            dispatch({
+                type:'GET_SATUAN',
+                payload : res.data.satuan
+            })
+        }
+        catch(error){
+            console.log(error);
+        }
+    }
+}
+
 export const sortAction =(sorting=null)=>{
     return async(dispatch)=>{
         try{
