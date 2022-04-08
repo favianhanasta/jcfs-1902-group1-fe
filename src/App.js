@@ -18,6 +18,8 @@ import NotFound from './Pages/NotFound';
 import EditProfilePage from './Pages/EditProfile';
 import UploadResep from './Pages/UploadResep';
 import DaftarAlamatPage from './Pages/DaftarAlamat';
+import CartPage from './Pages/Cart';
+import CheckoutPage from './Pages/Checkout';
 
 class App extends React.Component {
   constructor(props) {
@@ -49,6 +51,8 @@ class App extends React.Component {
                 <Route path='/editpassword' element={<EditPasswordPage />} />
                 <Route path='/editprofile' element={<EditProfilePage />} />
                 <Route path='/daftaralamat' element={<DaftarAlamatPage />} />
+                <Route path='/cart' element={<CartPage />} />
+                <Route path='/checkout' element={<CheckoutPage />} />
                 <Route path='/uploadresep-page' element={<UploadResep />} />
               </>
               :

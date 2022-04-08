@@ -70,7 +70,7 @@ class NavbarComponent extends React.Component {
                                             :
                                             <DropdownMenu>
                                                 <DropdownItem>
-                                                    <Link to="/" className="nav-link" style={{ color: "#2d3436" }}>
+                                                    <Link to="/cart" className="nav-link" style={{ color: "#2d3436" }}>
                                                         Keranjang
                                                     </Link>
                                                 </DropdownItem>

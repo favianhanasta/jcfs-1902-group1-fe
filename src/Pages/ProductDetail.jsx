@@ -3,6 +3,8 @@ import React from 'react';
 import { Button, Input, Label } from 'reactstrap';
 import { API_URL } from '../helper';
 import { BsCartPlusFill } from "react-icons/bs";
+import swal from 'sweetalert';
+import { connect } from 'react-redux';
 
 
 class ProductDetail extends React.Component {
@@ -22,6 +24,40 @@ class ProductDetail extends React.Component {
                 console.log(err)
             })
     }
+
+    onBtAddtoCart = () => {
+        console.log("data product yang akan di add to cart", this.state.data)
+        console.log("this.state.data.stock", this.state.data.stock[1].idstock)
+        console.log("total qty yang akan di add to cart", this.totalQty.value)
+        let token = localStorage.getItem("data");
+        let { idproduct, idcategory, nama, harga, url, category, kemasan, stock } = this.state.data
+        let dataAddToCart = {
+            iduser: this.props.iduser,
+            idproduct: idproduct,
+            idcategory: idcategory,
+            idstock: stock[0].idstock,
+            nama: nama,
+            harga: harga,
+            url: url,
+            category: category,
+            kemasan: kemasan,
+            qty: parseInt(this.totalQty.value),
+            qtyStock: stock[0].qty - parseInt(this.totalQty.value),
+            qtyTotal: (stock[0].qty - parseInt(this.totalQty.value)) * stock[1].qty,
+            idstockTotal: stock[2].idstock
+        }
+        console.log("dataAddToCart", dataAddToCart)
+        axios.post(`${API_URL}/users/addtocart`, dataAddToCart, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }).then((res) => {
+            swal("Berhasil Add To Cart")
+        }).catch((err) => {
+            console.log(err)
+        })
+    }
+
     render() {
         let { data } = this.state;
         return (
@@ -59,10 +95,10 @@ class ProductDetail extends React.Component {
                             <h5>Kuantitas</h5>
                             <div className='row'>
                                 <div className='col-3'>
-                                    <Input type="number" defaultValue={this.state.qty} />
+                                    <Input type="number" defaultValue={this.state.qty} innerRef={(element) => this.totalQty = element} />
                                 </div>
                                 <div className='col-9'>
-                                    <Button className='bt-orange' style={{ width: '100%' }}>Tambahkan Ke Keranjang <BsCartPlusFill className='mx-2' style={{ fontSize: '18px' }} /> </Button>
+                                    <Button onClick={this.onBtAddtoCart} className='bt-orange' style={{ width: '100%' }}>Tambahkan Ke Keranjang <BsCartPlusFill className='mx-2' style={{ fontSize: '18px' }} /> </Button>
                                 </div>
                             </div>
                         </div>
@@ -73,4 +109,11 @@ class ProductDetail extends React.Component {
     }
 }
 
-export default ProductDetail;
+const mapToProps = (state) => {
+    return {
+        iduser: state.userReducer.iduser
+    }
+}
+
+
+export default connect(mapToProps)(ProductDetail);
