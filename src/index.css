@@ -71,16 +71,14 @@ code {
 }
 
 .card{
-  border : none;
   cursor: pointer;
-}
-
-.card:hover{
   border-style: solid;
   border-width: 0.5px;
   border-color: #dbd8f3;
 }
-
+.card:hover{
+  box-shadow:  0 2px 3px 0 #ddbf7e;
+}
 .input-blue{
   color:#2B2273;
 }
