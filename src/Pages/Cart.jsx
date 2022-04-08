@@ -8,6 +8,7 @@ import { AiOutlinePlusCircle } from "react-icons/ai";
 import { FaRegTrashAlt } from "react-icons/fa";
 import axios from 'axios';
 import swal from 'sweetalert';
+import { Link } from 'react-router-dom';
 
 class CartPage extends React.Component {
     constructor(props) {
@@ -78,12 +79,6 @@ class CartPage extends React.Component {
         return this.props.cartList.map((value, index) => {
             return (
                 <>
-                    {/* {
-                        value.qty <= 0 ?
-                            swal("tidak bisa mengurangi lagi")
-                            :
-                            <></>
-                    } */}
                     <div className='row' style={{ padding: 20 }}>
                         <div className='col-4'>
                             <img style={{ width: "100%" }} src={API_URL + value.url} />
@@ -121,7 +116,9 @@ class CartPage extends React.Component {
                             <p>Total Harga</p>
                             <p>Rp {this.printTotalPayment().toLocaleString()}</p>
                         </div>
-                        <Button className='bt-orange' style={{ width: "100%", margin: "auto" }}>BELI</Button>
+                        <Link to="/checkout">
+                            <Button className='bt-orange' style={{ width: "100%", margin: "auto" }}>BELI</Button>
+                        </Link>
                     </div>
                 </div>
             </div>
