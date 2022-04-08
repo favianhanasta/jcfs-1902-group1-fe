@@ -146,3 +146,13 @@ code {
   height: 60px;
   max-width: 200px;
 }
+
+.transaksi-box{
+  border: 1px solid #cbd5e0;
+  padding: 16px;
+  border-radius: 10px;
+}
+
+.transaksi-item{
+  border-right: 1px solid #cbd5e0;
+}

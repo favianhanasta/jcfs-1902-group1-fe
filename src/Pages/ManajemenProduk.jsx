@@ -31,7 +31,7 @@ class ManajemenProduk extends React.Component {
                     </td>
                     <td>{val.nama}</td>
                     <td className='font-price'>Rp. {val.harga}</td>
-                    <td>
+                    <td className='d-flex'>
                         <Button style={{ background: '#2B2273', border: 'none' }} onClick={()=>this.btOnEdit(val)}>Edit</Button>
                         <Button className='mx-2' color='danger' onClick={() => this.btnDelete(val.idproduct)}>Delete</Button>
                     </td>
@@ -81,7 +81,7 @@ class ManajemenProduk extends React.Component {
                             <Button className='bt-orange' onClick={() => this.setState({ modalAdd: !this.state.modalAdd })}>Tambah Produk</Button>
                         </div>
                     </div>
-                    <div style={{ height: '100vh' }}>
+                    <div>
                         <Table hover responsive className='my-4'>
                             <thead>
                                 <tr className='text-center'>
