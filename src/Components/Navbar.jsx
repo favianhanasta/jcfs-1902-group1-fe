@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { logoutAction } from '../redux/actions/userAction';
-import { Link, Navigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import logo from '../Assets/pharma.png';
 import { Button, DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from 'reactstrap';
 
@@ -9,12 +9,11 @@ class NavbarComponent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-
+            
         }
     }
 
     render() {
-        console.log("idrole", this.props.idrole)
         return (
             <div className='container py-3 clr-blue'>
                 <div className='row'>
@@ -66,9 +65,8 @@ class NavbarComponent extends React.Component {
                                                     <DropdownItem onClick={() => {
                                                         localStorage.removeItem("data");
                                                         this.props.logoutAction()
-                                                        this.setState({ redirect: true })
                                                     }}>
-                                                        <Link to="/     ">
+                                                        <Link to="/login">
                                                             Keluar
                                                         </Link>
                                                     </DropdownItem>
@@ -88,6 +86,11 @@ class NavbarComponent extends React.Component {
                                                     </Link>
                                                 </DropdownItem>
                                                 <DropdownItem>
+                                                    <Link to="/daftaralamat" className="nav-link" style={{ color: "#2d3436" }}>
+                                                        Daftar Alamat
+                                                    </Link>
+                                                </DropdownItem>
+                                                <DropdownItem>
                                                     <Link to="/editpassword" className="nav-link" style={{ color: "#2d3436" }}>
                                                         Ubah Password
                                                     </Link>
@@ -96,9 +99,8 @@ class NavbarComponent extends React.Component {
                                                 <DropdownItem onClick={() => {
                                                     localStorage.removeItem("data");
                                                     this.props.logoutAction()
-                                                    this.setState({ redirect: true })
                                                 }}>
-                                                    <Link to="/" style={{ textDecoration: "none" }}>
+                                                    <Link to="/login" style={{ textDecoration: "none" }}>
                                                         <p className='clr-blue'>Keluar</p>
                                                     </Link>
                                                 </DropdownItem>

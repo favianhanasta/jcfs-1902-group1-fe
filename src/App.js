@@ -17,6 +17,7 @@ import ProductDetail from './Pages/ProductDetail';
 import NotFound from './Pages/NotFound';
 import EditProfilePage from './Pages/EditProfile';
 import UploadResep from './Pages/UploadResep';
+import DaftarAlamatPage from './Pages/DaftarAlamat';
 import TransaksiPage from './Pages/TransaksiPage';
 import ManajemenTransaksi from './Pages/ManajemenTransaksi';
 
@@ -32,7 +33,7 @@ class App extends React.Component {
     this.props.getCategory()
     this.props.getSatuan()
   }
-  
+
   render() {
     return (
       <div>
@@ -42,7 +43,7 @@ class App extends React.Component {
           <Route path='/register' element={<RegisterPage />} />
           <Route path='/login' element={<LoginPage />} />
           <Route path='/product-page' element={<ProductPage />} />
-          <Route path='/product-detail' element={<ProductDetail/>}/>
+          <Route path='/product-detail' element={<ProductDetail />} />
           <Route path='/verification/:token' element={<VerificationPage />} />
           <Route path='/resetpassword/:token' element={<ResetPasswordPage />} />
           <Route path='/uploadresep-page' element={<UploadResep/>}/>
@@ -51,11 +52,13 @@ class App extends React.Component {
               <>
                 <Route path='/editpassword' element={<EditPasswordPage />} />
                 <Route path='/editprofile' element={<EditProfilePage />} />
+                <Route path='/daftaralamat' element={<DaftarAlamatPage />} />
+                <Route path='/uploadresep-page' element={<UploadResep />} />
                 <Route path='/halaman-transaksi' element={<TransaksiPage/>} />
               </>
               :
               this.props.idrole === 1 ?
-              <>
+                <>
                   <Route path='/manajemen-produk' element={<ManajemenProduk />} />
                   <Route path='/manajemen-transaksi' element={<ManajemenTransaksi />} />
                 </>
