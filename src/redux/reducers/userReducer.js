@@ -11,7 +11,8 @@ const INITIAL_STATE = {
     gender: "",
     phone: "",
     profile_image: "",
-    addressList :[]
+    addressList :[],
+    cartList:[]
 }
 
 export const userReducer = (state = INITIAL_STATE, action) => {
@@ -37,6 +38,11 @@ export const userReducer = (state = INITIAL_STATE, action) => {
             console.log("GET_ADDRESS REDUCER", action.payload)
             return {
                 ...state, addressList:action.payload
+            }
+        case "GET_CART":
+            console.log("GET_CART REDUCER", action.payload)
+            return {
+                ...state, cartList:action.payload
             }
         case "LOGOUT":
             return INITIAL_STATE
