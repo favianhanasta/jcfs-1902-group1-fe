@@ -1,5 +1,7 @@
 import axios from 'axios';
 import React from 'react';
+import { Tab, Tabs } from 'react-bootstrap';
+import 'react-tabs/style/react-tabs.css';
 import { Badge } from 'reactstrap';
 import ModalProdukTransaksi from '../Components/ModalProdukTransaksi';
 import ModalDetailPembayaran from '../Components/ModulDetailPembayaran';
@@ -13,7 +15,8 @@ class TransaksiPage extends React.Component {
             openModProduk: false,
             openModPembayaran: false,
             dataModProduk: {},
-            dataModPembayaran: {}
+            dataModPembayaran: {},
+            key: 'ongoing'
         }
     }
 
@@ -105,9 +108,18 @@ class TransaksiPage extends React.Component {
                             <h5 className='clr-orange' style={{ float: 'right' }}>| Transaksi Saya</h5>
                         </div>
                     </div>
-                    <div style={{ marginTop: '21px' }}>
-                        {this.printTransaksi()}
-                    </div>
+                    <Tabs id="controlled-tab-example" activeKey={this.state.key} onSelect={(k)=>this.setState({key:k})} className='mb-3'>
+                        <Tab eventKey="ongoing" title="Transaksi Berlangsung">
+                            <div className='p-1'>
+                                {this.printTransaksi()}
+                            </div>
+                        </Tab>
+                        <Tab eventKey="past" title="History Transaksi">
+                            <div className='p-1'>
+                                // untuk past Transaction
+                            </div>
+                        </Tab>
+                    </Tabs>
                 </div>
             </>
         );

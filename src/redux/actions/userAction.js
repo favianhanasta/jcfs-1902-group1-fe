@@ -115,6 +115,62 @@ export const getAddress = () => {
     }
 }
 
+export const getCart = () => {
+    return async (dispatch) => {
+        try {
+            let token = localStorage.getItem('data')
+            let res = await axios.get(`${API_URL}/users/getcart`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+            dispatch({
+                type: "GET_CART",
+                payload: res.data.cart
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}
+
+export const plusQtyCart = (idcart, idstock, idproduct) => {
+    return async (dispatch) => {
+        try {
+            let token = localStorage.getItem("data");
+            let res = await axios.patch(`${API_URL}/users/pluscart/${idcart}`, { idstock, idproduct }, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+            if (res.data.success) {
+                dispatch(getCart())
+                return { success: true, message: "plus 1 item cart success" }
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}
+export const minusQtyCart = (idcart, idstock, idproduct) => {
+    return async (dispatch) => {
+        try {
+            let token = localStorage.getItem("data");
+            let res = await axios.patch(`${API_URL}/users/minuscart/${idcart}`, { idstock, idproduct }, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+            if (res.data.success) {
+                dispatch(getCart())
+                return { success: true, message: "minus 1 item cart success" }
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}
+
 export const logoutAction = () => {
     return {
         type: "LOGOUT"
