@@ -1,24 +1,23 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import { BrowserRouter } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import { applyMiddleware, createStore } from 'redux';
-import { rootReducers } from './redux/reducers';
-import ReduxThunk from 'redux-thunk'
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import { BrowserRouter } from "react-router-dom";
+import { Provider } from "react-redux";
+import { applyMiddleware, createStore } from "redux";
+import { rootReducers } from "./redux/reducers";
+import ReduxThunk from "redux-thunk";
 
-const globalStore = createStore(rootReducers, {}, applyMiddleware(ReduxThunk))
+const globalStore = createStore(rootReducers, {}, applyMiddleware(ReduxThunk));
 
 ReactDOM.render(
   <Provider store={globalStore}>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </Provider>
-  ,  
-  document.getElementById('root')
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+  </Provider>,
+  document.getElementById("root")
 );
 
 // If you want to start measuring performance in your app, pass a function

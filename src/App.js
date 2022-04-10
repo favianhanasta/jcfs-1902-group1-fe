@@ -12,7 +12,7 @@ import EditPasswordPage from './Pages/EditPassword';
 import ResetPasswordPage from './Pages/ResetPassword';
 import ManajemenProduk from './Pages/ManajemenProduk';
 import ProductPage from './Pages/ProductPage';
-import { getCategory, getProduct } from '../src/redux/actions';
+import { getCategory, getProduct, getSatuan } from '../src/redux/actions';
 import ProductDetail from './Pages/ProductDetail';
 import NotFound from './Pages/NotFound';
 import EditProfilePage from './Pages/EditProfile';
@@ -20,6 +20,9 @@ import UploadResep from './Pages/UploadResep';
 import DaftarAlamatPage from './Pages/DaftarAlamat';
 import CartPage from './Pages/Cart';
 import CheckoutPage from './Pages/Checkout';
+import TransaksiPage from './Pages/TransaksiPage';
+import ManajemenTransaksi from './Pages/ManajemenTransaksi';
+
 
 class App extends React.Component {
   constructor(props) {
@@ -31,6 +34,7 @@ class App extends React.Component {
     this.props.keepAction()
     this.props.getProduct()
     this.props.getCategory()
+    this.props.getSatuan()
   }
 
   render() {
@@ -45,6 +49,7 @@ class App extends React.Component {
           <Route path='/product-detail' element={<ProductDetail />} />
           <Route path='/verification/:token' element={<VerificationPage />} />
           <Route path='/resetpassword/:token' element={<ResetPasswordPage />} />
+          <Route path='/uploadresep-page' element={<UploadResep/>}/>
           {
             this.props.idrole === 2 ?
               <>
@@ -54,11 +59,13 @@ class App extends React.Component {
                 <Route path='/cart' element={<CartPage />} />
                 <Route path='/checkout' element={<CheckoutPage />} />
                 <Route path='/uploadresep-page' element={<UploadResep />} />
+                <Route path='/halaman-transaksi' element={<TransaksiPage/>} />
               </>
               :
               this.props.idrole === 1 ?
                 <>
                   <Route path='/manajemen-produk' element={<ManajemenProduk />} />
+                  <Route path='/manajemen-transaksi' element={<ManajemenTransaksi />} />
                 </>
                 :
                 <>
@@ -79,4 +86,4 @@ const mapToProps = (state) => {
   }
 }
 
-export default connect(mapToProps, { keepAction, getCategory, getProduct })(App);
+export default connect(mapToProps, { keepAction, getCategory, getProduct, getSatuan })(App);
