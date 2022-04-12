@@ -26,7 +26,7 @@ class TransaksiPage extends React.Component {
 
     getData = () => {
         let token = localStorage.getItem('data');
-        axios.get(API_URL + '/transaction/gettransaction', {
+        axios.get(API_URL + `/transaction/gettransaction`, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
