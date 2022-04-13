@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React from 'react';
-import { Badge, Input, InputGroup, Button } from 'reactstrap';
+import { Badge, Input, InputGroup, Button, Modal, ModalBody, ModalFooter } from 'reactstrap';
 import ModalProdukTransaksi from '../Components/ModalProdukTransaksi';
 import ModalDetailPembayaran from '../Components/ModulDetailPembayaran';
 import { API_URL } from '../helper';
@@ -18,6 +18,8 @@ class ManajemenTransaksi extends React.Component {
             dataModProduk: {},
             dataModPembayaran: {},
             idstatus: null,
+            selectedId: null,
+            modalGambar: false,
             status: [
                 {
                     status: 'Diproses',
@@ -35,6 +37,10 @@ class ManajemenTransaksi extends React.Component {
                     status: 'Selesai',
                     value: 6
                 },
+                {
+                    status: 'Batal',
+                    value: 7
+                }
             ]
         }
     }
@@ -59,15 +65,15 @@ class ManajemenTransaksi extends React.Component {
             idstatus: this.state.idstatus
         })
     }
-    
-    btCariInvoice=()=>{
+
+    btCariInvoice = () => {
         this.props.getTransactionAdmin({
             invoice: this.cariInvoice.value,
         })
     }
 
-    btFilter = async (i) => {
-        await this.setState({ idstatus: i })
+    btFilter = async (i, idx) => {
+        await this.setState({ idstatus: i, selectedId: idx })
         this.props.getTransactionAdmin({
             username: this.cariByNama.value,
             idstatus: this.state.idstatus
@@ -75,10 +81,20 @@ class ManajemenTransaksi extends React.Component {
     }
 
     btSemua = () => {
-        this.setState({ idstatus: null });
+        this.setState({ idstatus: null, selectedId: null });
         this.cariByNama.value = null;
         this.cariInvoice.value = null;
         this.props.getTransactionAdmin()
+    }
+
+    btAction = (id, status) => {
+        axios.patch(API_URL + `/transaction/adminaction/${id}`, { idstatus: status })
+            .then((res) => {
+                this.props.getTransactionAdmin()
+            })
+            .catch((err) => {
+                console.log('error bt action', err)
+            })
     }
 
     printTransaksi = () => {
@@ -114,24 +130,45 @@ class ManajemenTransaksi extends React.Component {
                         <p>Alamat : </p>
                         <p style={{ marginTop: '-5%', fontWeight: '600' }}>{val.address}</p>
                     </div>
-                    <div className='col-4 '>
-                        <div className='clr-blue row'>
-                            <div className='col-8'>
-                                <p className='clr-orange2 lead' style={{ fontWeight: '600' }}>Total Pembayaran</p>
-                                <h2 className='font-price'>Rp{val.totalpembayaran}</h2>
-                                <a className='text-muted' style={{ cursor: 'pointer' }} onClick={() => this.onClickDetailPembayaran(val)}>Detail Pembayaran</a>
-                            </div>
-                            <div className='col-4'>
-                                <p className='lead'>Action</p>
+                    <div className='col-4 row'>
+                        <div className='clr-blue col-7'>
+                            <p className='clr-orange2 lead' style={{ fontWeight: '600' }}>Total</p>
+                            <h2 className='font-price'>Rp{val.totalpembayaran}</h2>
+                            <a className='text-muted' style={{ cursor: 'pointer' }} onClick={() => this.onClickDetailPembayaran(val)}>Detail Pembayaran</a>
+                            <p className='clr-orange2 lead' style={{ fontWeight: '600' }}>Action</p>
+                            <div className='text-center d-flex' style={{ marginTop: '-16px' }}>
+                                <Button color='primary' outline style={{ border: 'none' }} onClick={() => this.btAction(val.idtransaction, 3)}>Confirm</Button>
+                                <Button className='mx-2' color='danger' outline style={{ border: 'none' }} onClick={() => this.btAction(val.idtransaction, 7)}>Reject</Button>
                             </div>
                         </div>
-                        <div style={{ marginTop: '16px', color: 'white' }} className='d-flex justify-content-end'>
+                        <div className='col-5' style={{ color: 'white', float: 'right' }}>
                             <Badge className='p-1'
-                                color={val.idstatus == 4 ? 'secondary' : val.idstatus == 6 ? 'success' : val.idstatus == 7 ? 'danger' : 'primary'}>
+                                color={val.idstatus == 4 ? 'secondary' : val.idstatus == 6 ? 'success' : val.idstatus == 7 ? 'danger' : 'primary'} >
                                 {val.status}
                             </Badge>
                         </div>
+                        <div className='px-3 my-2'>
+                            {
+                                val.url_payment == "0" ?
+                                    <p className='text-muted' >User belum upload bukti pembayaran</p>
+                                    :
+                                    <>
+                                        <a className='clr-orange' style={{ cursor: 'pointer' }} onClick={() => this.setState({ modalGambar: !this.state.modalGambar })}>Lihat Bukti Pembayaran</a>
+                                        <Modal isOpen={this.state.modalGambar} toggle={() => this.setState({ modalGambar: !this.state.modalGambar })} centered size='lg'>
+                                            <ModalBody>
+                                                <div className='d-flex justify-content-center'>
+                                                    <img src={API_URL + val.url_payment} width="80%" />
+                                                </div>
+                                            </ModalBody>
+                                            <ModalFooter>
+                                                <Button className='mx-2' color='danger' outline style={{ border: 'none' }} onClick={() => this.setState({ modalGambar: !this.state.modalGambar })}>Cancel</Button>
+                                            </ModalFooter>
+                                        </Modal>
+                                    </>
+                            }
+                        </div>
                     </div>
+
                 </div>
             )
         })
@@ -140,7 +177,7 @@ class ManajemenTransaksi extends React.Component {
     printStatus = () => {
         return this.state.status.map((val, idx) => {
             return (
-                <Button className='mx-2 btn-status' type='button' onClick={() => this.btFilter(val.value)} >{val.status}</Button>
+                <Button key={idx} className={this.state.selectedId == idx ? 'mx-2 btn-status-click' : 'mx-2 btn-status'} type='button' onClick={() => this.btFilter(val.value, idx)} >{val.status}</Button>
             )
         })
     }
@@ -172,8 +209,10 @@ class ManajemenTransaksi extends React.Component {
                             </Button>
                         </InputGroup>
                     </div>
-                    <div className='d-flex my-4 justify-content-center'>
-                        <Button className='mx-2 btn-status' type='button' onClick={this.btSemua} >Semua</Button>
+                    <div className='clr-blue' style={{ float: 'right' }}>
+                        <p onClick={this.btSemua} style={{ cursor: 'pointer' }}>Tampilkan semua produk</p>
+                    </div>
+                    <div className='d-flex my-4'>
                         {this.printStatus()}
                     </div>
                     <div style={{ marginTop: '21px', paddingLeft: '10px', paddingRight: '10px' }}>
