@@ -62,7 +62,6 @@ class ProductPage extends React.Component {
             nama: this.cariByNama.value,
             category: this.state.idcategory
         })
-
     }
 
     btResetSearch = () => {

@@ -2,10 +2,11 @@ import axios from 'axios';
 import React from 'react';
 import { Tab, Tabs } from 'react-bootstrap';
 import 'react-tabs/style/react-tabs.css';
-import { Badge } from 'reactstrap';
+import { Badge, Button } from 'reactstrap';
 import ModalProdukTransaksi from '../Components/ModalProdukTransaksi';
 import ModalDetailPembayaran from '../Components/ModulDetailPembayaran';
 import { API_URL } from '../helper';
+import OrderByResepPage from './OrderByResepUser';
 
 class TransaksiPage extends React.Component {
     constructor(props) {
@@ -21,7 +22,7 @@ class TransaksiPage extends React.Component {
     }
 
     componentDidMount() {
-        this.getData();
+        this.getData()
     }
 
     getData = () => {
@@ -34,6 +35,7 @@ class TransaksiPage extends React.Component {
             .then((res) => {
                 this.setState({ dataTransaksi: res.data.dataTransaksi })
             })
+            .catch((err) => console.log('error getdata', err));
     }
 
     onClickDetailProduk = (data) => {
@@ -67,6 +69,7 @@ class TransaksiPage extends React.Component {
                         </div>
                     </div>
                     <div className='col-4 clr-blue transaksi-item'>
+                        <p>{val.date}</p>
                         <p className='clr-orange2' style={{ fontWeight: 'bold' }}>Pengiriman</p>
                         <div className='d-flex'>
                             <p>Penerima :</p>
@@ -75,13 +78,13 @@ class TransaksiPage extends React.Component {
                         <p>Alamat : </p>
                         <p style={{ marginTop: '-5%', fontWeight: '600' }}>{val.address}</p>
                     </div>
-                    <div className='col-4 '>
-                        <div className='clr-blue'>
-                            <p className='clr-orange2 lead' style={{ fontWeight: '600' }}>Total Pembayaran</p>
+                    <div className='col-4 row'>
+                        <div className='clr-blue col-7'>
+                            <p className='clr-orange2 lead' style={{ fontWeight: '600' }}>Total</p>
                             <h2 className='font-price'>Rp{val.totalpembayaran}</h2>
                             <a className='text-muted' style={{ cursor: 'pointer' }} onClick={() => this.onClickDetailPembayaran(val)}>Detail Pembayaran</a>
                         </div>
-                        <div style={{ marginTop: '16px', color: 'white' }} className='d-flex justify-content-end'>
+                        <div style={{ color: 'white' }} className='col-5'>
                             <Badge className='p-1'
                                 color={val.idstatus == 4 ? 'secondary' : val.idstatus == 6 ? 'success' : val.idstatus == 7 ? 'danger' : 'primary'}>
                                 {val.status}
@@ -108,7 +111,7 @@ class TransaksiPage extends React.Component {
                             <h5 className='clr-orange' style={{ float: 'right' }}>| Transaksi Saya</h5>
                         </div>
                     </div>
-                    <Tabs id="controlled-tab-example" activeKey={this.state.key} onSelect={(k)=>this.setState({key:k})} className='mb-3'>
+                    <Tabs id="controlled-tab-example" activeKey={this.state.key} onSelect={(k) => this.setState({ key: k })} className='mb-3'>
                         <Tab eventKey="ongoing" title="Transaksi Berlangsung">
                             <div className='p-1'>
                                 {this.printTransaksi()}
@@ -118,6 +121,9 @@ class TransaksiPage extends React.Component {
                             <div className='p-1'>
                                 // untuk past Transaction
                             </div>
+                        </Tab>
+                        <Tab eventKey="resep" title="Order Melalui Resep">
+                            <OrderByResepPage />
                         </Tab>
                     </Tabs>
                 </div>

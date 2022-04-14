@@ -12,7 +12,7 @@ import EditPasswordPage from './Pages/EditPassword';
 import ResetPasswordPage from './Pages/ResetPassword';
 import ManajemenProduk from './Pages/ManajemenProduk';
 import ProductPage from './Pages/ProductPage';
-import { getCategory, getProduct, getSatuan } from '../src/redux/actions';
+import { getCategory, getProduct, getSatuan, getTransactionByResep } from '../src/redux/actions';
 import ProductDetail from './Pages/ProductDetail';
 import NotFound from './Pages/NotFound';
 import EditProfilePage from './Pages/EditProfile';
@@ -22,6 +22,8 @@ import CartPage from './Pages/Cart';
 import CheckoutPage from './Pages/Checkout';
 import TransaksiPage from './Pages/TransaksiPage';
 import ManajemenTransaksi from './Pages/ManajemenTransaksi';
+import OrderByResepAdmin from './Pages/OrderByResepAdmin';
+import CustomOrderResep from './Pages/CustomOrderResep';
 
 
 class App extends React.Component {
@@ -35,6 +37,7 @@ class App extends React.Component {
     this.props.getProduct()
     this.props.getCategory()
     this.props.getSatuan()
+    this.props.getTransactionByResep()
   }
 
   render() {
@@ -66,6 +69,8 @@ class App extends React.Component {
                 <>
                   <Route path='/manajemen-produk' element={<ManajemenProduk />} />
                   <Route path='/manajemen-transaksi' element={<ManajemenTransaksi />} />
+                  <Route path='/manajemen-orderresep' element={<OrderByResepAdmin />} />
+                  <Route path='/custom-order' element={<CustomOrderResep />} />
                 </>
                 :
                 <>
@@ -86,4 +91,4 @@ const mapToProps = (state) => {
   }
 }
 
-export default connect(mapToProps, { keepAction, getCategory, getProduct, getSatuan })(App);
+export default connect(mapToProps, { keepAction, getCategory, getProduct, getSatuan, getTransactionByResep })(App);
