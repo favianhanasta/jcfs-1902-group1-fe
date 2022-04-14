@@ -38,7 +38,7 @@ class CheckoutPage extends React.Component {
         let data = {
             iduser: this.props.iduser,
             idaddress: this.props.idaddress,
-            idstatus: 3,
+            idstatus: 4,
             invoice: `INV${this.props.iduser}${d.getDay()}${d.getDate()}${d.getMonth()}${d.getFullYear()}${d.getHours()}${d.getMinutes()}${d.getSeconds()}${d.getMilliseconds()}`,
             date: `${days[d.getDay()]}, ${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`,
             shipping: handleShipping,
@@ -51,18 +51,14 @@ class CheckoutPage extends React.Component {
         formData.append('data', JSON.stringify(data));
         formData.append('images', this.state.inImage[0].file)
         console.log("dataCheckout", data)
-        if (this.state.inImage[0].file) {
-            axios.post(`${API_URL}/users/checkout`, formData)
-                .then((res) => {
-                    swal("Berhasil Checkout")
-                    this.props.getCart();
-                    this.setState({ inImage: [``] })
-                }).catch((err) => {
-                    console.log("btnCheckout err", err)
-                })
-        } else {
-            swal("upload bukti telebih dahulu")
-        }
+        axios.post(`${API_URL}/users/checkout`, formData)
+            .then((res) => {
+                swal("Berhasil Checkout")
+                this.props.getCart();
+                this.setState({ inImage: [``] })
+            }).catch((err) => {
+                console.log("btnCheckout err", err)
+            })
     }
 
     printTotalPayment = () => {
@@ -133,15 +129,6 @@ class CheckoutPage extends React.Component {
                             <p>Total Yang Harus Dibayar</p>
                             <p>Rp {(this.printTotalPayment() + this.state.handleShipping + (this.printTotalPayment() * this.state.handleTax)).toLocaleString()}</p>
                         </div>
-                        <div className="my-2" style={{ width: '25%' }}>
-                            {
-                                this.state.inImage[0].file ?
-                                    <img src={URL.createObjectURL(this.state.inImage[0].file)} width="100%" />
-                                    :
-                                    <img src={imgupload} width="100%" />
-                            }
-                        </div>
-                        <Input placeholder={``} type="file" onChange={(e) => this.handleImage(e)} />
                         <Button onClick={this.btnCheckout} className='bt-orange' style={{ width: "100%", margin: "auto" }}>Checkout</Button>
 
                     </div>
