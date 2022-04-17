@@ -8,6 +8,7 @@ import ModalDetailPembayaran from '../Components/ModulDetailPembayaran';
 import { API_URL } from '../helper';
 import imgupload from '../Assets/imageupload.svg';
 import swal from 'sweetalert';
+import PastTransactionUser from '../Components/PastTransactionUser';
 
 class TransaksiPage extends React.Component {
     constructor(props) {
@@ -179,7 +180,7 @@ class TransaksiPage extends React.Component {
                         </Tab>
                         <Tab eventKey="past" title="History Transaksi">
                             <div className='p-1'>
-                                // untuk past Transaction
+                                <PastTransactionUser/>
                             </div>
                         </Tab>
                     </Tabs>

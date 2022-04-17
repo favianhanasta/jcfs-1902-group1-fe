@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Button, Input } from 'reactstrap';
+import { Button } from 'reactstrap';
 import { API_URL } from '../helper';
-import { getCart } from '../redux/actions/userAction';
-import imgupload from '../Assets/imageupload.svg'
+import { getAddress, getCart } from '../redux/actions/userAction';
 import axios from 'axios';
 import swal from 'sweetalert';
+import ModalGantiAlamat from '../Components/ModalGantiAlamat';
 
 class CheckoutPage extends React.Component {
     constructor(props) {
@@ -13,12 +13,14 @@ class CheckoutPage extends React.Component {
         this.state = {
             inImage: [``],
             handleShipping: 2000,
-            handleTax: (10 / 100)
+            handleTax: (10 / 100),
+            openModalGantiAlamat: false
         }
     }
 
     componentDidMount() {
         this.props.getCart()
+        this.props.getAddress()
     }
 
     handleImage = (e) => {
@@ -95,18 +97,41 @@ class CheckoutPage extends React.Component {
         })
     }
 
+    printAlamat = () => {
+        return (
+            <div>
+                {this.props.addressList.map((value) => {
+                    if (value.idaddress === this.props.idaddress) {
+                        return (
+                            <>
+                                <h4>{value.nama_penerima}</h4>
+                                <h5>{value.phone}</h5>
+                                <p>{value.address}, {value.kecamatan}, {value.kota}, {value.provinsi}</p>
+                                <p>{value.kode_pos}</p>
+                            </>
+                        )
+                    }
+                })}
+            </div>
+        )
+    }
+
     render() {
         console.log("this.props.cartList", this.props.cartList)
         return (
             <div className='container clr-blue'>
+                <ModalGantiAlamat
+                    openModalGantiAlamat={this.state.openModalGantiAlamat}
+                    toggleModalGantiAlamat={() => this.setState({ openModalGantiAlamat: !this.state.openModalGantiAlamat })}
+                />
                 <div className='row'>
                     <div className='col-8'>
                         <h1 style={{ fontWeight: "bolder" }}>Checkout</h1>
                         <h5 style={{ fontWeight: "bolder" }}>Alamat Pengiriman</h5>
                         <hr />
-                        <p>{this.props.fullname}</p>
-                        <p>{this.props.phone}</p>
-                        <p>{this.props.address}</p>
+                        {this.printAlamat()}
+                        <hr />
+                        <Button className='bt-orange' onClick={() => this.setState({ openModalGantiAlamat: !this.state.openModalGantiAlamat })}>Pilih Alamat Lain</Button>
                         <hr />
                         {this.printCartList()}
                     </div>
@@ -145,8 +170,9 @@ const mapToProps = (state) => {
         cartList: state.userReducer.cartList,
         fullname: state.userReducer.fullname,
         phone: state.userReducer.phone,
-        address: state.userReducer.address
+        address: state.userReducer.address,
+        addressList: state.userReducer.addressList
     }
 }
 
-export default connect(mapToProps, { getCart })(CheckoutPage);
+export default connect(mapToProps, { getCart, getAddress })(CheckoutPage);
