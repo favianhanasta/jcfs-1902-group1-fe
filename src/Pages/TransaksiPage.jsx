@@ -2,16 +2,21 @@ import axios from 'axios';
 import React from 'react';
 import { Tab, Tabs } from 'react-bootstrap';
 import 'react-tabs/style/react-tabs.css';
-import { Badge, Button } from 'reactstrap';
+import { Badge, Button, Input } from 'reactstrap';
 import ModalProdukTransaksi from '../Components/ModalProdukTransaksi';
 import ModalDetailPembayaran from '../Components/ModulDetailPembayaran';
 import { API_URL } from '../helper';
+import imgupload from '../Assets/imageupload.svg';
+import swal from 'sweetalert';
 import OrderByResepPage from './OrderByResepUser';
+import PastTransactionUser from '../Components/PastTransactionUser';
+
 
 class TransaksiPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            inImage: [``],
             dataTransaksi: [],
             openModProduk: false,
             openModPembayaran: false,
@@ -23,6 +28,41 @@ class TransaksiPage extends React.Component {
 
     componentDidMount() {
         this.getData()
+    }
+
+    handleImage = (e) => {
+        let temp = [...this.state.inImage]
+        temp[0] = { name: e.target.files[0].name, file: e.target.files[0] }
+        this.setState({
+            inImage: temp
+        })
+    }
+
+    btnUpload = (idtransaction) => {
+        let dataUpload = {
+            idtransaction: idtransaction,
+            image: this.state.inImage[0].file
+        }
+        let formData = new FormData();
+        formData.append('dataUpload', JSON.stringify(dataUpload));
+        formData.append('images', this.state.inImage[0].file)
+        console.log("dataCheckout", dataUpload)
+        if (this.state.inImage[0].file) {
+            let token = localStorage.getItem('data');
+            axios.patch(`${API_URL}/users/uploadpayment/${idtransaction}`, formData, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+                .then((res) => {
+                    swal("Berhasil Upload")
+                    this.getData()
+                }).catch((err) => {
+                    console.log("btnUpload err", err)
+                })
+        } else {
+            swal("upload bukti telebih dahulu")
+        }
     }
 
     getData = () => {
@@ -84,7 +124,32 @@ class TransaksiPage extends React.Component {
                             <h2 className='font-price'>Rp{val.totalpembayaran}</h2>
                             <a className='text-muted' style={{ cursor: 'pointer' }} onClick={() => this.onClickDetailPembayaran(val)}>Detail Pembayaran</a>
                         </div>
-                        <div style={{ color: 'white' }} className='col-5'>
+                        <div>
+                            {
+                                val.url_payment === "0"
+                                    ?
+                                    <>
+                                        {
+                                            this.state.inImage[0].file ?
+                                                <div>
+                                                    <img src={URL.createObjectURL(this.state.inImage[0].file)} width="50%" />
+                                                    <div>
+                                                        <Button className='bt-orange' onClick={() => this.btnUpload(val.idtransaction)}>Upload</Button>
+                                                    </div>
+                                                </div>
+                                                :
+                                                <>
+                                                    <Input placeholder={``} type='file' onChange={(e) => this.handleImage(e)} />
+                                                </>
+                                        }
+                                    </>
+                                    :
+                                    <>
+                                        <p className='clr-orange'>sudah upload bukti pembayaran</p>
+                                    </>
+                            }
+                        </div>
+                        <div style={{ marginTop: '16px', color: 'white' }} className='d-flex justify-content-end'>
                             <Badge className='p-1'
                                 color={val.idstatus == 4 ? 'secondary' : val.idstatus == 6 ? 'success' : val.idstatus == 7 ? 'danger' : 'primary'}>
                                 {val.status}
@@ -119,7 +184,7 @@ class TransaksiPage extends React.Component {
                         </Tab>
                         <Tab eventKey="past" title="History Transaksi">
                             <div className='p-1'>
-                                // untuk past Transaction
+                                <PastTransactionUser/>
                             </div>
                         </Tab>
                         <Tab eventKey="resep" title="Order Melalui Resep">

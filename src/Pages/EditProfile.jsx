@@ -64,8 +64,8 @@ class EditProfilePage extends React.Component {
                             <h4 className='mt-4'>Profile Picture</h4>
                             <Input type='file' onChange={(e) => this.handleImages(e)} innerRef={(e) => this.inProfilePicture = e} className='input-radius' />
                             {
-                                this.state.images ?
-                                    <img src={URL.createObjectURL(this.state.images.file)} alt='...' style={{ width: "500px" }} />
+                                this.state.inImage[0].file ?
+                                    <img src={URL.createObjectURL(this.state.inImage[0].file)} alt='...' style={{ width: "500px" }} />
                                     :
                                     <img src={API_URL + profile_image} alt='...' style={{ width: "500px" }} />
                             }

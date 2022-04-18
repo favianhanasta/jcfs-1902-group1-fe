@@ -1,18 +1,15 @@
+import axios from 'axios';
 import React from 'react';
 import { connect } from 'react-redux';
-import { Button } from 'reactstrap';
-import { getAddress, keepAction } from '../redux/actions/userAction';
-import ModalTambahAlamat from '../Components/ModalTambahAlamat';
-import axios from 'axios';
-import { API_URL } from '../helper';
+import { Button, Modal, ModalBody, ModalHeader } from 'reactstrap';
 import swal from 'sweetalert';
+import { API_URL } from '../helper';
+import { getAddress, keepAction } from '../redux/actions/userAction';
 
-class DaftarAlamatPage extends React.Component {
+class ModalGantiAlamat extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            openModalTambahAlamat: false
-        }
+        this.state = {}
     }
 
     componentDidMount() {
@@ -30,21 +27,9 @@ class DaftarAlamatPage extends React.Component {
             }
         }).then(async (res) => {
             await swal("Berhasil Pilih Alamat")
+            this.props.toggleModalGantiAlamat();
             this.props.keepAction();
-        }).catch((err) => {
-            console.log(err)
-        })
-    }
-
-    onBtRemove = (idaddress) => {
-        let token = localStorage.getItem("data");
-        axios.delete(`${API_URL}/users/${idaddress}`, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        }).then((res) => {
-            swal("Berhasil Hapus Alamat")
-            this.props.getAddress();
+            // window.location.reload()
         }).catch((err) => {
             console.log(err)
         })
@@ -78,7 +63,6 @@ class DaftarAlamatPage extends React.Component {
                                     </div>
                                     <div className='col-2' style={{ display: "flex", justifyContent: "space-around" }}>
                                         <Button onClick={() => this.onBtPilih(value.idaddress)} className='bt-orange' style={{ borderRadius: 10 }}>Pilih</Button>
-                                        <Button onClick={() => this.onBtRemove(value.idaddress)} className='bt-blue' style={{ borderRadius: 10 }}>Hapus</Button>
                                     </div>
                                 </div>
                             </div>
@@ -89,23 +73,19 @@ class DaftarAlamatPage extends React.Component {
     }
 
     render() {
-        console.log("addressList", this.props.addressList)
-        console.log("idaddress", this.props.idaddress)
         return (
-            <div className='container clr-blue'>
-                <ModalTambahAlamat
-                    openModalTambahAlamat={this.state.openModalTambahAlamat}
-                    toggleModalTambahAlamat={() => this.setState({ openModalTambahAlamat: !this.state.openModalTambahAlamat })}
-                />
-                <div style={{ textAlign: "center", marginTop: "5%" }}>
-                    <h1 style={{ fontWeight: "bolder" }}>Daftar Alamat Anda</h1>
-                </div>
-                <div style={{ textAlign: "end", marginTop: "5%" }}>
-                    <Button onClick={() => this.setState({ openModalTambahAlamat: !this.state.openModalTambahAlamat })} className='bt-orange' style={{ borderRadius: 10, fontSize: "20px" }}>Tambah Alamat</Button>
-                </div>
-                <div>
-                    {this.printAddressList()}
-                </div>
+            <div>
+                <Modal
+                    isOpen={this.props.openModalGantiAlamat}
+                    toggle={this.props.toggleModalGantiAlamat}
+                >
+                    <ModalHeader>
+                        PILIH ALAMAT LAIN
+                    </ModalHeader>
+                    <ModalBody>
+                        {this.printAddressList()}
+                    </ModalBody>
+                </Modal>
             </div>
         );
     }
@@ -119,4 +99,4 @@ const mapToProps = (state) => {
     }
 }
 
-export default connect(mapToProps, { getAddress, keepAction })(DaftarAlamatPage);
+export default connect(mapToProps, { getAddress, keepAction })(ModalGantiAlamat);
