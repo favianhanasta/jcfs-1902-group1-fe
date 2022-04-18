@@ -61,13 +61,16 @@ class CustomOrderResep extends React.Component {
 
     btnAdd = (data) => {
         let { idorder, iduser } = this.state.data[0]
+        let { satuan, qty } = this.state
         let dataIn = {
             idorder: idorder,
             iduser: iduser,
             idproduct: data.idproduct,
-            qty: parseInt(this.state.qty),
-            idsatuan: this.state.satuan
+            qty: parseInt(qty),
+            idsatuan: satuan,
+            hargaperproduct: satuan == 3 ? Math.ceil((data.harga / 10) * qty) : satuan == 4 ? (data.harga / data.stock[1].qty) * data.qty : data.harga * qty
         }
+        console.log('btn', dataIn)
         axios.post(API_URL + `/transaction/addcartresep`, dataIn)
             .then((res) => {
                 console.log('sukses')
@@ -104,15 +107,15 @@ class CustomOrderResep extends React.Component {
         })
     }
 
-    btDelete=(id)=>{
-        axios.delete(API_URL+`/transaction/deletecartresep/${id}`)
-        .then((res)=>{
-            this.getDataCart()
-            console.log("sukses")
-        })
-        .catch((err)=>{
-            console.log('err',err)
-        })
+    btDelete = (id) => {
+        axios.delete(API_URL + `/transaction/deletecartresep/${id}`)
+            .then((res) => {
+                this.getDataCart()
+                console.log("sukses")
+            })
+            .catch((err) => {
+                console.log('err', err)
+            })
     }
 
     printCart = () => {
@@ -145,13 +148,29 @@ class CustomOrderResep extends React.Component {
                                 </div>
                             </div>
                             <div className='col-5'>
-                                <RiDeleteBin4Fill className='clr-orange2 mx-3 float-right' style={{fontSize:'21px', color:'grey',cursor:'pointer'}} onClick={()=>this.btDelete(val.idcartresep)}/>
+                                <RiDeleteBin4Fill className='clr-orange2 mx-3 float-right' style={{ fontSize: '21px', color: 'grey', cursor: 'pointer' }} onClick={() => this.btDelete(val.idcartresep)} />
                             </div>
                         </div>
                     </div>
                 </div>
             )
         })
+    }
+
+    hargaTotalPayment = () => {
+        let hargaTotal = 0;
+        this.state.dataCart.forEach((val) => {
+            hargaTotal += val.hargaperproduct
+        })
+        return hargaTotal
+    }
+
+    tax=()=>{
+        let hargaTotal = 0;
+        this.state.dataCart.forEach((val) => {
+            hargaTotal += val.hargaperproduct
+        })
+        return Math.ceil((10/100)*hargaTotal)
     }
 
     handleSatuan = (e) => {
@@ -167,6 +186,28 @@ class CustomOrderResep extends React.Component {
     btReset = () => {
         this.cariByNama.value = null;
         this.props.getProduct()
+    }
+
+    btCheckout = () => {
+        let dataCO = {
+            totalpembayaran: this.hargaTotalPayment(),
+            iduser : this.state.data[0].iduser,
+            idaddress :this.props.idaddress,
+            invoice : this.state.data[0].invoice,
+            date: this.state.data[0].date,
+            shipping : 2000,
+            tax : this.tax(),
+            totalpembayaran : this.hargaTotalPayment()+this.tax()+2000,
+            detail: this.state.dataCart,
+            idorder : this.state.data[0].idorder
+        }
+        axios.post(API_URL+`/transaction/checkoutresep`,dataCO)
+        .then((res)=>{
+            this.getDataCart()
+        })
+        .catch((err)=>{
+            console.log(err)
+        })
     }
 
     render() {
@@ -195,7 +236,28 @@ class CustomOrderResep extends React.Component {
                                         <RiShoppingCartLine style={{ fontSize: '20px', float: 'right' }} />
                                     </div>
                                 </div>
+                                <hr/>
+                                <div className='row' style={{ marginBottom: '-1%' }}>
+                                    <div className='col-9'>
+                                        <p className='text-muted' >produk/obat</p>
+                                    </div>
+                                    <div className='col-3'>
+                                        <p className='text-muted'>kuantitas</p>
+                                    </div>
+                                </div>
                                 {this.printCart()}
+                                <hr/>
+                                <div className='font-price' style={{ fontSize: '14px' }}>
+                                    <div className='d-flex '>
+                                        <p className='float-right'>shipping : </p>
+                                        <p className='clr-orange mx-2'>Rp2000</p>
+                                    </div>
+                                    <div className='d-flex'>
+                                        <p className='float-right'>tax : </p>
+                                        <p className='clr-orange mx-2'>Rp{this.tax()}</p>
+                                    </div>
+                                </div>
+                                <Button className='bt-orange' style={{ width: '100%' }} onClick={this.btCheckout}>Checkout</Button>
                             </div>
                         }
                     </div>
@@ -232,7 +294,9 @@ class CustomOrderResep extends React.Component {
 const mapToProps = (state) => {
     return {
         produk: state.productReducer.productList,
-        satuan: state.productReducer.satuanList
+        satuan: state.productReducer.satuanList,
+        iduser : state.userReducer.iduser,
+        idaddress : state.userReducer.idaddress
     }
 }
 

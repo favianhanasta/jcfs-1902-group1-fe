@@ -10,7 +10,7 @@ import imgupload from '../Assets/imageupload.svg';
 import swal from 'sweetalert';
 import OrderByResepPage from './OrderByResepUser';
 import PastTransactionUser from '../Components/PastTransactionUser';
-
+import OrderByResepUser from './OrderByResepUser';
 
 class TransaksiPage extends React.Component {
     constructor(props) {
@@ -188,7 +188,7 @@ class TransaksiPage extends React.Component {
                             </div>
                         </Tab>
                         <Tab eventKey="resep" title="Order Melalui Resep">
-                            <OrderByResepPage />
+                            <OrderByResepUser/>
                         </Tab>
                     </Tabs>
                 </div>
