@@ -8,7 +8,9 @@ import ModalDetailPembayaran from '../Components/ModulDetailPembayaran';
 import { API_URL } from '../helper';
 import imgupload from '../Assets/imageupload.svg';
 import swal from 'sweetalert';
+import OrderByResepPage from './OrderByResepUser';
 import PastTransactionUser from '../Components/PastTransactionUser';
+
 
 class TransaksiPage extends React.Component {
     constructor(props) {
@@ -25,7 +27,7 @@ class TransaksiPage extends React.Component {
     }
 
     componentDidMount() {
-        this.getData();
+        this.getData()
     }
 
     handleImage = (e) => {
@@ -65,7 +67,7 @@ class TransaksiPage extends React.Component {
 
     getData = () => {
         let token = localStorage.getItem('data');
-        axios.get(API_URL + '/transaction/gettransaction', {
+        axios.get(API_URL + `/transaction/gettransaction`, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -73,6 +75,7 @@ class TransaksiPage extends React.Component {
             .then((res) => {
                 this.setState({ dataTransaksi: res.data.dataTransaksi })
             })
+            .catch((err) => console.log('error getdata', err));
     }
 
     onClickDetailProduk = (data) => {
@@ -106,6 +109,7 @@ class TransaksiPage extends React.Component {
                         </div>
                     </div>
                     <div className='col-4 clr-blue transaksi-item'>
+                        <p>{val.date}</p>
                         <p className='clr-orange2' style={{ fontWeight: 'bold' }}>Pengiriman</p>
                         <div className='d-flex'>
                             <p>Penerima :</p>
@@ -114,9 +118,9 @@ class TransaksiPage extends React.Component {
                         <p>Alamat : </p>
                         <p style={{ marginTop: '-5%', fontWeight: '600' }}>{val.address}</p>
                     </div>
-                    <div className='col-4 '>
-                        <div className='clr-blue'>
-                            <p className='clr-orange2 lead' style={{ fontWeight: '600' }}>Total Pembayaran</p>
+                    <div className='col-4 row'>
+                        <div className='clr-blue col-7'>
+                            <p className='clr-orange2 lead' style={{ fontWeight: '600' }}>Total</p>
                             <h2 className='font-price'>Rp{val.totalpembayaran}</h2>
                             <a className='text-muted' style={{ cursor: 'pointer' }} onClick={() => this.onClickDetailPembayaran(val)}>Detail Pembayaran</a>
                         </div>
@@ -182,6 +186,9 @@ class TransaksiPage extends React.Component {
                             <div className='p-1'>
                                 <PastTransactionUser/>
                             </div>
+                        </Tab>
+                        <Tab eventKey="resep" title="Order Melalui Resep">
+                            <OrderByResepPage />
                         </Tab>
                     </Tabs>
                 </div>

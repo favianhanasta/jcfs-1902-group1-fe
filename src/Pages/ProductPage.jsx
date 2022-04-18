@@ -22,7 +22,7 @@ class ProductPage extends React.Component {
         let { page } = this.state;
         return this.props.product.slice(page > 1 ? (page - 1) * 12 : page - 1, page * 12).map((val, idx) => {
             return (
-                <div className='col-md-3 my-3' key={idx}>
+                <div className='col-md-3 my-2' key={idx}>
                     <Link to={`/product-detail?idproduct=${val.idproduct}`} style={{ textDecoration: 'none' }}>
                         <Card className='card'>
                             <CardImg src={API_URL + val.url} top width='100%' style={{ height: '140px' }} />
@@ -62,7 +62,6 @@ class ProductPage extends React.Component {
             nama: this.cariByNama.value,
             category: this.state.idcategory
         })
-
     }
 
     btResetSearch = () => {
@@ -130,7 +129,7 @@ class ProductPage extends React.Component {
                         <div className='d-flex justify-content-end'>
                             <a className='clr-blue' id="reset-search" style={{ textDecoration: 'none', cursor: 'pointer', fontSize: '14px' }} onClick={this.btResetSearch}>Tampilkan Semua</a>
                         </div>
-                        <div className='row' style={{ height: '100vh' }}>
+                        <div className='row'>
                             {this.printProductList()}
                         </div>
                     </div>
