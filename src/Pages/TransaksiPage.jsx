@@ -6,7 +6,8 @@ import { Badge, Button } from 'reactstrap';
 import ModalProdukTransaksi from '../Components/ModalProdukTransaksi';
 import ModalDetailPembayaran from '../Components/ModulDetailPembayaran';
 import { API_URL } from '../helper';
-import OrderByResepPage from './OrderByResepUser';
+import OrderByResepUser from './OrderByResepUser';
+
 
 class TransaksiPage extends React.Component {
     constructor(props) {
@@ -123,7 +124,7 @@ class TransaksiPage extends React.Component {
                             </div>
                         </Tab>
                         <Tab eventKey="resep" title="Order Melalui Resep">
-                            <OrderByResepPage />
+                            <OrderByResepUser/>
                         </Tab>
                     </Tabs>
                 </div>

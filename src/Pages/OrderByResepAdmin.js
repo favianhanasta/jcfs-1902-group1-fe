@@ -3,11 +3,15 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Badge, Button } from 'reactstrap';
 import { API_URL } from '../helper';
+import {getTransactionByResep} from '../redux/actions'
 
 class OrderByResepAdmin extends React.Component {
     constructor(props) {
         super(props);
         this.state = {  }
+    }
+    componentDidMount(){
+        this.props.getTransactionByResep()
     }
     printTransaksi = () => {
         return this.props.byResep.map((val, idx) => {
@@ -36,6 +40,7 @@ class OrderByResepAdmin extends React.Component {
         })
     }
     render() { 
+        console.log('s',this.props.byResep)
         return ( 
             <div className='container' style={{marginTop:'1%'}}>
                 <div className='row'>
@@ -59,4 +64,4 @@ const mapToProps =(state)=>{
     }
 }
 
-export default connect(mapToProps)(OrderByResepAdmin);
+export default connect(mapToProps,{getTransactionByResep})(OrderByResepAdmin);

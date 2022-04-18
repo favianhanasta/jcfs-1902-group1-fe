@@ -37,7 +37,6 @@ class App extends React.Component {
     this.props.getProduct()
     this.props.getCategory()
     this.props.getSatuan()
-    this.props.getTransactionByResep()
   }
 
   render() {
