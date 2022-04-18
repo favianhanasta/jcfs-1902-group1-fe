@@ -35,3 +35,23 @@ export const getTransactionAdmin = (search=null)=>{
         }
     }
 }
+
+export const getTransactionByResep = ()=>{
+    return async (dispatch)=> {
+        try{
+            let token = localStorage.getItem('data');
+            let res=await axios.get(API_URL + `/transaction/getorderbyresep`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+            dispatch({
+                type : 'GET_ORDERBYRESEP',
+                payload : res.data.dataGetOrder
+            })
+        }
+        catch(error){
+            console.log('getTransactionResep error',error);
+        }
+    }
+}
