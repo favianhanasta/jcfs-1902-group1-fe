@@ -88,7 +88,7 @@ class ModalAdd extends React.Component {
 
     btnSave = () => {
         let temp = [...this.state.inStock];
-        temp[2].qty = this.state.inStock[0].qty * this.state.inStock[1].qty;
+        temp[2].qty = this.state.inStock[0].qty * this.state.inStock[1].qty*10;
         temp[2].idsatuan = this.state.inStock[1].idsatuan;
         this.setState({ inStock: temp })
         let data = {
