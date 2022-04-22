@@ -8,7 +8,6 @@ import ModalDetailPembayaran from '../Components/ModulDetailPembayaran';
 import { API_URL } from '../helper';
 import imgupload from '../Assets/imageupload.svg';
 import swal from 'sweetalert';
-import OrderByResepPage from './OrderByResepUser';
 import PastTransactionUser from '../Components/PastTransactionUser';
 import OrderByResepUser from './OrderByResepUser';
 

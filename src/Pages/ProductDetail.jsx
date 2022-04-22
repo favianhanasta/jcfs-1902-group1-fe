@@ -43,7 +43,7 @@ class ProductDetail extends React.Component {
             kemasan: kemasan,
             qty: parseInt(this.totalQty.value),
             qtyStock: stock[0].qty - parseInt(this.totalQty.value),
-            qtyTotal: (stock[0].qty - parseInt(this.totalQty.value)) * stock[1].qty,
+            qtyTotal: (stock[0].qty - parseInt(this.totalQty.value)) * stock[1].qty*10,
             idstockTotal: stock[2].idstock
         }
         console.log("dataAddToCart", dataAddToCart)
