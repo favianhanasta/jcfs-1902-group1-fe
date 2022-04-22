@@ -5,7 +5,9 @@ import { Button, Table } from 'reactstrap';
 import ModalAdd from '../Components/ModalAdd';
 import ModalEdit from '../Components/ModalEdit';
 import { API_URL } from '../helper';
-import { getProduct } from '../redux/actions'
+import { getProduct } from '../redux/actions';
+import { AiOutlinePlusSquare } from 'react-icons/ai';
+import ModalRestock from '../Components/ModalRestock';
 
 
 class ManajemenProduk extends React.Component {
@@ -16,7 +18,10 @@ class ManajemenProduk extends React.Component {
             page: 1,
             handle: 12,
             modalEdit: false,
-            dataForEdit: {}
+            dataForEdit: {},
+            modalRestock: false,
+            dataForRestock: [],
+            qty:null
         }
     }
 
@@ -30,10 +35,12 @@ class ManajemenProduk extends React.Component {
                         <img src={API_URL + val.url} style={{ width: '30%' }} />
                     </td>
                     <td>{val.nama}</td>
-                    <td className='font-price'>Rp. {val.harga}</td>
-                    <td className='d-flex'>
-                        <Button style={{ background: '#2B2273', border: 'none' }} onClick={()=>this.btOnEdit(val)}>Edit</Button>
-                        <Button className='mx-2' color='danger' onClick={() => this.btnDelete(val.idproduct)}>Delete</Button>
+                    <td className='font-price' style={{ width: '20%' }}>Rp. {((val.harga).toLocaleString('ID-id'))}</td>
+                    <td>
+                        <div className='d-flex'>
+                            <Button style={{ background: '#2B2273', border: 'none', marginRight: '10px' }} onClick={() => this.btOnEdit(val)}>Edit</Button>
+                            <Button color='danger' onClick={() => this.btnDelete(val.idproduct)}>Delete</Button>
+                        </div>
                     </td>
                 </tr>
             )
@@ -58,10 +65,11 @@ class ManajemenProduk extends React.Component {
             })
     }
 
-    btOnEdit = (data) =>{
-        this.setState({ 
+    btOnEdit = (data) => {
+        this.setState({
             dataForEdit: data,
-            modalEdit : !this.state.modalEdit 
+            modalEdit: !this.state.modalEdit,
+            qty: data.stock[0].qty
         })
     }
 
@@ -69,7 +77,7 @@ class ManajemenProduk extends React.Component {
         return (
             <>
                 <ModalAdd open={this.state.modalAdd} toggle={() => this.setState({ modalAdd: !this.state.modalAdd })} />
-                <ModalEdit openEdit={this.state.modalEdit} data={this.state.dataForEdit} toggleEdit={()=>this.setState({modalEdit: !this.state.modalEdit})} />
+                <ModalEdit openEdit={this.state.modalEdit} data={this.state.dataForEdit} toggleEdit={() => this.setState({ modalEdit: !this.state.modalEdit })} stock={this.state.qty}/>
                 <div className='container utama'>
                     <div className='row'>
                         <div className='col-md-6 d-flex py-1'>
@@ -78,7 +86,7 @@ class ManajemenProduk extends React.Component {
                             <h5 className='clr-orange2'>Manajemen Produk</h5>
                         </div>
                         <div className='col-md-6 d-flex justify-content-end'>
-                            <Button className='bt-orange' onClick={() => this.setState({ modalAdd: !this.state.modalAdd })}>Tambah Produk</Button>
+                            <Button className='bt-orange' onClick={() => this.setState({ modalAdd: !this.state.modalAdd })}>Tambah Produk <AiOutlinePlusSquare style={{ fontSize: '20px' }} /></Button>
                         </div>
                     </div>
                     <div>
