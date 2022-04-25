@@ -21,7 +21,8 @@ class TransaksiPage extends React.Component {
             openModPembayaran: false,
             dataModProduk: {},
             dataModPembayaran: {},
-            key: 'ongoing'
+            key: 'ongoing',
+            selectedId: null
         }
     }
 
@@ -117,42 +118,41 @@ class TransaksiPage extends React.Component {
                         <p>Alamat : </p>
                         <p style={{ marginTop: '-5%', fontWeight: '600' }}>{val.address}</p>
                     </div>
-                    <div className='col-4 row'>
-                        <div className='clr-blue col-7'>
+                    <div className='col-4'>
+                        <div className='clr-blue'>
                             <p className='clr-orange2 lead' style={{ fontWeight: '600' }}>Total</p>
                             <h2 className='font-price'>Rp{val.totalpembayaran}</h2>
                             <a className='text-muted' style={{ cursor: 'pointer' }} onClick={() => this.onClickDetailPembayaran(val)}>Detail Pembayaran</a>
                         </div>
-                        <div>
+                        <div className='my-3'>
                             {
                                 val.url_payment === "0"
                                     ?
                                     <>
+                                        <a style={{ cursor: 'pointer' }} onClick={() => this.setState({ selectedId: i })}>Upload Bukti Pembayaran</a>
                                         {
-                                            this.state.inImage[0].file ?
+                                            this.state.selectedId == i ?
                                                 <div>
-                                                    <img src={URL.createObjectURL(this.state.inImage[0].file)} width="50%" />
-                                                    <div>
-                                                        <Button className='bt-orange' onClick={() => this.btnUpload(val.idtransaction)}>Upload</Button>
-                                                    </div>
+                                                    <Input placeholder={``} type='file' onChange={(e) => this.handleImage(e)} className='my-2' />
+                                                    <Button className='bt-orange' onClick={() => this.btnUpload(val.idtransaction)}>Save</Button>
                                                 </div>
                                                 :
-                                                <>
-                                                    <Input placeholder={``} type='file' onChange={(e) => this.handleImage(e)} />
-                                                </>
+                                        <></>
                                         }
+                                        {/* {
+                                        } */}
                                     </>
                                     :
                                     <>
                                         <p className='clr-orange'>sudah upload bukti pembayaran</p>
                                     </>
                             }
-                        </div>
-                        <div style={{ marginTop: '16px', color: 'white' }} className='d-flex justify-content-end'>
-                            <Badge className='p-1'
-                                color={val.idstatus == 4 ? 'secondary' : val.idstatus == 6 ? 'success' : val.idstatus == 7 ? 'danger' : 'primary'}>
-                                {val.status}
-                            </Badge>
+                            <div style={{ marginTop: '16px', color: 'white' }}>
+                                <Badge className='p-1'
+                                    color={val.idstatus == 4 ? 'secondary' : val.idstatus == 6 ? 'success' : val.idstatus == 7 ? 'danger' : 'primary'}>
+                                    {val.status}
+                                </Badge>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -183,11 +183,11 @@ class TransaksiPage extends React.Component {
                         </Tab>
                         <Tab eventKey="past" title="History Transaksi">
                             <div className='p-1'>
-                                <PastTransactionUser/>
+                                <PastTransactionUser />
                             </div>
                         </Tab>
                         <Tab eventKey="resep" title="Order Melalui Resep">
-                            <OrderByResepUser/>
+                            <OrderByResepUser />
                         </Tab>
                     </Tabs>
                 </div>
