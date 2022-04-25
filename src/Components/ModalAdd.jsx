@@ -132,7 +132,6 @@ class ModalAdd extends React.Component {
     }
 
     render() {
-        console.log('satuan', this.state.satuan);
         return (
             <div>
                 <Modal isOpen={this.props.open} toggle={this.btToggle} centered size='xl'>

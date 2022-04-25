@@ -68,14 +68,14 @@ class CustomOrderResep extends React.Component {
             idproduct: data.idproduct,
             qty: parseInt(qty),
             idsatuan: satuan,
-            hargaperproduct: satuan == 3 ? Math.ceil((data.harga / 10) * qty) : satuan == 4 ? (data.harga / data.stock[1].qty) * data.qty : data.harga * qty
+            hargaperproduct: satuan == 3 ? Math.ceil((data.harga / 10) * (Math.abs(qty/data.stock[1].qty))) : satuan == 4 ? (data.harga / data.stock[1].qty) * (Math.abs(qty/data.stock[1].qty)) : data.harga * qty
         }
-        console.log('btn', dataIn)
+        console.log('btn', dataIn.hargaperproduct)
         axios.post(API_URL + `/transaction/addcartresep`, dataIn)
             .then((res) => {
                 console.log('sukses')
                 this.getDataCart()
-                this.setState({ qty: 1, satuan: null })
+                this.setState({ qty: 1, satuan: '' })
             })
             .catch((err) => console.log(err));
     }
@@ -135,15 +135,7 @@ class CustomOrderResep extends React.Component {
                             <div className='col-7'>
                                 <div className='d-flex'>
                                     <p className='float-right'>subtotal : </p>
-                                    <p className='clr-orange mx-2'>Rp {
-                                        val.idsatuan == 3 ?
-                                            Math.ceil((val.harga / 10) * val.qty)
-                                            :
-                                            val.idsatuan == 4 ?
-                                                (val.harga / val.stock[1].qty) * val.qty
-                                                :
-                                                val.harga * val.qty
-                                    }
+                                    <p className='clr-orange mx-2'>Rp {val.hargaperproduct}
                                     </p>
                                 </div>
                             </div>
