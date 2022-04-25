@@ -61,7 +61,7 @@ class ProductDetail extends React.Component {
     render() {
         let { data } = this.state;
         return (
-            <div style={{ paddingTop: '5%' }}>
+            <div>
                 <div className='container'>
                     <div className='row my-2'>
                         <div className='col-6'>
