@@ -42,7 +42,7 @@ class CartPage extends React.Component {
         // this.props.updateUserCart(temp[index].idcart, temp[index].qty)
         let temp = [...this.props.cartList];
         console.log("temp", temp[index].qty)
-        this.props.plusQtyCart(temp[index].idcart, temp[index].idstock, temp[index].idproduct)
+        this.props.plusQtyCart(temp[index].idcart)
     }
 
     onBtDec = async (index) => {
@@ -54,7 +54,7 @@ class CartPage extends React.Component {
         if (temp[index].qty - 1 === 0) {
             swal("Barang tidak dapat kosong")
         } else {
-            this.props.minusQtyCart(temp[index].idcart, temp[index].idstock, temp[index].idproduct)
+            this.props.minusQtyCart(temp[index].idcart)
         }
     }
 
@@ -91,7 +91,7 @@ class CartPage extends React.Component {
                                 <FaRegTrashAlt onClick={() => this.onBtRemoveCart(index, value.idcart, value)} style={{ fontSize: 30 }} />
                                 <AiOutlineMinusCircle style={{ fontSize: 30 }} onClick={() => this.onBtDec(index)} />
                                 <Input style={{ width: "15%" }} type='number' value={value.qty} innerRef={(e) => this.inQty = e} />
-                                <AiOutlinePlusCircle style={{ fontSize: 30 }} onClick={() => this.onBtInc(index, value)} />
+                                <AiOutlinePlusCircle style={{ fontSize: 30 }} onClick={() => this.onBtInc(index)} />
                             </div>
                         </div>
                     </div>

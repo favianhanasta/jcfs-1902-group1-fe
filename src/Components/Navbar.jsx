@@ -16,7 +16,7 @@ class NavbarComponent extends React.Component {
     render() {
         return (
             <div className='clr-blue shadow-sm' style={{marginBottom:'2%'}}>
-                <div className='container py-2'>
+                <div className='container' style={{paddingTop:'10px'}}>
                     <div className='row'>
                         <div className='col-4'>
                             <Link to="/">
