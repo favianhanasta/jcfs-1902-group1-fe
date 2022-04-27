@@ -6,6 +6,7 @@ import { getCart, plusQtyCart, minusQtyCart } from '../redux/actions/userAction'
 import { AiOutlineMinusCircle } from "react-icons/ai";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { FaRegTrashAlt } from "react-icons/fa";
+import {BsCartFill} from "react-icons/bs"
 import axios from 'axios';
 import swal from 'sweetalert';
 import { Link } from 'react-router-dom';
@@ -41,7 +42,7 @@ class CartPage extends React.Component {
         // this.props.updateUserCart(temp[index].idcart, temp[index].qty)
         let temp = [...this.props.cartList];
         console.log("temp", temp[index].qty)
-        this.props.plusQtyCart(temp[index].idcart, temp[index].idstock, temp[index].idproduct)
+        this.props.plusQtyCart(temp[index].idcart)
     }
 
     onBtDec = async (index) => {
@@ -53,7 +54,7 @@ class CartPage extends React.Component {
         if (temp[index].qty - 1 === 0) {
             swal("Barang tidak dapat kosong")
         } else {
-            this.props.minusQtyCart(temp[index].idcart, temp[index].idstock, temp[index].idproduct)
+            this.props.minusQtyCart(temp[index].idcart)
         }
     }
 
@@ -85,12 +86,12 @@ class CartPage extends React.Component {
                         </div>
                         <div className='col-8'>
                             <p style={{ fontSize: 20 }}>{value.nama}</p>
-                            <h5 style={{ fontWeight: "bolder" }}>Rp {value.harga.toLocaleString()}</h5>
+                            <h5 className='font-price' style={{ fontWeight: "bolder" }}>Rp {value.harga.toLocaleString()}</h5>
                             <div style={{ display: "flex", justifyContent: "end", marginTop: 60 }}>
                                 <FaRegTrashAlt onClick={() => this.onBtRemoveCart(index, value.idcart, value)} style={{ fontSize: 30 }} />
                                 <AiOutlineMinusCircle style={{ fontSize: 30 }} onClick={() => this.onBtDec(index)} />
                                 <Input style={{ width: "15%" }} type='number' value={value.qty} innerRef={(e) => this.inQty = e} />
-                                <AiOutlinePlusCircle style={{ fontSize: 30 }} onClick={() => this.onBtInc(index, value)} />
+                                <AiOutlinePlusCircle style={{ fontSize: 30 }} onClick={() => this.onBtInc(index)} />
                             </div>
                         </div>
                     </div>
@@ -104,17 +105,25 @@ class CartPage extends React.Component {
         console.log("this.props.cartList", this.props.cartList)
         return (
             <div className='container clr-blue'>
-                <h1 style={{ fontWeight: "bolder" }}>Keranjang</h1>
+                <div className='row my-2'>
+                    <div className='col-6'>
+                        <h4 className='clr-blue' style={{fontWeight:'bolder'}}>Keranjang</h4>
+                    </div>
+                    <div className='col-6 clr-orange'>
+                        <BsCartFill className='float-right' style={{fontSize:'26px'}} />
+                    </div>
+                </div>
+                <hr/>
                 <div className='row'>
-                    <div className='col-9'>
+                    <div className='col-8'>
                         {this.printCartList()}
                     </div>
-                    <div className='col-3 shadow' style={{ padding: 20, height: "100%" }}>
+                    <div className='col-4 transaksi-box' style={{ padding: 20, height: "100%" }}>
                         <p style={{ fontWeight: "bolder" }}>Ringkasan Belanja</p>
-                        <hr />
+                        <hr/>
                         <div style={{ display: "flex", justifyContent: "space-between" }}>
                             <p>Total Harga</p>
-                            <p>Rp {this.printTotalPayment().toLocaleString()}</p>
+                            <p className='font-price'>Rp {this.printTotalPayment().toLocaleString()}</p>
                         </div>
                         <Link to="/checkout">
                             <Button className='bt-orange' style={{ width: "100%", margin: "auto" }}>BELI</Button>

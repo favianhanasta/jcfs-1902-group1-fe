@@ -134,11 +134,11 @@ export const getCart = () => {
     }
 }
 
-export const plusQtyCart = (idcart, idstock, idproduct) => {
+export const plusQtyCart = (idcart) => {
     return async (dispatch) => {
         try {
             let token = localStorage.getItem("data");
-            let res = await axios.patch(`${API_URL}/users/pluscart/${idcart}`, { idstock, idproduct }, {
+            let res = await axios.patch(`${API_URL}/users/pluscart/${idcart}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -152,11 +152,11 @@ export const plusQtyCart = (idcart, idstock, idproduct) => {
         }
     }
 }
-export const minusQtyCart = (idcart, idstock, idproduct) => {
+export const minusQtyCart = (idcart) => {
     return async (dispatch) => {
         try {
             let token = localStorage.getItem("data");
-            let res = await axios.patch(`${API_URL}/users/minuscart/${idcart}`, { idstock, idproduct }, {
+            let res = await axios.patch(`${API_URL}/users/minuscart/${idcart}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }

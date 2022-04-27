@@ -81,7 +81,7 @@ class ProductPage extends React.Component {
 
     render() {
         return (
-            <div className='utama container'>
+            <div className='container'>
                 <div className=' bg-light text-center my-2' style={{ marginBottom: '2%', padding: '3%', borderRadius: '15px' }}>
                     <p className='clr-blue' style={{ fontWeight: '400', fontSize: '18px' }}>Dapatkan obat anda melalui resep dokter dengan klik tombol dibawah !</p>
                     <Link to='/uploadresep-page'>
