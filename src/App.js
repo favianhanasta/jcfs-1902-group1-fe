@@ -24,6 +24,7 @@ import TransaksiPage from './Pages/TransaksiPage';
 import ManajemenTransaksi from './Pages/ManajemenTransaksi';
 import OrderByResepAdmin from './Pages/OrderByResepAdmin';
 import CustomOrderResep from './Pages/CustomOrderResep';
+import SalesReport from './Pages/SalesReport';
 
 
 class App extends React.Component {
@@ -51,7 +52,7 @@ class App extends React.Component {
           <Route path='/product-detail' element={<ProductDetail />} />
           <Route path='/verification/:token' element={<VerificationPage />} />
           <Route path='/resetpassword/:token' element={<ResetPasswordPage />} />
-          <Route path='/uploadresep-page' element={<UploadResep/>}/>
+          <Route path='/uploadresep-page' element={<UploadResep />} />
           {
             this.props.idrole === 2 ?
               <>
@@ -61,7 +62,7 @@ class App extends React.Component {
                 <Route path='/cart' element={<CartPage />} />
                 <Route path='/checkout' element={<CheckoutPage />} />
                 <Route path='/uploadresep-page' element={<UploadResep />} />
-                <Route path='/halaman-transaksi' element={<TransaksiPage/>} />
+                <Route path='/halaman-transaksi' element={<TransaksiPage />} />
               </>
               :
               this.props.idrole === 1 ?
@@ -70,6 +71,7 @@ class App extends React.Component {
                   <Route path='/manajemen-transaksi' element={<ManajemenTransaksi />} />
                   <Route path='/manajemen-orderresep' element={<OrderByResepAdmin />} />
                   <Route path='/custom-order' element={<CustomOrderResep />} />
+                  <Route path='/sales-report' element={<SalesReport />} />
                 </>
                 :
                 <>

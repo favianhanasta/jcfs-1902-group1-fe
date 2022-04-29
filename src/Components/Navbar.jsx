@@ -66,6 +66,11 @@ class NavbarComponent extends React.Component {
                                                         Manejemen Order By Resep
                                                     </Link>
                                                 </DropdownItem>
+                                                <DropdownItem>
+                                                    <Link to="/sales-report" className="nav-link" style={{ color: "#2d3436" }}>
+                                                        Sales Report
+                                                    </Link>
+                                                </DropdownItem>
                                                 <div style={{ borderTopWidth: 2 }}>
                                                     <DropdownItem onClick={() => {
                                                         localStorage.removeItem("data");

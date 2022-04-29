@@ -73,6 +73,7 @@ class ModalGantiAlamat extends React.Component {
     }
 
     render() {
+        console.log("AddressList", this.props.addressList)
         return (
             <div>
                 <Modal
