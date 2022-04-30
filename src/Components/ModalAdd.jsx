@@ -97,7 +97,9 @@ class ModalAdd extends React.Component {
             harga: parseInt(this.harga.value),
             deskripsi: this.deskripsi.value,
             kemasan: this.kemasan.value,
-            stock: this.state.inStock
+            stock: this.state.inStock,
+            idsatuan: this.state.inStock[0].idsatuan,
+            qty: this.state.inStock[0].qty
         }
         let formData = new FormData();
         formData.append('data', JSON.stringify(data));

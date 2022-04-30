@@ -24,6 +24,7 @@ import TransaksiPage from './Pages/TransaksiPage';
 import ManajemenTransaksi from './Pages/ManajemenTransaksi';
 import OrderByResepAdmin from './Pages/OrderByResepAdmin';
 import CustomOrderResep from './Pages/CustomOrderResep';
+import DataLogging from './Pages/DataLogging';
 
 
 class App extends React.Component {
@@ -70,6 +71,7 @@ class App extends React.Component {
                   <Route path='/manajemen-transaksi' element={<ManajemenTransaksi />} />
                   <Route path='/manajemen-orderresep' element={<OrderByResepAdmin />} />
                   <Route path='/custom-order' element={<CustomOrderResep />} />
+                  <Route path='/datalog' element={<DataLogging/>} />
                 </>
                 :
                 <>

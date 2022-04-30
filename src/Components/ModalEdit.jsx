@@ -75,7 +75,8 @@ class ModalEdit extends React.Component {
     btSimpan = () => {
         let data = {
             stock: this.props.data.stock,
-            qtyIn: this.state.qty ? this.state.qty : this.props.data.stock[0].qty
+            qtyIn: this.state.qty ? this.state.qty : this.props.data.stock[0].qty,
+            idproduct: this.props.data.idproduct
         }
         let token = localStorage.getItem('data');
         axios.patch(API_URL + '/product/editstock', data, {
