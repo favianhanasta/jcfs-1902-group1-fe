@@ -48,14 +48,14 @@ class CheckoutPage extends React.Component {
             shipping: handleShipping,
             tax: handleTax,
             totalpembayaran: this.printTotalPayment() + handleShipping + handleTax,
-            image: this.state.inImage[0].file,
+            // image: this.state.inImage[0].file,
             detail: this.props.cartList
         }
         let formData = new FormData();
-        formData.append('data', JSON.stringify(data));
-        formData.append('images', this.state.inImage[0].file)
+        // formData.append('data', JSON.stringify(data));
+        // formData.append('images', this.state.inImage[0].file)
         console.log("dataCheckout", data)
-        axios.post(`${API_URL}/users/checkout`, formData)
+        axios.post(`${API_URL}/users/checkout`, data)
             .then((res) => {
                 swal("Berhasil Checkout")
                 this.props.getCart();
