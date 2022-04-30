@@ -73,10 +73,14 @@ class ModalEdit extends React.Component {
     }
 
     btSimpan = () => {
+        let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+        let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        let d = new Date();
         let data = {
             stock: this.props.data.stock,
             qtyIn: this.state.qty ? this.state.qty : this.props.data.stock[0].qty,
-            idproduct: this.props.data.idproduct
+            idproduct: this.props.data.idproduct,
+            date: `${days[d.getDay()]}, ${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`
         }
         let token = localStorage.getItem('data');
         axios.patch(API_URL + '/product/editstock', data, {

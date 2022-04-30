@@ -11,7 +11,11 @@ class DataLogging extends React.Component {
         this.state = {
             dataLogIn: [],
             dataLogOut: [],
-            key: 'masuk'
+            key: 'masuk',
+            pageIn: 1,
+            handleIn: 8,
+            pageOut: 1,
+            handleOut: 8,
         }
     }
 
@@ -36,33 +40,55 @@ class DataLogging extends React.Component {
             .catch(error => console.log('error datalog out', error));
     }
 
-    printDataMasuk =()=>{
-        return this.state.dataLogIn.map((value,idx)=>{
-            return(
+    printDataMasuk = () => {
+        let { pageIn, handleIn } = this.state;
+        return this.state.dataLogIn.slice(pageIn > 1 ? (pageIn - 1) * handleIn : pageIn - 1, pageIn * handleIn).map((value, idx) => {
+            return (
                 <tr className='text-center font-price'>
-                    <td style={{width:'20%'}}>
-                        <img src={API_URL+value.url} style={{width:'70%'}} />
+                    <td style={{ width: '20%' }}>
+                        <img src={API_URL + value.url} style={{ width: '70%' }} />
                     </td>
-                    <td style={{width:'220px'}}>{value.nama}</td>
-                    <td style={{width:'220px'}}>
+                    <td style={{ width: '220px' }}>{value.nama}</td>
+                    <td style={{ width: '220px' }}>
                         {value.qty} {value.satuan}
                     </td>
+                    <td>{value.date}</td>
+                    <td>{value.keterangan}</td>
                 </tr>
             )
         })
     }
 
-    printDataKeluar =()=>{
-        return this.state.dataLogOut.map((value,idx)=>{
-            return(
+    btnPagination = () => {
+        let btn = []
+        for (let i = 0; i < Math.ceil(this.state.dataLogIn.length / 8); i++) {
+            btn.push(<button className='bt-pagination mx-2' key={i} onClick={() => this.setState({ pageIn: i + 1 })}>{i + 1}</button>)
+        }
+        return btn;
+    }
+
+    btnPaginationOut = () => {
+        let btn = []
+        for (let i = 0; i < Math.ceil(this.state.dataLogOut.length / 8); i++) {
+            btn.push(<button className='bt-pagination mx-2' key={i} onClick={() => this.setState({ pageOut: i + 1 })}>{i + 1}</button>)
+        }
+        return btn;
+    }
+
+    printDataKeluar = () => {
+        let { pageOut, handleOut } = this.state;
+        return this.state.dataLogOut.slice(pageOut > 1 ? (pageOut - 1) * handleOut : pageOut - 1, pageOut * handleOut).map((value, idx) => {
+            return (
                 <tr className='text-center font-price'>
-                    <td style={{width:'20%'}}>
-                        <img src={API_URL+value.url} style={{width:'70%'}} />
+                    <td style={{ width: '20%' }}>
+                        <img src={API_URL + value.url} style={{ width: '70%' }} />
                     </td>
-                    <td style={{width:'220px'}}>{value.nama}</td>
-                    <td style={{width:'220px'}}>
+                    <td style={{ width: '220px' }}>{value.nama}</td>
+                    <td style={{ width: '220px' }}>
                         {value.qty} {value.satuan}
                     </td>
+                    <td>{value.date}</td>
+                    <td>{value.transaksi}</td>
                 </tr>
             )
         })
@@ -80,35 +106,49 @@ class DataLogging extends React.Component {
                 </div>
                 <Tabs id="controlled-tab-example" activeKey={this.state.key} onSelect={(k) => this.setState({ key: k })} className='mt-3'>
                     <Tab title='Data Masuk' eventKey='masuk'>
-                        <div className='py-2 d-flex justify-content-center'>
-                            <Table bordered style={{width:'50vw'}} className='my-3'>
-                                <thead className='text-center clr-blue'>
-                                    <tr>
-                                        <th>Gambar</th>
-                                        <th>Produk</th>
-                                        <th>Qty stock masuk</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {this.printDataMasuk()}
-                                </tbody>
-                            </Table>
+                        <div style={{ height: '925px' }}>
+                            <div className='py-2 d-flex justify-content-center' >
+                                <Table bordered className='my-3'>
+                                    <thead className='text-center clr-blue'>
+                                        <tr>
+                                            <th>Gambar</th>
+                                            <th>Produk</th>
+                                            <th>Qty stock masuk</th>
+                                            <th>Date</th>
+                                            <th>Keterangan</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {this.printDataMasuk()}
+                                    </tbody>
+                                </Table>
+                            </div>
+                        </div>
+                        <div className='text-center'>
+                            {this.btnPagination()}
                         </div>
                     </Tab>
                     <Tab title='Data Keluar' eventKey='keluar'>
-                    <div className='py-2 d-flex justify-content-center'>
-                            <Table bordered style={{width:'50vw'}} className='my-3'>
-                                <thead className='text-center clr-blue'>
-                                    <tr>
-                                        <th>Gambar</th>
-                                        <th>Produk</th>
-                                        <th>Qty stock Keluar</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {this.printDataKeluar()}
-                                </tbody>
-                            </Table>
+                        <div style={{ height: '925px' }}>
+                            <div className='py-2 d-flex justify-content-center'>
+                                <Table bordered style={{ width: '50vw' }} className='my-3'>
+                                    <thead className='text-center clr-blue'>
+                                        <tr>
+                                            <th>Gambar</th>
+                                            <th>Produk</th>
+                                            <th>Qty stock Keluar</th>
+                                            <th>Date</th>
+                                            <th>Transaksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {this.printDataKeluar()}
+                                    </tbody>
+                                </Table>
+                            </div>
+                        </div>
+                        <div className='text-center'>
+                            {this.btnPaginationOut()}
                         </div>
                     </Tab>
                 </Tabs >

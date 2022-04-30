@@ -4,6 +4,8 @@ import { logoutAction } from '../redux/actions/userAction';
 import { Link } from 'react-router-dom';
 import logo from '../Assets/pharma.png';
 import { Button, DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from 'reactstrap';
+import { BsCartFill } from "react-icons/bs";
+import { Badge } from '@mui/material';
 
 class NavbarComponent extends React.Component {
     constructor(props) {
@@ -15,8 +17,8 @@ class NavbarComponent extends React.Component {
 
     render() {
         return (
-            <div className='clr-blue shadow-sm' style={{marginBottom:'2%'}}>
-                <div className='container' style={{paddingTop:'10px'}}>
+            <div className='clr-blue shadow-sm' style={{ marginBottom: '2%' }}>
+                <div className='container' style={{ paddingTop: '10px' }}>
                     <div className='row'>
                         <div className='col-4'>
                             <Link to="/">
@@ -31,13 +33,22 @@ class NavbarComponent extends React.Component {
                                 <Link to="/product-page" style={{ textDecoration: "none" }}>
                                     <p className='mx-4 clr-blue'>Produk</p>
                                 </Link>
+                                <p className='mx-4'>Tentang Kami</p>
                                 {
                                     this.props.idrole == 2 &&
-                                    <Link to="/halaman-transaksi" className='clr-blue' style={{ textDecoration: "none" }}>
-                                        <p className='mx-4'>Transaksi Saya</p>
-                                    </Link>
+                                    <>
+                                        <Link to="/halaman-transaksi" className='clr-blue' style={{ textDecoration: "none" }}>
+                                            <p className='mx-4'>Transaksi</p>
+                                        </Link>
+                                        <Link to="/cart" style={{ color: "#2d3436" }}>
+                                            <div className='mx-4'>
+                                            <Badge badgeContent={this.props.cartList.length} color='error'>
+                                                <BsCartFill className='clr-blue' style={{ fontSize: '20px'}} />
+                                            </Badge>
+                                            </div>
+                                        </Link>
+                                    </>
                                 }
-                                <p className='mx-4'>Tentang Kami</p>
                             </div>
                         </div>
                         <div className='col-2 clr-blue' style={{ fontSize: 14, fontWeight: "bold" }}>
@@ -91,12 +102,6 @@ class NavbarComponent extends React.Component {
                                                 :
                                                 <DropdownMenu>
                                                     <DropdownItem>
-                                                        <Link to="/cart" className="nav-link" style={{ color: "#2d3436" }}>
-                                                            Keranjang
-                                                        </Link>
-                                                    </DropdownItem>
-                                                    <hr />
-                                                    <DropdownItem>
                                                         <Link to="/editprofile" className="nav-link" style={{ color: "#2d3436" }}>
                                                             Profil
                                                         </Link>
@@ -142,7 +147,8 @@ class NavbarComponent extends React.Component {
 const mapToProps = (state) => {
     return {
         username: state.userReducer.username,
-        idrole: state.userReducer.idrole
+        idrole: state.userReducer.idrole,
+        cartList:state.userReducer.cartList,
     }
 }
 

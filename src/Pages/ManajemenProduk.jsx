@@ -16,7 +16,7 @@ class ManajemenProduk extends React.Component {
         this.state = {
             modalAdd: false,
             page: 1,
-            handle: 12,
+            handle: 8,
             modalEdit: false,
             dataForEdit: {},
             modalRestock: false,
@@ -49,8 +49,8 @@ class ManajemenProduk extends React.Component {
 
     btnPagination = () => {
         let btn = []
-        for (let i = 0; i < Math.ceil(this.props.product.length / 12); i++) {
-            btn.push(<Button className='bt-pagination' key={i} onClick={() => this.setState({ page: i + 1 })}>{i + 1}</Button>)
+        for (let i = 0; i < Math.ceil(this.props.product.length / 8); i++) {
+            btn.push(<button className='bt-pagination mx-2' key={i} onClick={() => this.setState({ page: i + 1 })}>{i + 1}</button>)
         }
         return btn;
     }
@@ -89,7 +89,7 @@ class ManajemenProduk extends React.Component {
                             <Button className='bt-orange' onClick={() => this.setState({ modalAdd: !this.state.modalAdd })}>Tambah Produk <AiOutlinePlusSquare style={{ fontSize: '20px' }} /></Button>
                         </div>
                     </div>
-                    <div>
+                    <div style={{height:'1150px'}}>
                         <Table hover responsive className='my-4'>
                             <thead>
                                 <tr className='text-center'>

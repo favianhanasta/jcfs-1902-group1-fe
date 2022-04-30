@@ -51,9 +51,6 @@ class CheckoutPage extends React.Component {
             // image: this.state.inImage[0].file,
             detail: this.props.cartList
         }
-        let formData = new FormData();
-        // formData.append('data', JSON.stringify(data));
-        // formData.append('images', this.state.inImage[0].file)
         console.log("dataCheckout", data)
         axios.post(`${API_URL}/users/checkout`, data)
             .then((res) => {
