@@ -48,7 +48,7 @@ class CheckoutPage extends React.Component {
             shipping: handleShipping,
             tax: handleTax,
             totalpembayaran: this.printTotalPayment() + handleShipping + handleTax,
-            image: this.state.inImage[0].file,
+            // image: this.state.inImage[0].file,
             detail: this.props.cartList
         }
         console.log("dataCheckout", data)
