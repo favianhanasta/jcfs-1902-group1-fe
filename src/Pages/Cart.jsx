@@ -6,10 +6,11 @@ import { getCart, plusQtyCart, minusQtyCart } from '../redux/actions/userAction'
 import { AiOutlineMinusCircle } from "react-icons/ai";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { FaRegTrashAlt } from "react-icons/fa";
-import {BsCartFill} from "react-icons/bs"
+import { BsCartFill } from "react-icons/bs";
 import axios from 'axios';
 import swal from 'sweetalert';
 import { Link } from 'react-router-dom';
+const cartempty = require('../Assets/empty.png');
 
 class CartPage extends React.Component {
     constructor(props) {
@@ -107,29 +108,39 @@ class CartPage extends React.Component {
             <div className='container clr-blue'>
                 <div className='row my-2'>
                     <div className='col-6'>
-                        <h4 className='clr-blue' style={{fontWeight:'bolder'}}>Keranjang</h4>
+                        <h4 className='clr-blue' style={{ fontWeight: 'bolder' }}>Keranjang</h4>
                     </div>
-                    <div className='col-6 clr-orange'>
-                        <BsCartFill className='float-right' style={{fontSize:'26px'}} />
+                    <div className='col-6 clr-orange2'>
+                        <BsCartFill className='float-right' style={{ fontSize: '26px' }} />
                     </div>
                 </div>
-                <hr/>
-                <div className='row'>
-                    <div className='col-8'>
-                        {this.printCartList()}
-                    </div>
-                    <div className='col-4 transaksi-box' style={{ padding: 20, height: "100%" }}>
-                        <p style={{ fontWeight: "bolder" }}>Ringkasan Belanja</p>
-                        <hr/>
-                        <div style={{ display: "flex", justifyContent: "space-between" }}>
-                            <p>Total Harga</p>
-                            <p className='font-price'>Rp {this.printTotalPayment().toLocaleString()}</p>
+                <hr />
+                {
+                    this.props.cartList.length > 0 ?
+                        <div className='row'>
+                            <div className='col-8'>
+                                {this.printCartList()}
+                            </div>
+                            <div className='col-4 transaksi-box' style={{ padding: 20, height: "100%" }}>
+                                <p style={{ fontWeight: "bolder" }}>Ringkasan Belanja</p>
+                                <hr />
+                                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                                    <p>Total Harga</p>
+                                    <p className='font-price'>Rp {this.printTotalPayment().toLocaleString()}</p>
+                                </div>
+                                <Link to="/checkout">
+                                    <Button className='bt-orange' style={{ width: "100%", margin: "auto" }}>BELI</Button>
+                                </Link>
+                            </div>
                         </div>
-                        <Link to="/checkout">
-                            <Button className='bt-orange' style={{ width: "100%", margin: "auto" }}>BELI</Button>
-                        </Link>
-                    </div>
-                </div>
+                        :
+                        <div className='text-center transaksi-box' style={{ padding: '10%' }}>
+                            <div className='d-flex justify-content-center'>
+                                <img src={cartempty} />
+                            </div>
+                            <h1 className='clr-orange'>Keranjang Anda Kosong</h1>
+                        </div>
+                }
             </div>
         );
     }

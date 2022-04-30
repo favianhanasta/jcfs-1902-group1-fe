@@ -51,7 +51,7 @@ class ProductPage extends React.Component {
     printBtPagination = () => {
         let btn = []
         for (let i = 0; i < Math.ceil(this.props.product.length / 9); i++) {
-            btn.push(<Button className='bt-pagination' onClick={() => this.setState({ page: i + 1 })} key={i}>{i + 1}</Button>)
+            btn.push(<button className='bt-pagination' onClick={() => this.setState({ page: i + 1 })} key={i}>{i + 1}</button>)
         }
         return btn;
     }

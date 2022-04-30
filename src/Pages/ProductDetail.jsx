@@ -5,6 +5,7 @@ import { API_URL } from '../helper';
 import { BsCartPlusFill } from "react-icons/bs";
 import swal from 'sweetalert';
 import { connect } from 'react-redux';
+import { Navigate } from 'react-router-dom';
 
 
 class ProductDetail extends React.Component {
@@ -12,7 +13,8 @@ class ProductDetail extends React.Component {
         super(props);
         this.state = {
             data: {},
-            qty: 1
+            qty: 1,
+            redirect:false
         }
     }
     componentDidMount() {
@@ -49,7 +51,8 @@ class ProductDetail extends React.Component {
                 'Authorization': `Bearer ${token}`
             }
         }).then((res) => {
-            swal("Berhasil Add To Cart")
+            swal("Berhasil Add To Cart");
+            this.setState({redirect : true});
         }).catch((err) => {
             console.log(err)
         })
@@ -57,6 +60,9 @@ class ProductDetail extends React.Component {
 
     render() {
         let { data } = this.state;
+        if(this.state.redirect){
+            return <Navigate to='/cart'/>
+        }
         return (
             <div>
                 <div className='container'>

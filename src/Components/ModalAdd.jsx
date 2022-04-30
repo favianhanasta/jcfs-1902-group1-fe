@@ -90,7 +90,10 @@ class ModalAdd extends React.Component {
         let temp = [...this.state.inStock];
         temp[2].qty = this.state.inStock[0].qty * this.state.inStock[1].qty*10;
         temp[2].idsatuan = this.state.inStock[1].idsatuan;
-        this.setState({ inStock: temp })
+        this.setState({ inStock: temp });
+        let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+        let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        let d = new Date();
         let data = {
             idcategory: parseInt(this.kategori.value),
             nama: this.namaProduk.value,
@@ -99,7 +102,8 @@ class ModalAdd extends React.Component {
             kemasan: this.kemasan.value,
             stock: this.state.inStock,
             idsatuan: this.state.inStock[0].idsatuan,
-            qty: this.state.inStock[0].qty
+            qty: this.state.inStock[0].qty,
+            date: `${days[d.getDay()]}, ${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`
         }
         let formData = new FormData();
         formData.append('data', JSON.stringify(data));

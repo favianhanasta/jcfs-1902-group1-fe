@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { Button, Input } from 'reactstrap';
 import swal from 'sweetalert';
 import { API_URL } from '../helper';
@@ -13,7 +13,8 @@ class UploadResep extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            upload: [``]
+            upload: [``],
+            redirect: false
         }
     }
 
@@ -32,7 +33,7 @@ class UploadResep extends React.Component {
         let data = {
             iduser: this.props.iduser,
             invoice: `INVOBR${d.getTime()}`,
-            date:`${days[d.getDay()]}, ${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`
+            date: `${days[d.getDay()]}, ${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`
         }
         let form = new FormData();
         form.append('data', JSON.stringify(data));
@@ -42,7 +43,8 @@ class UploadResep extends React.Component {
         axios.post(`${API_URL}/transaction/uploadresep`, form)
             .then((res) => {
                 this.setState({ upload: [``] });
-                swal("Upload Berhasil", "Transaksi anda segera kami proses!", "success")
+                swal("Upload Berhasil", "Transaksi anda segera kami proses!", "success");
+                this.setState({redirect:true});
             })
             .catch((err) => {
                 console.log('upload', err);
@@ -68,6 +70,9 @@ class UploadResep extends React.Component {
     }
 
     render() {
+        if (this.state.redirect) {
+            return <Navigate to='/halaman-transaksi' />
+        }
         return (
             <div className='container my-4'>
                 <div className='row' style={{ marginBottom: '3%' }}>
