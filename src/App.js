@@ -25,7 +25,7 @@ import ManajemenTransaksi from './Pages/ManajemenTransaksi';
 import OrderByResepAdmin from './Pages/OrderByResepAdmin';
 import CustomOrderResep from './Pages/CustomOrderResep';
 import SalesReport from './Pages/SalesReport';
-
+import DataLogging from './Pages/DataLogging';
 
 class App extends React.Component {
   constructor(props) {
@@ -72,6 +72,7 @@ class App extends React.Component {
                   <Route path='/manajemen-orderresep' element={<OrderByResepAdmin />} />
                   <Route path='/custom-order' element={<CustomOrderResep />} />
                   <Route path='/sales-report' element={<SalesReport />} />
+                  <Route path='/datalog' element={<DataLogging/>} />
                 </>
                 :
                 <>

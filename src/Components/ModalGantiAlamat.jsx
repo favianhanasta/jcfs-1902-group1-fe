@@ -5,6 +5,7 @@ import { Button, Modal, ModalBody, ModalHeader } from 'reactstrap';
 import swal from 'sweetalert';
 import { API_URL } from '../helper';
 import { getAddress, keepAction } from '../redux/actions/userAction';
+import { MdMyLocation } from "react-icons/md";
 
 class ModalGantiAlamat extends React.Component {
     constructor(props) {
@@ -79,11 +80,19 @@ class ModalGantiAlamat extends React.Component {
                 <Modal
                     isOpen={this.props.openModalGantiAlamat}
                     toggle={this.props.toggleModalGantiAlamat}
+                    size='lg'
+                    className='clr-blue'
                 >
-                    <ModalHeader>
-                        PILIH ALAMAT LAIN
-                    </ModalHeader>
                     <ModalBody>
+                        <div className='row'>
+                            <div className='col-6'>
+                                Pilih Alamat Lain
+                            </div>
+                            <div className='col-6'>
+                                <MdMyLocation className='float-right clr-orange2' style={{fontSize:'23px'}}/>
+                            </div>
+                        </div>
+                        <hr/>
                         {this.printAddressList()}
                     </ModalBody>
                 </Modal>

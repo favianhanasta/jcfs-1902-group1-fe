@@ -6,6 +6,8 @@ import { getAddress, getCart } from '../redux/actions/userAction';
 import axios from 'axios';
 import swal from 'sweetalert';
 import ModalGantiAlamat from '../Components/ModalGantiAlamat';
+import { RiBillLine } from 'react-icons/ri';
+import { GoLocation } from "react-icons/go";
 
 class CheckoutPage extends React.Component {
     constructor(props) {
@@ -82,13 +84,12 @@ class CheckoutPage extends React.Component {
                         <div className='col-8'>
                             <p style={{ fontSize: 20 }}>{value.nama}</p>
                             <div>
-                                <h5 style={{ fontWeight: "bolder" }}>Rp {value.harga.toLocaleString()} x {value.qty}</h5>
+                                <h5 className='font-price' style={{ fontWeight: "bolder" }}>Rp {value.harga.toLocaleString()} x {value.qty}</h5>
                             </div>
                         </div>
-
-                        <div style={{ marginTop: 60, display: "flex", justifyContent: "space-between", width: "100%" }}>
+                        <div className='clr-orange' style={{ display: "flex", justifyContent: "space-between", width: "100%", marginTop: '3%' }}>
                             <h5>Subtotal</h5>
-                            <h5>Rp {(value.harga * value.qty).toLocaleString()}</h5>
+                            <h5 className='font-price'>Rp {(value.harga * value.qty).toLocaleString()}</h5>
                         </div>
                     </div>
                     <hr />
@@ -124,38 +125,52 @@ class CheckoutPage extends React.Component {
                     openModalGantiAlamat={this.state.openModalGantiAlamat}
                     toggleModalGantiAlamat={() => this.setState({ openModalGantiAlamat: !this.state.openModalGantiAlamat })}
                 />
+                <div className='row my-2'>
+                    <div className='col-6'>
+                        <h4 className='clr-blue' style={{ fontWeight: 'bolder' }}>Checkout</h4>
+                    </div>
+                    <div className='col-6 clr-orange'>
+                        <RiBillLine className='float-right' style={{ fontSize: '26px' }} />
+                    </div>
+                </div>
+                <hr />
                 <div className='row'>
-                    <div className='col-8'>
-                        <h1 style={{ fontWeight: "bolder" }}>Checkout</h1>
-                        <h5 style={{ fontWeight: "bolder" }}>Alamat Pengiriman</h5>
-                        <hr />
-                        {this.printAlamat()}
-                        <hr />
-                        <Button className='bt-orange' onClick={() => this.setState({ openModalGantiAlamat: !this.state.openModalGantiAlamat })}>Pilih Alamat Lain</Button>
-                        <hr />
+                    <div className='col-7'>
+                        <div className='transaksi-box' style={{ marginBottom: '16px' }}>
+                            <div className='row'>
+                                <div className='col-6'>
+                                    <h5 style={{ fontWeight: "bolder" }} className='clr-orange2'>Alamat Pengiriman</h5>
+                                </div>
+                                <div className='col-6'>
+                                    <GoLocation className='float-right' style={{fontSize:'22px'}} />
+                                </div>
+                            </div>
+                            {this.printAlamat()}
+                            <Button className='bt-orange' onClick={() => this.setState({ openModalGantiAlamat: !this.state.openModalGantiAlamat })}>Pilih Alamat Lain</Button>
+                        </div>
                         {this.printCartList()}
                     </div>
-                    <div className='col-4 shadow' style={{ padding: 20, height: "100%" }}>
+                    <div className='col-5 transaksi-box' style={{ height: "100%", padding: 30 }}>
                         <p style={{ fontWeight: "bolder" }}>Ringkasan Belanja</p>
                         <hr />
                         <div style={{ display: "flex", justifyContent: "space-between" }}>
                             <p>Total Harga</p>
-                            <p>Rp {this.printTotalPayment().toLocaleString()}</p>
+                            <p className='font-price'>Rp {this.printTotalPayment().toLocaleString()}</p>
                         </div>
                         <div style={{ display: "flex", justifyContent: "space-between" }}>
                             <p>Total Shipping</p>
-                            <p>Rp {(this.state.handleShipping).toLocaleString()}</p>
+                            <p className='font-price'>Rp {(this.state.handleShipping).toLocaleString()}</p>
                         </div>
                         <div style={{ display: "flex", justifyContent: "space-between" }}>
                             <p>Total Tax</p>
-                            <p>Rp {(this.printTotalPayment() * this.state.handleTax).toLocaleString()}</p>
+                            <p className='font-price'>Rp {(this.printTotalPayment() * this.state.handleTax).toLocaleString()}</p>
                         </div>
+                        <hr />
                         <div style={{ display: "flex", justifyContent: "space-between" }}>
                             <p>Total Yang Harus Dibayar</p>
-                            <p>Rp {(this.printTotalPayment() + this.state.handleShipping + (this.printTotalPayment() * this.state.handleTax)).toLocaleString()}</p>
+                            <p className='font-price'>Rp {(this.printTotalPayment() + this.state.handleShipping + (this.printTotalPayment() * this.state.handleTax)).toLocaleString()}</p>
                         </div>
                         <Button onClick={this.btnCheckout} className='bt-orange' style={{ width: "100%", margin: "auto" }}>Checkout</Button>
-
                     </div>
                 </div>
             </div>

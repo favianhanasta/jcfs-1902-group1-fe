@@ -20,16 +20,16 @@ class ProductPage extends React.Component {
 
     printProductList = () => {
         let { page } = this.state;
-        return this.props.product.slice(page > 1 ? (page - 1) * 12 : page - 1, page * 12).map((val, idx) => {
+        return this.props.product.slice(page > 1 ? (page - 1) * 9 : page - 1, page * 9).map((val, idx) => {
             return (
-                <div className='col-md-3 my-2' key={idx}>
+                <div className='col-md-4 my-2' key={idx}>
                     <Link to={`/product-detail?idproduct=${val.idproduct}`} style={{ textDecoration: 'none' }}>
                         <Card className='card'>
-                            <CardImg src={API_URL + val.url} top width='100%' style={{ height: '140px' }} />
+                            <CardImg src={API_URL + val.url} top width='100%' style={{ height: '200px' }} />
                             <CardBody style={{ height: '160px' }}>
                                 <div style={{ height: '95px' }}>
                                     <p className='clr-blue' style={{ fontSize: '15px', fontWeight: '500' }}>{val.nama}</p>
-                                    <p className='font-price text-muted' style={{ fontSize: '15px' }}>IDR {val.harga}</p>
+                                    <p className='font-price text-muted' style={{ fontSize: '15px' }}>IDR {(val.harga).toLocaleString('ID-id')}/{val.stock[0].satuan}</p>
                                 </div>
                                 <RiShoppingCartLine style={{ color: '#2A2172', float: 'right', marginTop: '10%', fontSize: '18px', cursor: 'pointer' }} />
                             </CardBody>
@@ -50,7 +50,7 @@ class ProductPage extends React.Component {
 
     printBtPagination = () => {
         let btn = []
-        for (let i = 0; i < Math.ceil(this.props.product.length / 12); i++) {
+        for (let i = 0; i < Math.ceil(this.props.product.length / 9); i++) {
             btn.push(<Button className='bt-pagination' onClick={() => this.setState({ page: i + 1 })} key={i}>{i + 1}</Button>)
         }
         return btn;
@@ -81,7 +81,7 @@ class ProductPage extends React.Component {
 
     render() {
         return (
-            <div className='utama container'>
+            <div className='container'>
                 <div className=' bg-light text-center my-2' style={{ marginBottom: '2%', padding: '3%', borderRadius: '15px' }}>
                     <p className='clr-blue' style={{ fontWeight: '400', fontSize: '18px' }}>Dapatkan obat anda melalui resep dokter dengan klik tombol dibawah !</p>
                     <Link to='/uploadresep-page'>

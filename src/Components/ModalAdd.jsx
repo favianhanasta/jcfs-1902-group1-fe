@@ -88,7 +88,7 @@ class ModalAdd extends React.Component {
 
     btnSave = () => {
         let temp = [...this.state.inStock];
-        temp[2].qty = this.state.inStock[0].qty * this.state.inStock[1].qty;
+        temp[2].qty = this.state.inStock[0].qty * this.state.inStock[1].qty*10;
         temp[2].idsatuan = this.state.inStock[1].idsatuan;
         this.setState({ inStock: temp })
         let data = {
@@ -97,7 +97,9 @@ class ModalAdd extends React.Component {
             harga: parseInt(this.harga.value),
             deskripsi: this.deskripsi.value,
             kemasan: this.kemasan.value,
-            stock: this.state.inStock
+            stock: this.state.inStock,
+            idsatuan: this.state.inStock[0].idsatuan,
+            qty: this.state.inStock[0].qty
         }
         let formData = new FormData();
         formData.append('data', JSON.stringify(data));
@@ -132,7 +134,6 @@ class ModalAdd extends React.Component {
     }
 
     render() {
-        console.log('satuan', this.state.satuan);
         return (
             <div>
                 <Modal isOpen={this.props.open} toggle={this.btToggle} centered size='xl'>

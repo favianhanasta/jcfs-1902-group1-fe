@@ -35,16 +35,13 @@ class ProductDetail extends React.Component {
             iduser: this.props.iduser,
             idproduct: idproduct,
             idcategory: idcategory,
-            idstock: stock[0].idstock,
             nama: nama,
             harga: harga,
             url: url,
             category: category,
             kemasan: kemasan,
             qty: parseInt(this.totalQty.value),
-            qtyStock: stock[0].qty - parseInt(this.totalQty.value),
-            qtyTotal: (stock[0].qty - parseInt(this.totalQty.value)) * stock[1].qty,
-            idstockTotal: stock[2].idstock
+            idstock: stock[0].qty
         }
         console.log("dataAddToCart", dataAddToCart)
         axios.post(`${API_URL}/users/addtocart`, dataAddToCart, {
@@ -61,7 +58,7 @@ class ProductDetail extends React.Component {
     render() {
         let { data } = this.state;
         return (
-            <div style={{ paddingTop: '5%' }}>
+            <div>
                 <div className='container'>
                     <div className='row my-2'>
                         <div className='col-6'>

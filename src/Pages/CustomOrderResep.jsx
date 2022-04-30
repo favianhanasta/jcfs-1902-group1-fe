@@ -68,14 +68,15 @@ class CustomOrderResep extends React.Component {
             idproduct: data.idproduct,
             qty: parseInt(qty),
             idsatuan: satuan,
-            hargaperproduct: satuan == 3 ? Math.ceil((data.harga / 10) * qty) : satuan == 4 ? (data.harga / data.stock[1].qty) * data.qty : data.harga * qty
+            idstock: satuan == 3 || satuan == 4 ? data.stock[2].idstock : data.stock[0].idstock,
+            hargaperproduct: satuan == 3 ? Math.ceil((data.harga / 10) * (Math.abs(qty / data.stock[1].qty))) : satuan == 4 ? (data.harga / data.stock[1].qty) * (Math.abs(qty / data.stock[1].qty)) : data.harga * qty
         }
         console.log('btn', dataIn)
         axios.post(API_URL + `/transaction/addcartresep`, dataIn)
             .then((res) => {
                 console.log('sukses')
                 this.getDataCart()
-                this.setState({ qty: 1, satuan: null })
+                this.setState({ qty: 1, satuan: '' })
             })
             .catch((err) => console.log(err));
     }
@@ -121,7 +122,7 @@ class CustomOrderResep extends React.Component {
     printCart = () => {
         return this.state.dataCart.map((val, idx) => {
             return (
-                <div className='clr-orange2 font-price' style={{ fontSize: '14px' }}>
+                <div className='clr-orange2 font-price' style={{ fontSize: '14px' }} key={idx}>
                     <div className='row'>
                         <div className='col-9'>
                             <p>{val.nama}</p>
@@ -135,15 +136,7 @@ class CustomOrderResep extends React.Component {
                             <div className='col-7'>
                                 <div className='d-flex'>
                                     <p className='float-right'>subtotal : </p>
-                                    <p className='clr-orange mx-2'>Rp {
-                                        val.idsatuan == 3 ?
-                                            Math.ceil((val.harga / 10) * val.qty)
-                                            :
-                                            val.idsatuan == 4 ?
-                                                (val.harga / val.stock[1].qty) * val.qty
-                                                :
-                                                val.harga * val.qty
-                                    }
+                                    <p className='clr-orange mx-2'>Rp {val.hargaperproduct}
                                     </p>
                                 </div>
                             </div>
@@ -165,12 +158,12 @@ class CustomOrderResep extends React.Component {
         return hargaTotal
     }
 
-    tax=()=>{
+    tax = () => {
         let hargaTotal = 0;
         this.state.dataCart.forEach((val) => {
             hargaTotal += val.hargaperproduct
         })
-        return Math.ceil((10/100)*hargaTotal)
+        return Math.ceil((10 / 100) * hargaTotal)
     }
 
     handleSatuan = (e) => {
@@ -191,23 +184,23 @@ class CustomOrderResep extends React.Component {
     btCheckout = () => {
         let dataCO = {
             totalpembayaran: this.hargaTotalPayment(),
-            iduser : this.state.data[0].iduser,
-            idaddress :this.props.idaddress,
-            invoice : this.state.data[0].invoice,
+            iduser: this.state.data[0].iduser,
+            idaddress: this.props.idaddress,
+            invoice: this.state.data[0].invoice,
             date: this.state.data[0].date,
-            shipping : 2000,
-            tax : this.tax(),
-            totalpembayaran : this.hargaTotalPayment()+this.tax()+2000,
+            shipping: 2000,
+            tax: this.tax(),
+            totalpembayaran: this.hargaTotalPayment() + this.tax() + 2000,
             detail: this.state.dataCart,
-            idorder : this.state.data[0].idorder
+            idorder: this.state.data[0].idorder
         }
-        axios.post(API_URL+`/transaction/checkoutresep`,dataCO)
-        .then((res)=>{
-            this.getDataCart()
-        })
-        .catch((err)=>{
-            console.log(err)
-        })
+        axios.post(API_URL + `/transaction/checkoutresep`, dataCO)
+            .then((res) => {
+                this.getDataCart()
+            })
+            .catch((err) => {
+                console.log(err)
+            })
     }
 
     render() {
@@ -236,7 +229,7 @@ class CustomOrderResep extends React.Component {
                                         <RiShoppingCartLine style={{ fontSize: '20px', float: 'right' }} />
                                     </div>
                                 </div>
-                                <hr/>
+                                <hr />
                                 <div className='row' style={{ marginBottom: '-1%' }}>
                                     <div className='col-9'>
                                         <p className='text-muted' >produk/obat</p>
@@ -246,7 +239,7 @@ class CustomOrderResep extends React.Component {
                                     </div>
                                 </div>
                                 {this.printCart()}
-                                <hr/>
+                                <hr />
                                 <div className='font-price' style={{ fontSize: '14px' }}>
                                     <div className='d-flex '>
                                         <p className='float-right'>shipping : </p>
@@ -295,8 +288,8 @@ const mapToProps = (state) => {
     return {
         produk: state.productReducer.productList,
         satuan: state.productReducer.satuanList,
-        iduser : state.userReducer.iduser,
-        idaddress : state.userReducer.idaddress
+        iduser: state.userReducer.iduser,
+        idaddress: state.userReducer.idaddress
     }
 }
 
