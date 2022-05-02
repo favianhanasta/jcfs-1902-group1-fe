@@ -51,7 +51,7 @@ class ProductPage extends React.Component {
     printBtPagination = () => {
         let btn = []
         for (let i = 0; i < Math.ceil(this.props.product.length / 9); i++) {
-            btn.push(<button className='bt-pagination' onClick={() => this.setState({ page: i + 1 })} key={i}>{i + 1}</button>)
+            btn.push(<button className='bt-pagination mx-2' onClick={() => this.setState({ page: i + 1 })} key={i}>{i + 1}</button>)
         }
         return btn;
     }
@@ -129,7 +129,7 @@ class ProductPage extends React.Component {
                         <div className='d-flex justify-content-end'>
                             <a className='clr-blue' id="reset-search" style={{ textDecoration: 'none', cursor: 'pointer', fontSize: '14px' }} onClick={this.btResetSearch}>Tampilkan Semua</a>
                         </div>
-                        <div className='row'>
+                        <div className='row' style={{height:'1135px'}}>
                             {this.printProductList()}
                         </div>
                     </div>
