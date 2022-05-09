@@ -6,6 +6,7 @@ import { API_URL } from '../helper';
 import { RiSearch2Line, RiDeleteBin4Fill } from "react-icons/ri";
 import { getProduct } from "../redux/actions";
 import { RiShoppingCartLine } from "react-icons/ri";
+import moment from 'moment';
 
 
 class CustomOrderResep extends React.Component {
@@ -187,7 +188,7 @@ class CustomOrderResep extends React.Component {
             iduser: this.state.data[0].iduser,
             idaddress: this.props.idaddress,
             invoice: this.state.data[0].invoice,
-            date: this.state.data[0].date,
+            date: moment().format("YYYY-MM-DD"),
             shipping: 2000,
             tax: this.tax(),
             totalpembayaran: this.hargaTotalPayment() + this.tax() + 2000,

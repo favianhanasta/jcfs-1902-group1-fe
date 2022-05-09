@@ -8,6 +8,7 @@ import swal from 'sweetalert';
 import ModalGantiAlamat from '../Components/ModalGantiAlamat';
 import { RiBillLine } from 'react-icons/ri';
 import { GoLocation } from "react-icons/go";
+import moment from 'moment';
 import { Navigate } from 'react-router-dom';
 
 class CheckoutPage extends React.Component {
@@ -46,7 +47,7 @@ class CheckoutPage extends React.Component {
             idaddress: this.props.idaddress,
             idstatus: 4,
             invoice: `INV${this.props.iduser}${d.getDay()}${d.getDate()}${d.getMonth()}${d.getFullYear()}${d.getHours()}${d.getMinutes()}${d.getSeconds()}${d.getMilliseconds()}`,
-            date: `${days[d.getDay()]}, ${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`,
+            date: moment().format("YYYY-MM-DD"),
             shipping: handleShipping,
             tax: handleTax,
             totalpembayaran: this.printTotalPayment() + handleShipping + handleTax,

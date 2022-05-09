@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import { API_URL } from '../helper';
 import { getProduct } from '../redux/actions'
+import moment from 'moment';
 
 class ModalAdd extends React.Component {
     constructor(props) {
@@ -91,9 +92,6 @@ class ModalAdd extends React.Component {
         temp[2].qty = this.state.inStock[0].qty * this.state.inStock[1].qty*10;
         temp[2].idsatuan = this.state.inStock[1].idsatuan;
         this.setState({ inStock: temp });
-        let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-        let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-        let d = new Date();
         let data = {
             idcategory: parseInt(this.kategori.value),
             nama: this.namaProduk.value,
@@ -103,7 +101,7 @@ class ModalAdd extends React.Component {
             stock: this.state.inStock,
             idsatuan: this.state.inStock[0].idsatuan,
             qty: this.state.inStock[0].qty,
-            date: `${days[d.getDay()]}, ${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`
+            date: moment().format("YYYY-MM-DD")
         }
         let formData = new FormData();
         formData.append('data', JSON.stringify(data));
