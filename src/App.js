@@ -27,6 +27,7 @@ import CustomOrderResep from './Pages/CustomOrderResep';
 import SalesReport from './Pages/SalesReport';
 import DataLogging from './Pages/DataLogging';
 import ProductByCategory from './Pages/ProductByCategory';
+import FooterComp from './Components/Footer';
 
 class App extends React.Component {
   constructor(props) {
@@ -83,6 +84,7 @@ class App extends React.Component {
           }
           <Route path='*' element={<NotFound />} />
         </Routes>
+        <FooterComp/>
       </div>
     );
   }
