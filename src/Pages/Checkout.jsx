@@ -9,6 +9,7 @@ import ModalGantiAlamat from '../Components/ModalGantiAlamat';
 import { RiBillLine } from 'react-icons/ri';
 import { GoLocation } from "react-icons/go";
 import moment from 'moment';
+import { Navigate } from 'react-router-dom';
 
 class CheckoutPage extends React.Component {
     constructor(props) {
@@ -17,7 +18,8 @@ class CheckoutPage extends React.Component {
             inImage: [``],
             handleShipping: 2000,
             handleTax: (10 / 100),
-            openModalGantiAlamat: false
+            openModalGantiAlamat: false,
+            redirect:false
         }
     }
 
@@ -57,7 +59,7 @@ class CheckoutPage extends React.Component {
             .then((res) => {
                 swal("Berhasil Checkout")
                 this.props.getCart();
-                this.setState({ inImage: [``] })
+                this.setState({ inImage: [``],redirect:true })
             }).catch((err) => {
                 console.log("btnCheckout err", err)
             })
@@ -116,7 +118,9 @@ class CheckoutPage extends React.Component {
     }
 
     render() {
-        console.log("this.props.cartList", this.props.cartList)
+        if(this.state.redirect){
+            return <Navigate to='/halaman-transaksi'/>
+        }
         return (
             <div className='container clr-blue'>
                 <ModalGantiAlamat

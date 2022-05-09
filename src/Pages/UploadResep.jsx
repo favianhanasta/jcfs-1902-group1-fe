@@ -57,7 +57,7 @@ class UploadResep extends React.Component {
                 <hr style={{ borderWidth: 5, borderRadius: 10, width: "100%", backgroundColor: "#2B2273" }} />
                 <div className='clr-blue lead'>
                     <p>Silahkan login Terlebih Dahulu</p>
-                    <p>Untuk menikmati layanan transaksin dengan resep dokter</p>
+                    <p>Untuk menggunakan layanan transaksi dengan resep dokter</p>
                 </div>
                 <div style={{ width: "40%", margin: "auto" }}>
                     <Link to='/login'>

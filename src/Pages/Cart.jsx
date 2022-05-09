@@ -105,7 +105,7 @@ class CartPage extends React.Component {
     render() {
         console.log("this.props.cartList", this.props.cartList)
         return (
-            <div className='container clr-blue'>
+            <div className='container clr-blue' style={{marginTop:'42px'}}>
                 <div className='row my-2'>
                     <div className='col-6'>
                         <h4 className='clr-blue' style={{ fontWeight: 'bolder' }}>Keranjang</h4>
