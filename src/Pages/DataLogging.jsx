@@ -98,7 +98,7 @@ class DataLogging extends React.Component {
         console.log('dtlog in', this.state.dataLogIn);
         console.log('dtlog out', this.state.dataLogOut);
         return (
-            <div className='container'>
+            <div className='container my-4'>
                 <div className='d-flex py-1'>
                     <h5 className='clr-blue'>Halaman Admin</h5>
                     <h5 className='mx-3'>|</h5>
