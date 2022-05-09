@@ -10,6 +10,7 @@ import imgupload from '../Assets/imageupload.svg';
 import swal from 'sweetalert';
 import PastTransactionUser from '../Components/PastTransactionUser';
 import OrderByResepUser from './OrderByResepUser';
+const cartempty = require('../Assets/empty.png');
 
 class TransaksiPage extends React.Component {
     constructor(props) {
@@ -89,75 +90,77 @@ class TransaksiPage extends React.Component {
     }
 
     printTransaksi = () => {
-        return this.state.dataTransaksi.map((val, i) => {
-            return (
-                <div key={i} className='row transaksi-box my-4'>
-                    <div className='col-4 transaksi-item'>
-                        <p className='font-price clr-orange2' style={{ fontWeight: 'bold' }}>{val.invoice}</p>
-                        <div className='d-flex'>
-                            <img src={API_URL + val.detail[0].url} alt="" width='50%' />
-                            <div className='mx-2 clr-blue'>
-                                <p>{val.detail[0].nama}</p>
-                                <p className='font-price'>{val.detail[0].qty} x Rp. {val.detail[0].harga_persatuan}</p>
+        if (this.state.dataTransaksi.length > 0) {
+            return this.state.dataTransaksi.map((val, i) => {
+                return (
+                    <div key={i} className='row transaksi-box my-4'>
+                        <div className='col-4 transaksi-item'>
+                            <p className='font-price clr-orange2' style={{ fontWeight: 'bold' }}>{val.invoice}</p>
+                            <div className='d-flex'>
+                                <img src={API_URL + val.detail[0].url} alt="" width='50%' />
+                                <div className='mx-2 clr-blue'>
+                                    <p>{val.detail[0].nama}</p>
+                                    <p className='font-price'>{val.detail[0].qty} x Rp. {val.detail[0].harga_persatuan}</p>
+                                    {
+                                        val.detail.length > 1 ?
+                                            <a className='text-muted' style={{ cursor: 'pointer' }} onClick={() => this.onClickDetailProduk(val.detail)}>{val.detail.length - 1} produk lainnya</a>
+                                            :
+                                            null
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div className='col-4 clr-blue transaksi-item'>
+                            <p>{val.date}</p>
+                            <p className='clr-orange2' style={{ fontWeight: 'bold' }}>Pengiriman</p>
+                            <div className='d-flex'>
+                                <p>Penerima :</p>
+                                <p className='mx-2' style={{ fontWeight: '600' }}>{val.username}</p>
+                            </div>
+                            <p>Alamat : </p>
+                            <p style={{ marginTop: '-5%', fontWeight: '600' }}>{val.address}</p>
+                        </div>
+                        <div className='col-4'>
+                            <div className='clr-blue'>
+                                <p className='clr-orange2 lead' style={{ fontWeight: '600' }}>Total</p>
+                                <h2 className='font-price'>Rp{val.totalpembayaran}</h2>
+                                <a className='text-muted' style={{ cursor: 'pointer' }} onClick={() => this.onClickDetailPembayaran(val)}>Detail Pembayaran</a>
+                            </div>
+                            <div className='my-3'>
                                 {
-                                    val.detail.length > 1 ?
-                                        <a className='text-muted' style={{ cursor: 'pointer' }} onClick={() => this.onClickDetailProduk(val.detail)}>{val.detail.length - 1} produk lainnya</a>
-                                        :
-                                        null
-                                }
-                            </div>
-                        </div>
-                    </div>
-                    <div className='col-4 clr-blue transaksi-item'>
-                        <p>{val.date}</p>
-                        <p className='clr-orange2' style={{ fontWeight: 'bold' }}>Pengiriman</p>
-                        <div className='d-flex'>
-                            <p>Penerima :</p>
-                            <p className='mx-2' style={{ fontWeight: '600' }}>{val.username}</p>
-                        </div>
-                        <p>Alamat : </p>
-                        <p style={{ marginTop: '-5%', fontWeight: '600' }}>{val.address}</p>
-                    </div>
-                    <div className='col-4'>
-                        <div className='clr-blue'>
-                            <p className='clr-orange2 lead' style={{ fontWeight: '600' }}>Total</p>
-                            <h2 className='font-price'>Rp{val.totalpembayaran}</h2>
-                            <a className='text-muted' style={{ cursor: 'pointer' }} onClick={() => this.onClickDetailPembayaran(val)}>Detail Pembayaran</a>
-                        </div>
-                        <div className='my-3'>
-                            {
-                                val.url_payment === "0"
-                                    ?
-                                    <>
-                                        <a style={{ cursor: 'pointer' }} onClick={() => this.setState({ selectedId: i })}>Upload Bukti Pembayaran</a>
-                                        {
-                                            this.state.selectedId == i ?
-                                                <div>
-                                                    <Input placeholder={``} type='file' onChange={(e) => this.handleImage(e)} className='my-2' />
-                                                    <Button className='bt-orange' onClick={() => this.btnUpload(val.idtransaction)}>Save</Button>
-                                                </div>
-                                                :
-                                        <></>
-                                        }
-                                        {/* {
+                                    val.url_payment === "0"
+                                        ?
+                                        <>
+                                            <a style={{ cursor: 'pointer' }} onClick={() => this.setState({ selectedId: i })}>Upload Bukti Pembayaran</a>
+                                            {
+                                                this.state.selectedId == i ?
+                                                    <div>
+                                                        <Input placeholder={``} type='file' onChange={(e) => this.handleImage(e)} className='my-2' />
+                                                        <Button className='bt-orange' onClick={() => this.btnUpload(val.idtransaction)}>Save</Button>
+                                                    </div>
+                                                    :
+                                                    <></>
+                                            }
+                                            {/* {
                                         } */}
-                                    </>
-                                    :
-                                    <>
-                                        <p className='clr-orange'>sudah upload bukti pembayaran</p>
-                                    </>
-                            }
-                            <div style={{ marginTop: '16px', color: 'white' }}>
-                                <Badge className='p-1'
-                                    color={val.idstatus == 4 ? 'secondary' : val.idstatus == 6 ? 'success' : val.idstatus == 7 ? 'danger' : 'primary'}>
-                                    {val.status}
-                                </Badge>
+                                        </>
+                                        :
+                                        <>
+                                            <p className='clr-orange'>sudah upload bukti pembayaran</p>
+                                        </>
+                                }
+                                <div style={{ marginTop: '16px', color: 'white' }}>
+                                    <Badge className='p-1'
+                                        color={val.idstatus == 4 ? 'secondary' : val.idstatus == 6 ? 'success' : val.idstatus == 7 ? 'danger' : 'primary'}>
+                                        {val.status}
+                                    </Badge>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            )
-        })
+                )
+            })
+        }
     }
 
     render() {
@@ -175,21 +178,31 @@ class TransaksiPage extends React.Component {
                             <h5 className='clr-orange' style={{ float: 'right' }}>| Transaksi Saya</h5>
                         </div>
                     </div>
-                    <Tabs id="controlled-tab-example" activeKey={this.state.key} onSelect={(k) => this.setState({ key: k })} className='mb-3'>
-                        <Tab eventKey="ongoing" title="Transaksi Berlangsung">
-                            <div className='p-1'>
-                                {this.printTransaksi()}
+                    {
+                        this.state.dataTransaksi.length > 0 ?
+                            <Tabs id="controlled-tab-example" activeKey={this.state.key} onSelect={(k) => this.setState({ key: k })} className='mb-3'>
+                                <Tab eventKey="ongoing" title="Transaksi Berlangsung">
+                                    <div className='p-1'>
+                                        {this.printTransaksi()}
+                                    </div>
+                                </Tab>
+                                <Tab eventKey="past" title="History Transaksi">
+                                    <div className='p-1'>
+                                        <PastTransactionUser />
+                                    </div>
+                                </Tab>
+                                <Tab eventKey="resep" title="Order Melalui Resep">
+                                    <OrderByResepUser />
+                                </Tab>
+                            </Tabs>
+                            :
+                            <div className='text-center transaksi-box' style={{ padding: '10%' }}>
+                                <div className='d-flex justify-content-center'>
+                                    <img src={cartempty} />
+                                </div>
+                                <h1 className='clr-orange'>Belum Ada Transaksi</h1>
                             </div>
-                        </Tab>
-                        <Tab eventKey="past" title="History Transaksi">
-                            <div className='p-1'>
-                                <PastTransactionUser />
-                            </div>
-                        </Tab>
-                        <Tab eventKey="resep" title="Order Melalui Resep">
-                            <OrderByResepUser />
-                        </Tab>
-                    </Tabs>
+                    }
                 </div>
             </>
         );

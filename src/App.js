@@ -26,6 +26,7 @@ import OrderByResepAdmin from './Pages/OrderByResepAdmin';
 import CustomOrderResep from './Pages/CustomOrderResep';
 import SalesReport from './Pages/SalesReport';
 import DataLogging from './Pages/DataLogging';
+import ProductByCategory from './Pages/ProductByCategory';
 
 class App extends React.Component {
   constructor(props) {
@@ -49,6 +50,7 @@ class App extends React.Component {
           <Route path='/register' element={<RegisterPage />} />
           <Route path='/login' element={<LoginPage />} />
           <Route path='/product-page' element={<ProductPage />} />
+          <Route path='/product-page-category' element={<ProductByCategory />} />
           <Route path='/product-detail' element={<ProductDetail />} />
           <Route path='/verification/:token' element={<VerificationPage />} />
           <Route path='/resetpassword/:token' element={<ResetPasswordPage />} />

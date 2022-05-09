@@ -64,7 +64,7 @@ class ProductDetail extends React.Component {
             return <Navigate to='/cart'/>
         }
         return (
-            <div>
+            <div style={{marginTop:'42px'}}>
                 <div className='container'>
                     <div className='row my-2'>
                         <div className='col-6'>

@@ -18,7 +18,7 @@ class NavbarComponent extends React.Component {
 
     render() {
         return (
-            <div className='clr-blue shadow-sm' style={{ marginBottom: '2%' }}>
+            <div className='clr-blue shadow-sm'>
                 <div className='container' style={{ paddingTop: '10px' }}>
                     <div className='row'>
                         <div className='col-4 p-3'>
@@ -27,37 +27,48 @@ class NavbarComponent extends React.Component {
                             </Link>
                         </div>
                         <div className='col-6'>
-                            <div className='d-flex p-3' style={{ fontSize: 14, fontWeight: "bold" }}>
-                                <Link to="/" style={{ textDecoration: "none" }}>
-                                    <p className='mx-4 clr-blue'>Home</p>
-                                </Link>
-                                <Link to="/product-page" style={{ textDecoration: "none" }}>
-                                    <p className='mx-4 clr-blue'>Produk</p>
-                                </Link>
-                                <p className='mx-4'>Tentang Kami</p>
+                            <div className='d-flex p-3' id='nav-item' style={{ fontSize: 14, fontWeight: "bold" }}>
+                                <div>
+                                    <Link to="/" style={{ textDecoration: "none" }}>
+                                        <p className='mx-4 clr-blue'>Home</p>
+                                    </Link>
+                                </div>
+                                <div>
+                                    <Link to="/product-page" style={{ textDecoration: "none" }}>
+                                        <p className='mx-4 clr-blue'>Produk</p>
+                                    </Link>
+                                </div>
+                                <div>
+                                    <p className='mx-4'>Tentang Kami</p>
+                                </div>
                                 {
                                     this.props.idrole == 2 &&
                                     <>
-                                        <Link to="/halaman-transaksi" className='clr-blue' style={{ textDecoration: "none" }}>
-                                            <p className='mx-4'>Transaksi</p>
-                                        </Link>
+                                        <div>
+                                            <Link to="/halaman-transaksi" className='clr-blue' style={{ textDecoration: "none" }}>
+                                                <p className='mx-4'>Transaksi</p>
+                                            </Link>
+                                        </div>
                                     </>
                                 }
                             </div>
                         </div>
                         <div className='col-2 clr-blue d-flex ' style={{ fontSize: 14, fontWeight: "bold" }}>
-                            <Link to="/cart" style={{ color: "#2d3436" }}>
-                                <div className='p-3'>
-                                    <Badge badgeContent={this.props.cartList.length} color='error'>
-                                        <BsCartFill className='clr-blue' style={{ fontSize: '20px' }} />
-                                    </Badge>
-                                </div>
-                            </Link>
+                            {
+                                this.props.idrole == 2 &&
+                                <Link to="/cart" style={{ color: "#2d3436" }}>
+                                    <div className='p-3'>
+                                        <Badge badgeContent={this.props.cartList.length} color='error'>
+                                            <BsCartFill className='clr-blue' style={{ fontSize: '20px' }} />
+                                        </Badge>
+                                    </div>
+                                </Link>
+                            }
                             {
                                 this.props.username
                                     ?
                                     <UncontrolledDropdown>
-                                        <DropdownToggle caret nav  className="d-flex clr-blue align-items-center">
+                                        <DropdownToggle caret nav className="d-flex clr-blue align-items-center">
                                             <div className='d-flex'>
                                                 <img className='mt-1' src={API_URL + this.props.imgProfile} style={{ height: 40, width: 40, borderRadius: '50px' }} />
                                                 <div className='p-2'>
@@ -138,7 +149,7 @@ class NavbarComponent extends React.Component {
                                     :
                                     <>
                                         <Link to="/login">
-                                            <Button className='bt-orange' style={{ borderRadius: 10 }}>Masuk</Button>
+                                            <Button className='bt-orange my-2' style={{ borderRadius: 10 }}>Masuk</Button>
                                         </Link>
                                     </>
                             }

@@ -81,7 +81,7 @@ class ProductPage extends React.Component {
 
     render() {
         return (
-            <div className='container'>
+            <div className='container my-4'>
                 <div className=' bg-light text-center my-2' style={{ marginBottom: '2%', padding: '3%', borderRadius: '15px' }}>
                     <p className='clr-blue' style={{ fontWeight: '400', fontSize: '18px' }}>Dapatkan obat anda melalui resep dokter dengan klik tombol dibawah !</p>
                     <Link to='/uploadresep-page'>
@@ -129,13 +129,15 @@ class ProductPage extends React.Component {
                         <div className='d-flex justify-content-end'>
                             <a className='clr-blue' id="reset-search" style={{ textDecoration: 'none', cursor: 'pointer', fontSize: '14px' }} onClick={this.btResetSearch}>Tampilkan Semua</a>
                         </div>
-                        <div className='row' style={{height:'1135px'}}>
+                        <div style={{ height: '1135px' }}>
+                        <div className='row'>
                             {this.printProductList()}
                         </div>
+                        </div>
+                        <div className='text-center' style={{marginTop:'80px'}}>
+                            {this.printBtPagination()}
+                        </div>
                     </div>
-                </div>
-                <div className='text-center'>
-                    {this.printBtPagination()}
                 </div>
             </div>
         );
