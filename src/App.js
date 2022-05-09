@@ -26,6 +26,7 @@ import OrderByResepAdmin from './Pages/OrderByResepAdmin';
 import CustomOrderResep from './Pages/CustomOrderResep';
 import SalesReport from './Pages/SalesReport';
 import DataLogging from './Pages/DataLogging';
+import SalesRevenue from './Pages/SalesRevenue';
 
 class App extends React.Component {
   constructor(props) {
@@ -72,6 +73,7 @@ class App extends React.Component {
                   <Route path='/manajemen-orderresep' element={<OrderByResepAdmin />} />
                   <Route path='/custom-order' element={<CustomOrderResep />} />
                   <Route path='/sales-report' element={<SalesReport />} />
+                  <Route path='/sales-revenue' element={<SalesRevenue />} />
                   <Route path='/datalog' element={<DataLogging/>} />
                 </>
                 :

@@ -16,6 +16,7 @@ class SalesReport extends React.Component {
     componentDidMount() {
         this.getDataSalesReport()
         this.getDateSalesReport()
+        this.printTotalSalesReport()
     }
 
     getDataSalesReport = async () => {
@@ -58,14 +59,16 @@ class SalesReport extends React.Component {
                             {value.nama}
                         </td>
                         <td>
-                            {value.qty}
+                            {value.qty} {value.satuan}
+                        </td>
+                        <td>
+                            {value.keterangan}
                         </td>
                         <td>
                             Rp {value.total.toLocaleString()}
                         </td>
                     </tr>
                 </tbody>
-
             )
         })
     }
@@ -78,8 +81,20 @@ class SalesReport extends React.Component {
         })
     }
 
-    btnFilterDate = async() => {
+    printTotalSalesReport = () => {
+        let total = 0
+        this.state.dataSalesReport.forEach((value, index) => {
+            total += value.total
+        })
+        return total
+    }
+
+    btnFilterDate = async () => {
         await this.setState({ selectedDate: this.inSelectDate.value })
+        this.getDataSalesReport()
+    }
+    btnResetDate = async () => {
+        await this.setState({ selectedDate: "" })
         this.getDataSalesReport()
     }
 
@@ -87,13 +102,20 @@ class SalesReport extends React.Component {
         console.log("dataSalesReport", this.state.dataSalesReport)
         return (
             <div className='container clr-blue'>
-                <h1>SALES REPORT</h1>
+                <div className='row'>
+                    <div className='col-md-6 d-flex py-1'>
+                        <h5 className='clr-blue'>Halaman Admin</h5>
+                        <h5 className='mx-3'>|</h5>
+                        <h5 className='clr-orange2'>Sales Report</h5>
+                    </div>
+                </div>
                 <Input type='select' innerRef={(e) => this.inSelectDate = e}>
                     <option value='none' disabled>Pilih Tanggal</option>
                     {this.printSelectDate()}
                 </Input>
-                <Button onClick={this.btnFilterDate}>Select Date</Button>
-                <Table>
+                <Button className='bt-orange mx-3' onClick={this.btnFilterDate}>Select Date</Button>
+                <Button className='bt-blue mx-3' onClick={this.btnResetDate}>Reset</Button>
+                <Table className='mt-3'>
                     <thead>
                         <tr>
                             <th>
@@ -103,15 +125,36 @@ class SalesReport extends React.Component {
                                 Name
                             </th>
                             <th>
-                                Last Name
+                                Quantity
                             </th>
                             <th>
-                                Username
+                                Keterangan
+                            </th>
+                            <th>
+                                Total
                             </th>
                         </tr>
                     </thead>
-
                     {this.printSalesReport()}
+                    <tbody>
+                        <tr>
+                            <th>
+                                Total Sales
+                            </th>
+                            <th>
+
+                            </th>
+                            <th>
+
+                            </th>
+                            <th>
+
+                            </th>
+                            <th>
+                                Rp. {this.printTotalSalesReport().toLocaleString()}
+                            </th>
+                        </tr>
+                    </tbody>
                 </Table>
             </div>
         );
