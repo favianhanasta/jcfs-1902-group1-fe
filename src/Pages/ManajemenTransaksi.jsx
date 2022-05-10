@@ -130,22 +130,26 @@ class ManajemenTransaksi extends React.Component {
                         <p>Alamat : </p>
                         <p style={{ marginTop: '-5%', fontWeight: '600' }}>{val.address}</p>
                     </div>
-                    <div className='col-4 row'>
-                        <div className='clr-blue col-7'>
-                            <p className='clr-orange2 lead' style={{ fontWeight: '600' }}>Total</p>
-                            <h2 className='font-price'>Rp{val.totalpembayaran}</h2>
-                            <a className='text-muted' style={{ cursor: 'pointer' }} onClick={() => this.onClickDetailPembayaran(val)}>Detail Pembayaran</a>
-                            <p className='clr-orange2 lead' style={{ fontWeight: '600' }}>Action</p>
-                            <div className='text-center d-flex' style={{ marginTop: '-16px' }}>
-                                <Button color='primary' outline style={{ border: 'none' }} onClick={() => this.btAction(val.idtransaction, 3)}>Confirm</Button>
-                                <Button className='mx-2' color='danger' outline style={{ border: 'none' }} onClick={() => this.btAction(val.idtransaction, 7)}>Reject</Button>
+                    <div className='col-4'>
+                        <div className='row'>
+                            <div className='clr-blue col-7'>
+                                <p className='clr-orange2 lead' style={{ fontWeight: '600' }}>Total</p>
+                                <h2 className='font-price'>Rp{val.totalpembayaran}</h2>
+                                <a className='text-muted' style={{ cursor: 'pointer' }} onClick={() => this.onClickDetailPembayaran(val)}>Detail Pembayaran</a>
+                            </div>
+                            <div className='col-5' style={{ color: 'white', float: 'right' }}>
+                                <Badge className='p-1'
+                                    color={val.idstatus == 4 ? 'secondary' : val.idstatus == 6 ? 'success' : val.idstatus == 7 ? 'danger' : 'primary'} >
+                                    {val.status}
+                                </Badge>
                             </div>
                         </div>
-                        <div className='col-5' style={{ color: 'white', float: 'right' }}>
-                            <Badge className='p-1'
-                                color={val.idstatus == 4 ? 'secondary' : val.idstatus == 6 ? 'success' : val.idstatus == 7 ? 'danger' : 'primary'} >
-                                {val.status}
-                            </Badge>
+                        <p className='clr-orange2 lead' style={{ fontWeight: '600' }}>Action</p>
+                        <div className='text-center d-flex' style={{ marginTop: '-16px' }}>
+                            <Button color='primary' outline style={{ border: 'none' }} onClick={() => this.btAction(val.idtransaction, 3)}>Confirm</Button>
+                            <Button className='mx-2' color='danger' outline style={{ border: 'none' }} onClick={() => this.btAction(val.idtransaction, 7)}>Reject</Button>
+                            <Button color='secondary mx-1' outline style={{ border: 'none' }} onClick={() => this.btAction(val.idtransaction, 5)}>Dikirim</Button>
+                            <Button color='success' outline style={{ border: 'none' }} onClick={() => this.btAction(val.idtransaction, 6)}>Selesai</Button>
                         </div>
                         <div className='px-3 my-2'>
                             {
@@ -187,7 +191,7 @@ class ManajemenTransaksi extends React.Component {
             <>
                 <ModalProdukTransaksi open={this.state.openModProduk} toggle={() => this.setState({ openModProduk: !this.state.openModProduk })} data={this.state.dataModProduk} />
                 <ModalDetailPembayaran open={this.state.openModPembayaran} toggle={() => this.setState({ openModPembayaran: !this.state.openModPembayaran })} data={this.state.dataModPembayaran} />
-                <div className='container' style={{ marginTop: "3%" }}>
+                <div className='container' style={{ marginTop: "3%", height: '100vh' }}>
                     <div className='row'>
                         <div className='col-md-6 d-flex py-1'>
                             <h5 className='clr-blue'>Halaman Admin</h5>

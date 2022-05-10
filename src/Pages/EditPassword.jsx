@@ -56,7 +56,7 @@ class EditPasswordPage extends React.Component {
 
     render() {
         return (
-            <div className='container clr-blue'>
+            <div className='container clr-blue' style={{height:'50vh'}}>
                 <div style={{ textAlign: "center", marginTop: "10%" }}>
                     <h1 style={{ fontWeight: "bolder" }}>Ubah Password Anda</h1>
                 </div>

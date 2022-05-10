@@ -98,7 +98,7 @@ class DataLogging extends React.Component {
         console.log('dtlog in', this.state.dataLogIn);
         console.log('dtlog out', this.state.dataLogOut);
         return (
-            <div className='container my-4'>
+            <div className='container my-4' style={{height:'1120px'}}>
                 <div className='d-flex py-1'>
                     <h5 className='clr-blue'>Halaman Admin</h5>
                     <h5 className='mx-3'>|</h5>
@@ -106,7 +106,7 @@ class DataLogging extends React.Component {
                 </div>
                 <Tabs id="controlled-tab-example" activeKey={this.state.key} onSelect={(k) => this.setState({ key: k })} className='mt-3'>
                     <Tab title='Data Masuk' eventKey='masuk'>
-                        <div style={{ height: '925px' }}>
+                        <div>
                             <div className='py-2 d-flex justify-content-center' >
                                 <Table bordered className='my-3'>
                                     <thead className='text-center clr-blue'>
@@ -129,9 +129,9 @@ class DataLogging extends React.Component {
                         </div>
                     </Tab>
                     <Tab title='Data Keluar' eventKey='keluar'>
-                        <div style={{ height: '925px' }}>
+                        <div>
                             <div className='py-2 d-flex justify-content-center'>
-                                <Table bordered style={{ width: '50vw' }} className='my-3'>
+                                <Table bordered style={{ width: '50vw'}}>
                                     <thead className='text-center clr-blue'>
                                         <tr>
                                             <th>Gambar</th>
@@ -146,13 +146,13 @@ class DataLogging extends React.Component {
                                     </tbody>
                                 </Table>
                             </div>
-                        </div>
-                        <div className='text-center'>
-                            {this.btnPaginationOut()}
+                            <div className='text-center'>
+                                {this.btnPaginationOut()}
+                            </div>
                         </div>
                     </Tab>
                 </Tabs >
-            </div >
+            </div>
         );
     }
 }
