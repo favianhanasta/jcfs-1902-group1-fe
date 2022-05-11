@@ -46,11 +46,16 @@ class RegisterPage extends React.Component {
             if (this.passwordRegis.value === this.confPasswordRegis.value) {
                 console.log(dataRegis)
                 axios.post(`${API_URL}/users/regis`, dataRegis)
-                swal("Daftar berhasil")
-                    .then(() => {
-                        swal("Silahkan cek email untuk verifikasi akun kamu")
+                    .then(async (res)=> {
+                        if(res.data.success){
+                            swal("Daftar berhasil")
+                            swal("Silahkan cek email untuk verifikasi akun kamu")
+                            await this.setState({ redirect: true })
+                        }else{
+                            swal("Email telah terdaftar!")
+                        }
                     })
-                await this.setState({ redirect: true })
+                    .catch((err)=>console.log('error regis',err))
             } else {
                 swal("password tidak sama")
             }

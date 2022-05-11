@@ -116,7 +116,7 @@ class SalesRevenue extends React.Component {
 
     render() {
         return (
-            <div className='container clr-blue'>
+            <div className='container clr-blue' style={{height:'100vh'}}>
                 <div className='row'>
                     <div className='col-md-6 d-flex py-1'>
                         <h5 className='clr-blue'>Halaman Admin</h5>

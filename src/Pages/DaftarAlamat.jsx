@@ -92,7 +92,7 @@ class DaftarAlamatPage extends React.Component {
         console.log("addressList", this.props.addressList)
         console.log("idaddress", this.props.idaddress)
         return (
-            <div className='container clr-blue'>
+            <div className='container clr-blue' style={{height:'100vh'}}>
                 <ModalTambahAlamat
                     openModalTambahAlamat={this.state.openModalTambahAlamat}
                     toggleModalTambahAlamat={() => this.setState({ openModalTambahAlamat: !this.state.openModalTambahAlamat })}

@@ -166,7 +166,7 @@ class TransaksiPage extends React.Component {
     render() {
         console.log(this.state.dataTransaksi)
         return (
-            <>
+            <div style={{ height: '100vh' }}>
                 <ModalProdukTransaksi open={this.state.openModProduk} toggle={() => this.setState({ openModProduk: !this.state.openModProduk })} data={this.state.dataModProduk} />
                 <ModalDetailPembayaran open={this.state.openModPembayaran} toggle={() => this.setState({ openModPembayaran: !this.state.openModPembayaran })} data={this.state.dataModPembayaran} />
                 <div className='container' style={{ marginTop: "3%" }}>
@@ -204,7 +204,7 @@ class TransaksiPage extends React.Component {
                             </div>
                     }
                 </div>
-            </>
+            </div>
         );
     }
 }

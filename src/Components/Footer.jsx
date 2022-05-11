@@ -8,7 +8,7 @@ class FooterComp extends React.Component {
     }
     render() { 
         return ( 
-            <div  style={{padding:'3%',background:'#2B2273',marginTop:'4%'}}>
+            <div  style={{padding:'3%',background:'#2B2273',marginTop:'4%',bottom:'0'}}>
                 <div className='container-fluid row' style={{margin:'auto'}}>
                     <div className='col-4 d-flex justify-content-end'>
                         <div>
