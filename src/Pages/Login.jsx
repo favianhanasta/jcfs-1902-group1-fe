@@ -88,7 +88,7 @@ class LoginPage extends React.Component {
                                 </InputGroupText>
                             </InputGroup>
                             <div className="mt-5" style={{ float: "right" }}>
-                                <h5 onClick={() => this.setState({ openModalForgotPassword: !this.state.openModalForgotPassword })}>Lupa Kata Sandi?</h5>
+                                <h5 onClick={() => this.setState({ openModalForgotPassword: !this.state.openModalForgotPassword })} style={{cursor:'pointer'}}>Lupa Kata Sandi?</h5>
                             </div>
                         </FormGroup>
                     </div>

@@ -49,7 +49,7 @@ class ResetPasswordPage extends React.Component {
             return <Navigate to="/" />
         }
         return (
-            <div className='container clr-blue'>
+            <div className='container clr-blue' style={{height:'80vh'}}>
                 <div style={{ textAlign: "center", marginTop: "10%" }}>
                     <h1 style={{ fontWeight: "bolder" }}>Masukan Password Baru Anda</h1>
                 </div>
