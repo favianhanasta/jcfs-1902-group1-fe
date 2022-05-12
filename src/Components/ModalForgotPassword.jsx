@@ -18,6 +18,7 @@ class ModalForgotPassword extends React.Component {
             .then(res => {
                 console.log("res.data", res.data)
                 swal("Kami sudah mengirimkan link melalui email, silahkan periksa email anda")
+                this.props.toggleModalForgotPassword()
             }).catch(err => {
                 console.log(err)
             })
