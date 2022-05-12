@@ -17,6 +17,7 @@ class NavbarComponent extends React.Component {
     }
 
     render() {
+        console.log(this.props.imgProfile)
         return (
             <div className='clr-blue shadow-sm'>
                 <div className='container' style={{ paddingTop: '10px' }}>
@@ -70,7 +71,12 @@ class NavbarComponent extends React.Component {
                                     <UncontrolledDropdown>
                                         <DropdownToggle caret nav className="d-flex clr-blue align-items-center">
                                             <div className='d-flex'>
-                                                <img className='mt-1' src={API_URL + this.props.imgProfile} style={{ height: 40, width: 40, borderRadius: '50px' }} />
+                                                {
+                                                    this.props.imgProfile.includes('imgUser') ?
+                                                        <img className='mt-1' src={API_URL + this.props.imgProfile} style={{ height: 40, width: 40, borderRadius: '50px' }} />
+                                                        :
+                                                        <img className='mt-1' src={this.props.imgProfile} style={{ height: 40, width: 40, borderRadius: '50px' }} />
+                                                }
                                                 <div className='p-2'>
                                                     <p className='mt-1'>{this.props.username}</p>
                                                 </div>

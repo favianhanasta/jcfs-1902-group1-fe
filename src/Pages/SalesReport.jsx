@@ -101,8 +101,8 @@ class SalesReport extends React.Component {
     render() {
         console.log("dataSalesReport", this.state.dataSalesReport)
         return (
-            <div className='container clr-blue'>
-                <div className='row'>
+            <div className='container clr-blue my-4' style={{height:"100vh"}}>
+                <div className='row my-4'>
                     <div className='col-md-6 d-flex py-1'>
                         <h5 className='clr-blue'>Halaman Admin</h5>
                         <h5 className='mx-3'>|</h5>
