@@ -19,7 +19,7 @@ class CheckoutPage extends React.Component {
             handleShipping: 2000,
             handleTax: (10 / 100),
             openModalGantiAlamat: false,
-            redirect:false
+            redirect: false
         }
     }
 
@@ -55,14 +55,18 @@ class CheckoutPage extends React.Component {
             detail: this.props.cartList
         }
         console.log("dataCheckout", data)
-        axios.post(`${API_URL}/users/checkout`, data)
-            .then((res) => {
-                swal("Berhasil Checkout")
-                this.props.getCart();
-                this.setState({ inImage: [``],redirect:true })
-            }).catch((err) => {
-                console.log("btnCheckout err", err)
-            })
+        if (this.props.idaddress == 1) {
+            swal("Anda Belum Memiliki Alamat")
+        } else {
+            axios.post(`${API_URL}/users/checkout`, data)
+                .then((res) => {
+                    swal("Berhasil Checkout")
+                    this.props.getCart();
+                    this.setState({ inImage: [``], redirect: true })
+                }).catch((err) => {
+                    console.log("btnCheckout err", err)
+                })
+        }
     }
 
     printTotalPayment = () => {
@@ -118,8 +122,8 @@ class CheckoutPage extends React.Component {
     }
 
     render() {
-        if(this.state.redirect){
-            return <Navigate to='/halaman-transaksi'/>
+        if (this.state.redirect) {
+            return <Navigate to='/halaman-transaksi' />
         }
         return (
             <div className='container clr-blue'>
@@ -144,7 +148,7 @@ class CheckoutPage extends React.Component {
                                     <h5 style={{ fontWeight: "bolder" }} className='clr-orange2'>Alamat Pengiriman</h5>
                                 </div>
                                 <div className='col-6'>
-                                    <GoLocation className='float-right' style={{fontSize:'22px'}} />
+                                    <GoLocation className='float-right' style={{ fontSize: '22px' }} />
                                 </div>
                             </div>
                             {this.printAlamat()}
