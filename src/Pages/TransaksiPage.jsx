@@ -56,8 +56,14 @@ class TransaksiPage extends React.Component {
                 }
             })
                 .then((res) => {
+                    axios.patch(API_URL + `/transaction/adminaction/${idtransaction}`, { idstatus: 8 })
+                        .then((res) => {
+                            this.getData()
+                        })
+                        .catch((err) => {
+                            console.log('error bt action', err)
+                        })
                     swal("Berhasil Upload")
-                    this.getData()
                 }).catch((err) => {
                     console.log("btnUpload err", err)
                 })
@@ -77,6 +83,16 @@ class TransaksiPage extends React.Component {
                 this.setState({ dataTransaksi: res.data.dataTransaksi })
             })
             .catch((err) => console.log('error getdata', err));
+    }
+
+    btnSelesai = (idtransaction) => {
+        axios.patch(API_URL + `/transaction/adminaction/${idtransaction}`, { idstatus: 6 })
+            .then((res) => {
+                // this.getData()
+            })
+            .catch((err) => {
+                console.log('error bt action', err)
+            })
     }
 
     onClickDetailProduk = (data) => {
@@ -131,7 +147,7 @@ class TransaksiPage extends React.Component {
                                     val.url_payment === "0"
                                         ?
                                         <>
-                                            <a style={{ cursor: 'pointer' }} onClick={() => this.setState({ selectedId: i })}>Upload Bukti Pembayaran</a>
+                                            <Button className='bt-orange' style={{ cursor: 'pointer' }} onClick={() => this.setState({ selectedId: i })}>Upload Bukti Pembayaran</Button>
                                             {
                                                 this.state.selectedId == i ?
                                                     <div>
@@ -155,6 +171,10 @@ class TransaksiPage extends React.Component {
                                         {val.status}
                                     </Badge>
                                 </div>
+                                {
+                                    val.idstatus == 5 &&
+                                    <Button className='my-3' color='success' onClick={() => this.btnSelesai(val.idtransaction)}>Pesanan Selesai</Button>
+                                }
                             </div>
                         </div>
                     </div>
@@ -164,9 +184,9 @@ class TransaksiPage extends React.Component {
     }
 
     render() {
-        console.log(this.state.dataTransaksi)
+        console.log('transaksi', this.state.dataTransaksi)
         return (
-            <div style={{ height: '100vh' }}>
+            <div style={{ minHeight: '100%' }}>
                 <ModalProdukTransaksi open={this.state.openModProduk} toggle={() => this.setState({ openModProduk: !this.state.openModProduk })} data={this.state.dataModProduk} />
                 <ModalDetailPembayaran open={this.state.openModPembayaran} toggle={() => this.setState({ openModPembayaran: !this.state.openModPembayaran })} data={this.state.dataModPembayaran} />
                 <div className='container' style={{ marginTop: "3%" }}>
@@ -178,31 +198,31 @@ class TransaksiPage extends React.Component {
                             <h5 className='clr-orange' style={{ float: 'right' }}>| Transaksi Saya</h5>
                         </div>
                     </div>
-                    {
-                        this.state.dataTransaksi.length > 0 ?
-                            <Tabs id="controlled-tab-example" activeKey={this.state.key} onSelect={(k) => this.setState({ key: k })} className='mb-3'>
-                                <Tab eventKey="ongoing" title="Transaksi Berlangsung">
-                                    <div className='p-1'>
-                                        {this.printTransaksi()}
-                                    </div>
-                                </Tab>
-                                <Tab eventKey="past" title="History Transaksi">
-                                    <div className='p-1'>
-                                        <PastTransactionUser />
-                                    </div>
-                                </Tab>
-                                <Tab eventKey="resep" title="Order Melalui Resep">
-                                    <OrderByResepUser />
-                                </Tab>
-                            </Tabs>
-                            :
-                            <div className='text-center transaksi-box' style={{ padding: '10%' }}>
-                                <div className='d-flex justify-content-center'>
-                                    <img src={cartempty} />
-                                </div>
-                                <h1 className='clr-orange'>Belum Ada Transaksi</h1>
+                    <Tabs id="controlled-tab-example" activeKey={this.state.key} onSelect={(k) => this.setState({ key: k })} className='mb-3'>
+                        <Tab eventKey="ongoing" title="Transaksi Berlangsung">
+                            <div className='p-1'>
+                                {
+                                    this.state.dataTransaksi.length > 0 ?
+                                        this.printTransaksi()
+                                        :
+                                        <div className='text-center transaksi-box' style={{ padding: '10%' }}>
+                                            <div className='d-flex justify-content-center'>
+                                                <img src={cartempty} />
+                                            </div>
+                                            <h1 className='clr-orange'>Belum Ada Transaksi</h1>
+                                        </div>
+                                }
                             </div>
-                    }
+                        </Tab>
+                        <Tab eventKey="past" title="History Transaksi">
+                            <div className='p-1'>
+                                <PastTransactionUser />
+                            </div>
+                        </Tab>
+                        <Tab eventKey="resep" title="Order Melalui Resep">
+                            <OrderByResepUser />
+                        </Tab>
+                    </Tabs>
                 </div>
             </div>
         );

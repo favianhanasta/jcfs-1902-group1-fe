@@ -7,6 +7,7 @@ import { API_URL } from '../helper';
 import { RiSearch2Line } from "react-icons/ri";
 import { getTransactionAdmin } from '../redux/actions'
 import { connect } from 'react-redux';
+const cartempty = require('../Assets/empty.png');
 
 
 class ManajemenTransaksi extends React.Component {
@@ -41,7 +42,8 @@ class ManajemenTransaksi extends React.Component {
                     status: 'Batal',
                     value: 7
                 }
-            ]
+            ],
+            onConfirm: false
         }
     }
 
@@ -97,13 +99,25 @@ class ManajemenTransaksi extends React.Component {
             })
     }
 
+    btConfirm = (id) => {
+        axios.patch(API_URL + `/transaction/adminaction/${id}`, { idstatus: 3 })
+            .then((res) => {
+                this.props.getTransactionAdmin()
+                this.setState({ onReject: true })
+            })
+            .catch((err) => {
+                console.log('error bt action', err)
+            })
+
+    }
+
     printTransaksi = () => {
         return this.props.transaction.map((val, i) => {
             return (
                 <div key={i} className='row transaksi-box my-4'>
                     <div className='col-4 transaksi-item'>
                         <div className='d-flex'>
-                            <p className='font-price clr-orange2' style={{ fontWeight: 'bold' }}>{val.invoice}</p>
+                            <p className='font-price clr-orange2 mr-2' style={{ fontWeight: 'bold' }}>{val.invoice}</p>
                             <p style={{ fontWeight: 'bold', marginLeft: 'auto' }}>user : {val.username}</p>
                         </div>
                         <div className='d-flex'>
@@ -144,20 +158,13 @@ class ManajemenTransaksi extends React.Component {
                                 </Badge>
                             </div>
                         </div>
-                        <p className='clr-orange2 lead' style={{ fontWeight: '600' }}>Action</p>
-                        <div className='text-center d-flex' style={{ marginTop: '-16px' }}>
-                            <Button color='primary' outline style={{ border: 'none' }} onClick={() => this.btAction(val.idtransaction, 3)}>Confirm</Button>
-                            <Button className='mx-2' color='danger' outline style={{ border: 'none' }} onClick={() => this.btAction(val.idtransaction, 7)}>Reject</Button>
-                            <Button color='secondary mx-1' outline style={{ border: 'none' }} onClick={() => this.btAction(val.idtransaction, 5)}>Dikirim</Button>
-                            <Button color='success' outline style={{ border: 'none' }} onClick={() => this.btAction(val.idtransaction, 6)}>Selesai</Button>
-                        </div>
-                        <div className='px-3 my-2'>
+                        <div className='px-3' style={{ marginBottom: '16px' }}>
                             {
                                 val.url_payment == "0" ?
-                                    <p className='text-muted' >User belum upload bukti pembayaran</p>
+                                    <p style={{ color: 'red' }}>User belum upload bukti pembayaran</p>
                                     :
                                     <>
-                                        <a className='clr-orange' style={{ cursor: 'pointer' }} onClick={() => this.setState({ modalGambar: !this.state.modalGambar })}>Lihat Bukti Pembayaran</a>
+                                        <a className='clr-orange my-2' style={{ cursor: 'pointer' }} onClick={() => this.setState({ modalGambar: !this.state.modalGambar })}>Lihat Bukti Pembayaran</a>
                                         <Modal isOpen={this.state.modalGambar} toggle={() => this.setState({ modalGambar: !this.state.modalGambar })} centered size='lg'>
                                             <ModalBody>
                                                 <div className='d-flex justify-content-center'>
@@ -169,6 +176,22 @@ class ManajemenTransaksi extends React.Component {
                                             </ModalFooter>
                                         </Modal>
                                     </>
+                            }
+                        </div>
+                        <p className='clr-blue lead' style={{ fontWeight: '600' }}>Action</p>
+                        <div className='text-center d-flex' style={{ marginTop: '-16px' }}>
+                            {
+                                val.idstatus == 8 ?
+                                    <>
+                                        <Button color='primary' outline style={{ border: 'none' }} onClick={() => this.btConfirm(val.idtransaction)}>Confirm</Button>
+                                        <Button className='mx-2' color='danger' outline style={{ border: 'none' }} disabled={this.state.onReject} onClick={() => this.btAction(val.idtransaction, 7)}>Reject</Button>
+                                    </>
+                                    :
+                                    val.idstatus == 3 ?
+                                        <Button color='secondary mx-1' outline style={{ border: 'none' }} onClick={() => this.btAction(val.idtransaction, 5)}>Dikirim</Button>
+                                        :
+                                        val.idstatus == 9 &&
+                                        <Button color='success' outline style={{ border: 'none' }} onClick={() => this.btAction(val.idtransaction, 6)}>Selesai</Button>
                             }
                         </div>
                     </div>
@@ -191,7 +214,7 @@ class ManajemenTransaksi extends React.Component {
             <>
                 <ModalProdukTransaksi open={this.state.openModProduk} toggle={() => this.setState({ openModProduk: !this.state.openModProduk })} data={this.state.dataModProduk} />
                 <ModalDetailPembayaran open={this.state.openModPembayaran} toggle={() => this.setState({ openModPembayaran: !this.state.openModPembayaran })} data={this.state.dataModPembayaran} />
-                <div className='container' style={{ marginTop: "3%", height: '100vh' }}>
+                <div className='container' style={{ marginTop: "3%", minHeight: '100%' }}>
                     <div className='row'>
                         <div className='col-md-6 d-flex py-1'>
                             <h5 className='clr-blue'>Halaman Admin</h5>
@@ -214,14 +237,24 @@ class ManajemenTransaksi extends React.Component {
                         </InputGroup>
                     </div>
                     <div className='clr-blue' style={{ float: 'right' }}>
-                        <p onClick={this.btSemua} style={{ cursor: 'pointer' }}>Tampilkan semua produk</p>
+                        <p onClick={this.btSemua} style={{ cursor: 'pointer' }}>Tampilkan semua transaksi</p>
                     </div>
                     <div className='d-flex my-4'>
                         {this.printStatus()}
                     </div>
-                    <div style={{ marginTop: '21px', paddingLeft: '10px', paddingRight: '10px' }}>
-                        {this.printTransaksi()}
-                    </div>
+                    {
+                        this.props.transaction.length > 0 ?
+                            <div style={{ marginTop: '21px', paddingLeft: '10px', paddingRight: '10px' }}>
+                                {this.printTransaksi()}
+                            </div>
+                            :
+                            <div className='text-center transaksi-box' style={{ padding: '10%' }}>
+                                <div className='d-flex justify-content-center'>
+                                    <img src={cartempty} />
+                                </div>
+                                <h1 className='clr-orange'>Belum Ada Transaksi dari user</h1>
+                            </div>
+                    }
                 </div>
             </>
         );

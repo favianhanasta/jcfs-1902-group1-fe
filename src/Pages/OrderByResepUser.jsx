@@ -3,7 +3,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Badge } from 'reactstrap';
 import { API_URL } from '../helper';
-import { getTransactionByResep } from '../redux/actions'
+import { getTransactionByResep } from '../redux/actions';
+const cartempty = require('../Assets/empty.png');
 
 class OrderByResepUser extends React.Component {
     constructor(props) {
@@ -41,9 +42,19 @@ class OrderByResepUser extends React.Component {
     render() {
         return (
             <div className='container'>
-                <div className='row'>
-                    {this.printTransaksi()}
-                </div>
+                {
+                    this.props.byResep.length > 0 ?
+                        <div className='row'>
+                            {this.printTransaksi()}
+                        </div>
+                        :
+                        <div className='text-center transaksi-box' style={{ padding: '10%' }}>
+                            <div className='d-flex justify-content-center'>
+                                <img src={cartempty} />
+                            </div>
+                            <h1 className='clr-orange'>Belum Ada Transaksi</h1>
+                        </div>
+                }
             </div>
         );
     }
