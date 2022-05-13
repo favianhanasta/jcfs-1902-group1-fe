@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Button } from 'reactstrap';
+import { Button, FormGroup, Input } from 'reactstrap';
 import { getAddress, keepAction } from '../redux/actions/userAction';
 import ModalTambahAlamat from '../Components/ModalTambahAlamat';
 import axios from 'axios';
@@ -38,16 +38,31 @@ class DaftarAlamatPage extends React.Component {
 
     onBtRemove = (idaddress) => {
         let token = localStorage.getItem("data");
-        axios.delete(`${API_URL}/users/${idaddress}`, {
-            headers: {
-                'Authorization': `Bearer ${token}`
+        swal({
+            text: "Anda akan Menghapus Alamat",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+          })
+          .then((willDelete) => {
+            if (willDelete) {
+                axios.delete(`${API_URL}/users/${idaddress}`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                }).then((res) => {
+                    swal("Berhasil Hapus Alamat",{
+                        icon:"success"
+                    })
+                    this.props.getAddress();
+                }).catch((err) => {
+                    console.log(err)
+                })
+            } else {
+              swal("Gagal Hapus Alamat");
             }
-        }).then((res) => {
-            swal("Berhasil Hapus Alamat")
-            this.props.getAddress();
-        }).catch((err) => {
-            console.log(err)
-        })
+          });
+        
     }
 
     printAddressList = () => {
@@ -104,7 +119,28 @@ class DaftarAlamatPage extends React.Component {
                     <Button onClick={() => this.setState({ openModalTambahAlamat: !this.state.openModalTambahAlamat })} className='bt-orange' style={{ borderRadius: 10, fontSize: "20px" }}>Tambah Alamat</Button>
                 </div>
                 <div>
-                    {this.printAddressList()}
+                    {
+                        this.props.idaddress === 1 ?
+                            <>
+                                <div className='text-center transaksi-box' style={{ padding: '10%', marginTop: 20 }}>
+                                    <h1 className='clr-orange'>Anda Belum Mendaftarkan Alamat Utama</h1>
+                                </div>
+                                {this.printAddressList()}
+                            </>
+                            :
+                            <>
+                            </>
+                    }
+                    {
+                        this.props.idaddress === 1 ?
+                            <>
+
+                            </>
+                            :
+                            <>
+                                {this.printAddressList()}
+                            </>
+                    }
                 </div>
             </div>
         );
