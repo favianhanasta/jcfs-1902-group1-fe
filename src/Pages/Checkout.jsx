@@ -58,14 +58,29 @@ class CheckoutPage extends React.Component {
         if (this.props.idaddress == 1) {
             swal("Anda Belum Memiliki Alamat")
         } else {
-            axios.post(`${API_URL}/users/checkout`, data)
-                .then((res) => {
-                    swal("Berhasil Checkout")
-                    this.props.getCart();
-                    this.setState({ inImage: [``], redirect: true })
-                }).catch((err) => {
-                    console.log("btnCheckout err", err)
-                })
+            swal({
+                text: "Anda yakin akan Checkout semua barang di keranjang anda?",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        axios.post(`${API_URL}/users/checkout`, data)
+                            .then((res) => {
+                                swal("Berhasil Checkout", {
+                                    icon:"success",
+                                })
+                                this.props.getCart();
+                                this.setState({ inImage: [``], redirect: true })
+                            }).catch((err) => {
+                                console.log("btnCheckout err", err)
+                            })
+                    } else {
+                        swal("Gagal Checkout");
+                    }
+                });
+
         }
     }
 
