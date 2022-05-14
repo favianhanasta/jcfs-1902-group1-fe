@@ -14,7 +14,7 @@ class ProductDetail extends React.Component {
         this.state = {
             data: {},
             qty: 1,
-            redirect:false
+            redirect: false
         }
     }
     componentDidMount() {
@@ -52,7 +52,7 @@ class ProductDetail extends React.Component {
             }
         }).then((res) => {
             swal("Berhasil Add To Cart");
-            this.setState({redirect : true});
+            this.setState({ redirect: true });
         }).catch((err) => {
             console.log(err)
         })
@@ -60,11 +60,11 @@ class ProductDetail extends React.Component {
 
     render() {
         let { data } = this.state;
-        if(this.state.redirect){
-            return <Navigate to='/cart'/>
+        if (this.state.redirect) {
+            return <Navigate to='/cart' />
         }
         return (
-            <div style={{marginTop:'42px'}}>
+            <div style={{ marginTop: '42px' }}>
                 <div className='container'>
                     <div className='row my-2'>
                         <div className='col-6'>
@@ -95,15 +95,20 @@ class ProductDetail extends React.Component {
                                     <p className='text-muted'>{data.category}</p>
                                 </div>
                             </div>
-                            <h5>Kuantitas</h5>
-                            <div className='row'>
-                                <div className='col-3'>
-                                    <Input type="number" defaultValue={this.state.qty} innerRef={(element) => this.totalQty = element} />
-                                </div>
-                                <div className='col-9'>
-                                    <Button onClick={this.onBtAddtoCart} className='bt-orange' style={{ width: '100%' }}>Tambahkan Ke Keranjang <BsCartPlusFill className='mx-2' style={{ fontSize: '18px' }} /> </Button>
-                                </div>
-                            </div>
+                            {
+                                this.props.idrole == 2 &&
+                                <>
+                                    <h5>Kuantitas</h5>
+                                    <div className='row'>
+                                        <div className='col-3'>
+                                            <Input type="number" defaultValue={this.state.qty} innerRef={(element) => this.totalQty = element} />
+                                        </div>
+                                        <div className='col-9'>
+                                            <Button onClick={this.onBtAddtoCart} className='bt-orange' style={{ width: '100%' }}>Tambahkan Ke Keranjang <BsCartPlusFill className='mx-2' style={{ fontSize: '18px' }} /> </Button>
+                                        </div>
+                                    </div>
+                                </>
+                            }
                         </div>
                     </div>
                 </div>
@@ -114,7 +119,8 @@ class ProductDetail extends React.Component {
 
 const mapToProps = (state) => {
     return {
-        iduser: state.userReducer.iduser
+        iduser: state.userReducer.iduser,
+        idrole: state.userReducer.idrole
     }
 }
 

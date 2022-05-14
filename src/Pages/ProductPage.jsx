@@ -5,7 +5,8 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getProduct, sortAction } from '../redux/actions'
 import { API_URL } from '../helper';
-const logo = require('../Assets/pharma.png')
+const logo = require('../Assets/pharma.png');
+const obat = require('../Assets/obat.png');
 
 class ProductPage extends React.Component {
     constructor(props) {
@@ -130,11 +131,21 @@ class ProductPage extends React.Component {
                             <a className='clr-blue' id="reset-search" style={{ textDecoration: 'none', cursor: 'pointer', fontSize: '14px' }} onClick={this.btResetSearch}>Tampilkan Semua</a>
                         </div>
                         <div style={{ height: '1135px' }}>
-                        <div className='row'>
-                            {this.printProductList()}
+                            {
+                                this.props.product.length > 0 ?
+                                    <div className='row'>
+                                        {this.printProductList()}
+                                    </div>
+                                    :
+                                    <div style={{ padding: '20%' }}>
+                                        <div style={{ height: '30%', width: '30%', margin: 'auto' }}>
+                                            <img src={obat} style={{ maxWidth: '100%', maxHeight: '100%' }} />
+                                        </div>
+                                        <h2 className='clr-orange text-center my-4'>Obat tidak ditemukan.</h2>
+                                    </div>
+                            }
                         </div>
-                        </div>
-                        <div className='text-center' style={{marginTop:'80px'}}>
+                        <div className='text-center' style={{ marginTop: '80px' }}>
                             {this.printBtPagination()}
                         </div>
                     </div>

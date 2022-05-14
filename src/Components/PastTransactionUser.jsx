@@ -2,6 +2,7 @@ import axios from 'axios';
 import React from 'react';
 import { Badge } from 'reactstrap';
 import { API_URL } from '../helper';
+const cartempty = require('../Assets/empty.png');
 
 class PastTransactionUser extends React.Component {
     constructor(props) {
@@ -77,7 +78,18 @@ class PastTransactionUser extends React.Component {
     render() {
         return (
             <div>
-                {this.printTransaksi()}
+                {
+                    this.state.dataTransaksi.length > 0 ?
+                        this.printTransaksi()
+                        :
+                        <div className='text-center transaksi-box' style={{ padding: '10%' }}>
+                            <div className='d-flex justify-content-center'>
+                                <img src={cartempty} />
+                            </div>
+                            <h1 className='clr-orange'>Belum Ada Transaksi</h1>
+                        </div>
+
+                }
             </div>
         );
     }
