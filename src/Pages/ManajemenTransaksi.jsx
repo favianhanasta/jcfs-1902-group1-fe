@@ -244,7 +244,7 @@ class ManajemenTransaksi extends React.Component {
                     </div>
                     {
                         this.props.transaction.length > 0 ?
-                            <div style={{ marginTop: '21px', paddingLeft: '10px', paddingRight: '10px' }}>
+                            <div style={{ marginTop: '21px', paddingLeft: '10px', paddingRight: '10px',marginBottom:'20%' }}>
                                 {this.printTransaksi()}
                             </div>
                             :

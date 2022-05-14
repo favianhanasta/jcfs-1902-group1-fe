@@ -7,6 +7,8 @@ import { RiSearch2Line, RiDeleteBin4Fill } from "react-icons/ri";
 import { getProduct } from "../redux/actions";
 import { RiShoppingCartLine } from "react-icons/ri";
 import moment from 'moment';
+import { Navigate } from 'react-router-dom';
+import swal from 'sweetalert';
 
 
 class CustomOrderResep extends React.Component {
@@ -16,7 +18,8 @@ class CustomOrderResep extends React.Component {
             data: [],
             satuan: '',
             qty: 1,
-            dataCart: []
+            dataCart: [],
+            redirect: false
         }
     }
 
@@ -195,17 +198,33 @@ class CustomOrderResep extends React.Component {
             detail: this.state.dataCart,
             idorder: this.state.data[0].idorder
         }
-        axios.post(API_URL + `/transaction/checkoutresep`, dataCO)
-            .then((res) => {
-                this.getDataCart()
-            })
-            .catch((err) => {
-                console.log(err)
+        swal({
+            title: "Apakah anda yakin melakukan checkout?",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((accept) => {
+                if (accept) {
+                    axios.post(API_URL + `/transaction/checkoutresep`, dataCO)
+                        .then(async (res) => {
+                            this.setState({ redirect: true })
+                            await swal("Checkout Berhasil", {
+                                icon: "success",
+                            });
+                            this.getDataCart();
+                        })
+                        .catch((err) => {
+                            console.log(err)
+                        })
+                }
             })
     }
 
     render() {
-        console.log('get', this.state.dataCart)
+        if (this.state.redirect) {
+            return <Navigate to='/manajemen-transaksi' />
+        }
         return (
             <div className='container' style={{ marginTop: '1%' }}>
                 <div className='row'>
