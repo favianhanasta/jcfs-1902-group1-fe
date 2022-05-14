@@ -68,13 +68,28 @@ class CartPage extends React.Component {
         }
         console.log("onBtRemoveCart data", data.stock[0])
         console.log("dataDeleteCart", dataDeleteCart)
-        axios.patch(`${API_URL}/users/cart/${idcart}`, dataDeleteCart
-        ).then((res) => {
-            swal("1 Barang telah berhasil terhapus")
-            this.props.getCart();
-        }).catch((err) => {
-            console.log(err)
+        console.log("temp", temp[index].nama)
+        swal({
+            text: `Anda yakin akan menghapus ${temp[index].nama} dari Keranjang`,
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
         })
+            .then((willDelete) => {
+                if (willDelete) {
+                    axios.patch(`${API_URL}/users/cart/${idcart}`, dataDeleteCart
+                    ).then((res) => {
+                        swal(`Barang ${temp[index].nama} telah terhapus dari Keranjang`, {
+                            icon: "success",
+                        });
+                        this.props.getCart();
+                    }).catch((err) => {
+                        console.log(err)
+                    })
+                } else {
+                    swal(`Barang ${temp[index].nama} tetap berada di Keranjang`);
+                }
+            });
     }
 
     printCartList = () => {
@@ -105,7 +120,7 @@ class CartPage extends React.Component {
     render() {
         console.log("this.props.cartList", this.props.cartList)
         return (
-            <div className='container clr-blue' style={{marginTop:'42px'}}>
+            <div className='container clr-blue' style={{ marginTop: '42px' }}>
                 <div className='row my-2'>
                     <div className='col-6'>
                         <h4 className='clr-blue' style={{ fontWeight: 'bolder' }}>Keranjang</h4>

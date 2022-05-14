@@ -9,7 +9,7 @@ import ModalGantiAlamat from '../Components/ModalGantiAlamat';
 import { RiBillLine } from 'react-icons/ri';
 import { GoLocation } from "react-icons/go";
 import moment from 'moment';
-import { Navigate } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 
 class CheckoutPage extends React.Component {
     constructor(props) {
@@ -151,8 +151,20 @@ class CheckoutPage extends React.Component {
                                     <GoLocation className='float-right' style={{ fontSize: '22px' }} />
                                 </div>
                             </div>
-                            {this.printAlamat()}
-                            <Button className='bt-orange' onClick={() => this.setState({ openModalGantiAlamat: !this.state.openModalGantiAlamat })}>Pilih Alamat Lain</Button>
+                            {
+                                this.props.idaddress === 1 ?
+                                    <>
+                                        <p>Anda Belum Mendaftarkan Alamat Utama</p>
+                                        <Link to="/daftaralamat">
+                                            <Button className='bt-orange'>Daftarkan Alamat</Button>
+                                        </Link>
+                                    </>
+                                    :
+                                    <>
+                                        {this.printAlamat()}
+                                        <Button className='bt-orange' onClick={() => this.setState({ openModalGantiAlamat: !this.state.openModalGantiAlamat })}>Pilih Alamat Lain</Button>
+                                    </>
+                            }
                         </div>
                         {this.printCartList()}
                     </div>

@@ -43,7 +43,7 @@ class LoginPage extends React.Component {
                     swal("Berhasil Masuk")
                     await this.setState({ redirect: true })
                 } else {
-                    swal("Akun Tidak Ditemukan")
+                    swal("Akun Tidak Ditemukan atau Belum Terverifikasi")
                 }
             }
         } catch (error) {
