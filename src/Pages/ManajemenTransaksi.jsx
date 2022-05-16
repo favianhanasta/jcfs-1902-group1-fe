@@ -7,6 +7,7 @@ import { API_URL } from '../helper';
 import { RiSearch2Line } from "react-icons/ri";
 import { getTransactionAdmin } from '../redux/actions'
 import { connect } from 'react-redux';
+import swal from 'sweetalert';
 const cartempty = require('../Assets/empty.png');
 
 
@@ -19,9 +20,10 @@ class ManajemenTransaksi extends React.Component {
             dataModProduk: {},
             dataModPembayaran: {},
             idstatus: null,
-            selectedId: null,
+            selectedId: 0,
             modalGambar: false,
             status: [
+                "",
                 {
                     status: 'Diproses',
                     value: 3
@@ -83,30 +85,44 @@ class ManajemenTransaksi extends React.Component {
     }
 
     btSemua = () => {
-        this.setState({ idstatus: null, selectedId: null });
+        this.setState({ idstatus: null, selectedId: 0 });
         this.cariByNama.value = null;
         this.cariInvoice.value = null;
         this.props.getTransactionAdmin()
     }
 
     btAction = (id, status) => {
-        axios.patch(API_URL + `/transaction/adminaction/${id}`, { idstatus: status })
-            .then((res) => {
-                this.props.getTransactionAdmin()
-            })
-            .catch((err) => {
-                console.log('error bt action', err)
+        swal("Konfirmasi untuk Action yang dilakukan", {
+            buttons: ["Cancel", "Confirm"]
+        })
+            .then((accept) => {
+                if (accept) {
+                    axios.patch(API_URL + `/transaction/adminaction/${id}`, { idstatus: status })
+                        .then((res) => {
+                            this.props.getTransactionAdmin()
+                        })
+                        .catch((err) => {
+                            console.log('error bt action', err)
+                        })
+                }
             })
     }
 
     btConfirm = (id) => {
-        axios.patch(API_URL + `/transaction/adminaction/${id}`, { idstatus: 3 })
-            .then((res) => {
-                this.props.getTransactionAdmin()
-                this.setState({ onReject: true })
-            })
-            .catch((err) => {
-                console.log('error bt action', err)
+        swal("Apakah anda yakin untuk konfirmasi transaksi User ?", {
+            buttons: ["Cancel", "Confirm"],
+        })
+            .then((accept) => {
+                if (accept) {
+                    axios.patch(API_URL + `/transaction/adminaction/${id}`, { idstatus: 3 })
+                        .then((res) => {
+                            this.props.getTransactionAdmin()
+                            this.setState({ onReject: true })
+                        })
+                        .catch((err) => {
+                            console.log('error bt action', err)
+                        })
+                }
             })
 
     }
@@ -203,9 +219,11 @@ class ManajemenTransaksi extends React.Component {
 
     printStatus = () => {
         return this.state.status.map((val, idx) => {
-            return (
-                <Button key={idx} className={this.state.selectedId == idx ? 'mx-2 btn-status-click' : 'mx-2 btn-status'} type='button' onClick={() => this.btFilter(val.value, idx)} >{val.status}</Button>
-            )
+            if (idx > 0) {
+                return (
+                    <Button key={idx} className={this.state.selectedId == idx ? 'mx-2 btn-status-click' : 'mx-2 btn-status'} type='button' onClick={() => this.btFilter(val.value, idx)} >{val.status}</Button>
+                )
+            }
         })
     }
 
@@ -240,11 +258,12 @@ class ManajemenTransaksi extends React.Component {
                         <p onClick={this.btSemua} style={{ cursor: 'pointer' }}>Tampilkan semua transaksi</p>
                     </div>
                     <div className='d-flex my-4'>
+                        <Button className={this.state.selectedId == 0 ? 'mx-2 btn-status-click' : 'mx-2 btn-status'} type='button' onClick={this.btSemua} >Semua</Button>
                         {this.printStatus()}
                     </div>
                     {
                         this.props.transaction.length > 0 ?
-                            <div style={{ marginTop: '21px', paddingLeft: '10px', paddingRight: '10px',marginBottom:'20%' }}>
+                            <div style={{ marginTop: '21px', paddingLeft: '10px', paddingRight: '10px', marginBottom: '20%' }}>
                                 {this.printTransaksi()}
                             </div>
                             :

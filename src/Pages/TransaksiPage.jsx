@@ -23,7 +23,8 @@ class TransaksiPage extends React.Component {
             dataModProduk: {},
             dataModPembayaran: {},
             key: 'ongoing',
-            selectedId: null
+            selectedId: null,
+            pastTransaksi: []
         }
     }
 
@@ -83,15 +84,33 @@ class TransaksiPage extends React.Component {
                 this.setState({ dataTransaksi: res.data.dataTransaksi })
             })
             .catch((err) => console.log('error getdata', err));
+        axios.get(API_URL + '/transaction/gettransaction?idstatus=6', {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+            .then((res) => {
+                this.setState({ pastTransaksi: res.data.dataTransaksi })
+            })
     }
 
     btnSelesai = (idtransaction) => {
-        axios.patch(API_URL + `/transaction/adminaction/${idtransaction}`, { idstatus: 6 })
-            .then((res) => {
-                // this.getData()
-            })
-            .catch((err) => {
-                console.log('error bt action', err)
+        swal({
+            title: "Pastikan Barang Telah Sampai ke Alamat Anda!",
+            icon: "warning",
+            buttons: true,
+        })
+            .then((accept) => {
+                if (accept) {
+                    axios.patch(API_URL + `/transaction/adminaction/${idtransaction}`, { idstatus: 6 })
+                        .then((res) => {
+                            this.setState({ key: "past" });
+                            this.getData()
+                        })
+                        .catch((err) => {
+                            console.log('error bt action', err)
+                        })
+                }
             })
     }
 
@@ -150,9 +169,9 @@ class TransaksiPage extends React.Component {
                                             <Button className='bt-orange' style={{ cursor: 'pointer' }} onClick={() => this.setState({ selectedId: i })}>Upload Bukti Pembayaran</Button>
                                             {
                                                 this.state.selectedId == i ?
-                                                    <div>
-                                                        <Input placeholder={``} type='file' onChange={(e) => this.handleImage(e)} className='my-2' />
-                                                        <Button className='bt-orange' onClick={() => this.btnUpload(val.idtransaction)}>Save</Button>
+                                                    <div className='my-2'>
+                                                        <Button className='bt-orange' style={{background:'green'}} onClick={() => this.btnUpload(val.idtransaction)}>Save</Button>
+                                                        <Button className='bt-orange mx-2' style={{ background: 'red' }} onClick={() => this.setState({ selectedId: null })}>Cancel</Button>
                                                     </div>
                                                     :
                                                     <></>
@@ -216,10 +235,10 @@ class TransaksiPage extends React.Component {
                         </Tab>
                         <Tab eventKey="past" title="History Transaksi">
                             <div className='p-1'>
-                                <PastTransactionUser />
+                                <PastTransactionUser data={this.state.pastTransaksi} />
                             </div>
                         </Tab>
-                        <Tab eventKey="resep" title="Order Melalui Resep">
+                        <Tab eventKey="resep" title="Waiting List Order Melalui Resep">
                             <OrderByResepUser />
                         </Tab>
                     </Tabs>

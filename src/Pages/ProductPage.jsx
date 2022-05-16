@@ -15,7 +15,9 @@ class ProductPage extends React.Component {
             dropdownHarga: false,
             dropdownNama: false,
             page: 1,
-            idcategory: null
+            idcategory: null,
+            selectedCat: null,
+            selectedSort: null
         }
     }
 
@@ -42,9 +44,10 @@ class ProductPage extends React.Component {
     }
 
     printCategory = () => {
+        let { selectedCat } = this.state;
         return this.props.category.map((val, idx) => {
             return (
-                <p className='clr-blue' id='filter-kategori' key={idx} style={{ cursor: 'pointer' }} onClick={() => this.btFilter(val.idcategory)}>{val.category}</p>
+                <p className={selectedCat === idx ? 'clr-orange' : 'clr-blue'} id='filter-kategori' key={idx} style={{ cursor: 'pointer' }} onClick={() => this.btFilter(val.idcategory, idx)}>{val.category}</p>
             )
         })
     }
@@ -57,8 +60,8 @@ class ProductPage extends React.Component {
         return btn;
     }
 
-    btFilter = async (category) => {
-        await this.setState({ idcategory: category })
+    btFilter = async (category, id) => {
+        await this.setState({ idcategory: category, selectedCat: id })
         this.props.getProduct({
             nama: this.cariByNama.value,
             category: this.state.idcategory
@@ -66,21 +69,21 @@ class ProductPage extends React.Component {
     }
 
     btResetSearch = () => {
-        this.setState({ idcategory: null });
+        this.setState({ idcategory: null, selectedCat: null });
         this.cariByNama.value = null;
         this.props.getProduct()
     }
 
-    btSort = (sort, type) => {
+    btSort = (sort, type, id) => {
+        this.setState({ selectedSort: id });
         this.props.sortAction({
             field: sort,
             sortType: type
         })
     }
 
-
-
     render() {
+        let { selectedSort } = this.state;
         return (
             <div className='container my-4'>
                 <div className=' bg-light text-center my-2' style={{ marginBottom: '2%', padding: '3%', borderRadius: '15px' }}>
@@ -101,13 +104,13 @@ class ProductPage extends React.Component {
                             <div className='px-4'>
                                 <p className='clr-blue'>Harga</p>
                                 <div>
-                                    <Button className='sort' outline onClick={() => this.btSort("harga", "asc")}>Terendah-Tertinggi</Button>
-                                    <Button className='sort my-2' outline onClick={() => this.btSort("harga", "desc")}>Tertinggi-Terendah</Button>
+                                    <Button className={selectedSort == 1 ? 'sort-select' : 'sort'} outline onClick={() => this.btSort("harga", "asc", 1)}>Terendah-Tertinggi</Button>
+                                    <Button className={selectedSort == 2 ? 'sort-select my-2' : 'sort my-2'} outline onClick={() => this.btSort("harga", "desc", 2)}>Tertinggi-Terendah</Button>
                                 </div>
                                 <p className='clr-blue'>Nama Obat</p>
                                 <div>
-                                    <Button className='sort' outline onClick={() => this.btSort("nama", "asc")}>A-Z</Button>
-                                    <Button className='sort mx-2' outline onClick={() => this.btSort("nama", "desc")}>Z-A</Button>
+                                    <Button className={selectedSort == 3 ? 'sort-select' : 'sort'} outline onClick={() => this.btSort("nama", "asc", 3)}>A-Z</Button>
+                                    <Button className={selectedSort == 4 ? 'sort-select mx-2' : 'sort mx-2'} outline onClick={() => this.btSort("nama", "desc", 4)}>Z-A</Button>
                                 </div>
                             </div>
                         </div>
