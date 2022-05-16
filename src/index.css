@@ -304,3 +304,12 @@ code {
   width: 150px;
   height: 150px;
 }
+
+.sort-select {
+  border-color: #FFB000;
+  color: white;
+  background-color: #FFB000;
+  border-radius: 20px;
+  padding: 5%;
+  font-size: 14px;
+}

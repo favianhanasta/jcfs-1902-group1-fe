@@ -12,24 +12,8 @@ class PastTransactionUser extends React.Component {
         }
     }
 
-    componentDidMount() {
-        this.getData()
-    }
-
-    getData = () => {
-        let token = localStorage.getItem('data');
-        axios.get(API_URL + '/transaction/gettransaction?idstatus=6', {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        })
-            .then((res) => {
-                this.setState({ dataTransaksi: res.data.dataTransaksi })
-            })
-    }
-
     printTransaksi = () => {
-        return this.state.dataTransaksi.map((val, i) => {
+        return this.props.data.map((val, i) => {
             return (
                 <div key={i} className='row transaksi-box my-4'>
                     <div className='col-4 transaksi-item'>
@@ -79,7 +63,7 @@ class PastTransactionUser extends React.Component {
         return (
             <div>
                 {
-                    this.state.dataTransaksi.length > 0 ?
+                    this.props.data.length > 0 ?
                         this.printTransaksi()
                         :
                         <div className='text-center transaksi-box' style={{ padding: '10%' }}>
