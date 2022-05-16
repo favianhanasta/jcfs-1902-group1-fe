@@ -75,21 +75,29 @@ class ModalTambahAlamat extends React.Component {
             kode_pos: this.inKodePos.value
         }
         console.log("dataNewAddress", dataNewAddress)
-        axios.post(`${API_URL}/users/newaddress`, dataNewAddress)
-            .then((res) => {
-                swal("Berhasil Tambah Alamat")
-                this.props.toggleModalTambahAlamat();
-                this.props.getAddress();
-            }).catch((error) => {
-                console.log("error btnSimpan ModalTambahAlamat", error)
-            })
+        console.log("this.inKota.value", this.inKota.value)
+
+        if (this.state.idprovinsi === null || this.inKota.value === "Kota" || this.inNamaPenerima.value === "" || this.alamatBaru.value === "" || this.inPhone.value === "" || this.inKecamatan.value === "" || this.inKodePos.value === "") {
+            swal('Pastikan Provinsi, Kota, Nama Penerima, Alamat, No. Hp Penerima, Kecamatan dan Kode Pos Tidak Kosong')
+        } else {
+            axios.post(`${API_URL}/users/newaddress`, dataNewAddress)
+                .then((res) => {
+                    swal("Berhasil Tambah Alamat")
+                    this.props.toggleModalTambahAlamat();
+                    this.props.getAddress();
+                    this.setState({ idprovinsi: null })
+                }).catch((error) => {
+                    console.log("error btnSimpan ModalTambahAlamat", error)
+                })
+        }
     }
 
     render() {
         return (
             <div>
                 <Modal
-                    style={{ marginTop: "15%" }}
+                    size='lg'
+                    style={{width:"64%"}}
                     isOpen={this.props.openModalTambahAlamat}
                     toggle={this.props.toggleModalTambahAlamat}
                 >
@@ -97,33 +105,37 @@ class ModalTambahAlamat extends React.Component {
                         Tambah Alamat
                     </ModalHeader>
                     <ModalBody>
-                        <InputGroup className='d-flex justify-content-between '>
-                            <FormGroup style={{ width: '400px' }}>
-                                <Label>Provinsi</Label>
-                                <Input type='select' placeholder='Provinsi' onChange={(event) => this.handleKota(event)}>
-                                    <option value='Provinsi' selected>Pilih Provinsi</option>
-                                    {this.printProvinsi()}
-                                </Input>
-                            </FormGroup>
-                            <FormGroup style={{ width: '300px' }}>
-                                <Label>Kota</Label>
-                                <Input type='select' placeholder='Kota' innerRef={(element) => this.inKota = element}>
-                                    <option value='Kota' selected>Pilih Kota</option>
-                                    {this.printKota()}
-                                </Input>
-                            </FormGroup>
-                        </InputGroup>
-                        <Label>Nama Penerima</Label>
-                        <Input innerRef={(element) => this.inNamaPenerima = element} />
-                        <Label>Alamat</Label>
-                        <Input type='textarea' innerRef={(element) => this.alamatBaru = element} />
-                        <Label>No.Hp Nama Penerima</Label>
-                        <Input innerRef={(element) => this.inPhone = element} />
-                        <Label>Kecamatan</Label>
-                        <Input innerRef={(element) => this.inKecamatan = element} />
-                        <Label>Kode Pos</Label>
-                        <Input innerRef={(element) => this.inKodePos = element} />
-                        <div style={{ float: "right", marginTop: 20 }}>
+                        <FormGroup>
+                            <Label className='mr-3'>Provinsi</Label>
+                            <Input type="select" placeholder='Provinsi' onChange={(event) => this.handleKota(event)}>
+                                <option value='Provinsi' selected>Pilih Provinsi</option>
+                                {this.printProvinsi()}
+                            </Input>
+                        </FormGroup>
+                        <FormGroup>
+                            <Label className='mr-3'>Kota</Label>
+                            <Input type='select' placeholder='Kota' innerRef={(element) => this.inKota = element}>
+                                <option value='Kota' selected>Pilih Kota</option>
+                                {this.printKota()}
+                            </Input>
+                        </FormGroup>
+                        <div className='d-flex-center'>
+                            <div className='m-2'>
+                                <Label>Nama Penerima</Label>
+                                <Input innerRef={(element) => this.inNamaPenerima = element} />
+                                <Label>No.Hp Nama Penerima</Label>
+                                <Input innerRef={(element) => this.inPhone = element} />
+                            </div>
+                            <div className='m-2'>
+                                <Label>Kecamatan</Label>
+                                <Input innerRef={(element) => this.inKecamatan = element} />
+                                <Label>Kode Pos</Label>
+                                <Input innerRef={(element) => this.inKodePos = element} />
+                                <Label>Alamat</Label>
+                                <Input type='textarea' innerRef={(element) => this.alamatBaru = element} />
+                            </div>
+                        </div>
+                        <div style={{ float:"right", marginTop: 20 }}>
                             <Button onClick={this.btSimpan} style={{ borderRadius: 10 }} className='bt-orange'>
                                 Simpan
                             </Button>

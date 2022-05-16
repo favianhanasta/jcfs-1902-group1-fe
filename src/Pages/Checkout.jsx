@@ -9,7 +9,7 @@ import ModalGantiAlamat from '../Components/ModalGantiAlamat';
 import { RiBillLine } from 'react-icons/ri';
 import { GoLocation } from "react-icons/go";
 import moment from 'moment';
-import { Navigate } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 
 class CheckoutPage extends React.Component {
     constructor(props) {
@@ -58,14 +58,29 @@ class CheckoutPage extends React.Component {
         if (this.props.idaddress == 1) {
             swal("Anda Belum Memiliki Alamat")
         } else {
-            axios.post(`${API_URL}/users/checkout`, data)
-                .then((res) => {
-                    swal("Berhasil Checkout")
-                    this.props.getCart();
-                    this.setState({ inImage: [``], redirect: true })
-                }).catch((err) => {
-                    console.log("btnCheckout err", err)
-                })
+            swal({
+                text: "Anda yakin akan Checkout semua barang di keranjang anda?",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        axios.post(`${API_URL}/users/checkout`, data)
+                            .then((res) => {
+                                swal("Berhasil Checkout", {
+                                    icon:"success",
+                                })
+                                this.props.getCart();
+                                this.setState({ inImage: [``], redirect: true })
+                            }).catch((err) => {
+                                console.log("btnCheckout err", err)
+                            })
+                    } else {
+                        swal("Gagal Checkout");
+                    }
+                });
+
         }
     }
 
@@ -151,8 +166,20 @@ class CheckoutPage extends React.Component {
                                     <GoLocation className='float-right' style={{ fontSize: '22px' }} />
                                 </div>
                             </div>
-                            {this.printAlamat()}
-                            <Button className='bt-orange' onClick={() => this.setState({ openModalGantiAlamat: !this.state.openModalGantiAlamat })}>Pilih Alamat Lain</Button>
+                            {
+                                this.props.idaddress === 1 ?
+                                    <>
+                                        <p>Anda Belum Mendaftarkan Alamat Utama</p>
+                                        <Link to="/daftaralamat">
+                                            <Button className='bt-orange'>Daftarkan Alamat</Button>
+                                        </Link>
+                                    </>
+                                    :
+                                    <>
+                                        {this.printAlamat()}
+                                        <Button className='bt-orange' onClick={() => this.setState({ openModalGantiAlamat: !this.state.openModalGantiAlamat })}>Pilih Alamat Lain</Button>
+                                    </>
+                            }
                         </div>
                         {this.printCartList()}
                     </div>
