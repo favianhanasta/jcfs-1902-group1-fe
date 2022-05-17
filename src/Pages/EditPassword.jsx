@@ -97,7 +97,7 @@ class EditPasswordPage extends React.Component {
             return <Navigate to="/" />
         }
         return (
-            <div className='container clr-blue' style={{height:'50vh'}}>
+            <div className='container clr-blue' style={{ height: '50vh' }}>
                 <div style={{ textAlign: "center", marginTop: "10%" }}>
                     <h1 style={{ fontWeight: "bolder" }}>Ubah Password Anda</h1>
                 </div>
@@ -107,8 +107,8 @@ class EditPasswordPage extends React.Component {
                             <>
                                 <h4>Masukan Password anda yang Sekarang</h4>
                                 <InputGroup>
-                                    <Input type={this.state.passType} style={{ borderTopLeftRadius: 10, borderBottomLeftRadius: 10 }} innerRef={(element) => this.oldPassword = element} />
-                                    <InputGroupText onClick={this.showHidePassword} style={{ borderTopRightRadius: 10, borderBottomRightRadius: 10 }} >
+                                    <Input type={this.state.passType} innerRef={(element) => this.oldPassword = element} />
+                                    <InputGroupText onClick={this.showHidePassword}>
                                         {
                                             this.state.passText === 'Show'
                                                 ?
@@ -118,7 +118,7 @@ class EditPasswordPage extends React.Component {
                                         }
                                     </InputGroupText>
                                 </InputGroup>
-                                <Button onClick={this.btCheckOldPassword}>Check Password</Button>
+                                <Button className='bt-orange my-2' onClick={this.btCheckOldPassword}>Check Password</Button>
                             </>
                             :
                             <>
