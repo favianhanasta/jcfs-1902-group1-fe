@@ -3,11 +3,20 @@ import React from 'react';
 import { Button, Input, Table } from 'reactstrap';
 import { API_URL } from '../helper';
 
+// CHART
+import { Line } from 'react-chartjs-2'
+import { CategoryScale } from 'chart.js';
+import Chart from 'chart.js/auto';
+Chart.register(CategoryScale);
+// CHART
+
+
 class SalesRevenue extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             dataSalesRevenue: [],
+            dataSalesRevenueChart: [],
             bulan: [
                 {
                     "namaBulan": "January",
@@ -80,11 +89,32 @@ class SalesRevenue extends React.Component {
         }
     }
 
+    getSalesRevenueMonthlyChart = async () => {
+        if (this.state.selectedMonth) {
+            await axios.get(API_URL + `/transaction/getsalesrevenuemonthlychart?year=${this.state.selectedYear}&month=${this.state.selectedMonth}`)
+                .then((res) => {
+                    this.setState({ dataSalesRevenueChart: res.data.dataSalesRevenueMonthlyChart })
+                }).catch((err) => {
+                    console.log(err)
+                })
+        }
+    }
+
     getSalesRevenueInterval = async () => {
         if (this.state.startDate && this.state.endDate) {
             await axios.get(API_URL + `/transaction/getsalesrevenueinterval?startDate=${this.state.startDate}&endDate=${this.state.endDate}`)
                 .then((res) => {
                     this.setState({ dataSalesRevenue: res.data.dataSalesRevenueInterval })
+                }).catch((err) => {
+                    console.log(err)
+                })
+        }
+    }
+    getSalesRevenueIntervalChart = async () => {
+        if (this.state.startDate && this.state.endDate) {
+            await axios.get(API_URL + `/transaction/getsalesrevenueintervalchart?startDate=${this.state.startDate}&endDate=${this.state.endDate}`)
+                .then((res) => {
+                    this.setState({ dataSalesRevenueChart: res.data.dataSalesRevenueIntervalChart })
                 }).catch((err) => {
                     console.log(err)
                 })
@@ -102,21 +132,25 @@ class SalesRevenue extends React.Component {
     btnFilterInterval = async () => {
         await this.setState({ startDate: this.inSelectStartDate.value, endDate: this.inSelectEndDate.value })
         this.getSalesRevenueInterval()
+        await this.getSalesRevenueIntervalChart()
     }
 
     btnFilter = async () => {
         await this.setState({ selectedMonth: this.inSelectMonth.value, selectedYear: this.inSelectYear.value })
         this.getSalesRevenueMonthly()
+        await this.getSalesRevenueMonthlyChart()
+        console.log("dataSalesRevenueChart", this.state.dataSalesRevenueChart)
     }
 
     btnReset = async () => {
-        await this.setState({ selectedMonth: "", selectedYear: "", startDate: "", endDate: "", dataSalesRevenue: [] })
+        await this.setState({ selectedMonth: "", selectedYear: "", startDate: "", endDate: "", dataSalesRevenue: [], dataSalesRevenueChart:[] })
         this.getSalesRevenueMonthly()
     }
 
     render() {
+        console.log("dataSalesRevenue", this.state.dataSalesRevenue)
         return (
-            <div className='container clr-blue' style={{height:'100vh'}}>
+            <div className='container clr-blue my-4' style={{marginBottom:"20%"}}>
                 <div className='row'>
                     <div className='col-md-6 d-flex py-1'>
                         <h5 className='clr-blue'>Halaman Admin</h5>
@@ -125,7 +159,7 @@ class SalesRevenue extends React.Component {
                     </div>
                 </div>
                 <div >
-                    <div style={{ display: "flex", justifyContent:"space-evenly" }}>
+                    <div style={{ display: "flex", justifyContent: "space-evenly" }}>
                         <div className='border m-5 p-5'>
                             <div>
                                 <h5>Awal Tanggal</h5>
@@ -187,6 +221,40 @@ class SalesRevenue extends React.Component {
                         </tr>
                     </thead>
                 </Table>
+                {/* CHART START */}
+                <Line
+                    data={{
+                        labels:
+                            this.state.dataSalesRevenueChart.map((value, index) => {
+
+                                return (
+                                    `${value.date}`
+                                )
+
+                            }),
+                        datasets: [{
+                            label: '# of Votes',
+                            data:
+                                this.state.dataSalesRevenueChart.map((value, index) => {
+
+                                    return (
+                                        `${value.total}`
+                                    )
+
+                                }),
+                            backgroundColor: [
+                                'rgba(54, 162, 235, 0.2)',
+                            ],
+                            borderColor: [
+                                'rgba(54, 162, 235, 0.2)',
+                            ],
+                            borderWidth: 5
+                        }]
+                    }}
+                    height={400}
+                    width={600}
+                />
+                {/* CHART END */}
             </div>
         );
     }
