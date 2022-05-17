@@ -49,28 +49,37 @@ class TransaksiPage extends React.Component {
         formData.append('dataUpload', JSON.stringify(dataUpload));
         formData.append('images', this.state.inImage[0].file)
         console.log("dataCheckout", dataUpload)
-        if (this.state.inImage[0].file) {
-            let token = localStorage.getItem('data');
-            axios.patch(`${API_URL}/users/uploadpayment/${idtransaction}`, formData, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
+        swal({
+            title: 'Simpan Bukti Pembayaran ?',
+            icon: 'warning',
+            buttons: true
+        })
+            .then((accept) => {
+                if (accept) {
+                    if (this.state.inImage[0].file) {
+                        let token = localStorage.getItem('data');
+                        axios.patch(`${API_URL}/users/uploadpayment/${idtransaction}`, formData, {
+                            headers: {
+                                'Authorization': `Bearer ${token}`
+                            }
+                        })
+                            .then((res) => {
+                                axios.patch(API_URL + `/transaction/adminaction/${idtransaction}`, { idstatus: 8 })
+                                    .then((res) => {
+                                        this.getData()
+                                    })
+                                    .catch((err) => {
+                                        console.log('error bt action', err)
+                                    })
+                                swal("Berhasil Upload","","success")
+                            }).catch((err) => {
+                                console.log("btnUpload err", err)
+                            })
+                    } else {
+                        swal("upload bukti telebih dahulu")
+                    }
                 }
             })
-                .then((res) => {
-                    axios.patch(API_URL + `/transaction/adminaction/${idtransaction}`, { idstatus: 8 })
-                        .then((res) => {
-                            this.getData()
-                        })
-                        .catch((err) => {
-                            console.log('error bt action', err)
-                        })
-                    swal("Berhasil Upload")
-                }).catch((err) => {
-                    console.log("btnUpload err", err)
-                })
-        } else {
-            swal("upload bukti telebih dahulu")
-        }
     }
 
     getData = () => {
@@ -170,7 +179,8 @@ class TransaksiPage extends React.Component {
                                             {
                                                 this.state.selectedId == i ?
                                                     <div className='my-2'>
-                                                        <Button className='bt-orange' style={{background:'green'}} onClick={() => this.btnUpload(val.idtransaction)}>Save</Button>
+                                                        <Input placeholder={``} type='file' onChange={(e) => this.handleImage(e)} className='my-2' />
+                                                        <Button className='bt-orange' style={{ background: 'green' }} onClick={() => this.btnUpload(val.idtransaction)}>Save</Button>
                                                         <Button className='bt-orange mx-2' style={{ background: 'red' }} onClick={() => this.setState({ selectedId: null })}>Cancel</Button>
                                                     </div>
                                                     :
@@ -205,7 +215,7 @@ class TransaksiPage extends React.Component {
     render() {
         console.log('transaksi', this.state.dataTransaksi)
         return (
-            <div style={{ minHeight: '100%' }}>
+            <div style={{ minHeight: '100%',height:'1000px' }}>
                 <ModalProdukTransaksi open={this.state.openModProduk} toggle={() => this.setState({ openModProduk: !this.state.openModProduk })} data={this.state.dataModProduk} />
                 <ModalDetailPembayaran open={this.state.openModPembayaran} toggle={() => this.setState({ openModPembayaran: !this.state.openModPembayaran })} data={this.state.dataModPembayaran} />
                 <div className='container' style={{ marginTop: "3%" }}>

@@ -120,7 +120,7 @@ class CartPage extends React.Component {
     render() {
         console.log("this.props.cartList", this.props.cartList)
         return (
-            <div className='container clr-blue' style={{ marginTop: '42px' }}>
+            <div className='container clr-blue' style={{ marginTop: '42px',marginBottom:'20%',minHeight:'100%' }}>
                 <div className='row my-2'>
                     <div className='col-6'>
                         <h4 className='clr-blue' style={{ fontWeight: 'bolder' }}>Keranjang</h4>
@@ -144,7 +144,7 @@ class CartPage extends React.Component {
                                     <p className='font-price'>Rp {this.printTotalPayment().toLocaleString()}</p>
                                 </div>
                                 <Link to="/checkout">
-                                    <Button className='bt-orange' style={{ width: "100%", margin: "auto" }}>BELI</Button>
+                                    <Button className='bt-orange' style={{ width: "100%", margin: "auto" }}>Checkout</Button>
                                 </Link>
                             </div>
                         </div>

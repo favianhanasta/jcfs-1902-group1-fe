@@ -61,7 +61,7 @@ class ProductPage extends React.Component {
     }
 
     btFilter = async (category, id) => {
-        await this.setState({ idcategory: category, selectedCat: id })
+        await this.setState({ idcategory: category, selectedCat: id, selectedSort: null })
         this.props.getProduct({
             nama: this.cariByNama.value,
             category: this.state.idcategory
@@ -69,7 +69,7 @@ class ProductPage extends React.Component {
     }
 
     btResetSearch = () => {
-        this.setState({ idcategory: null, selectedCat: null });
+        this.setState({ idcategory: null, selectedCat: null, selectedSort: null });
         this.cariByNama.value = null;
         this.props.getProduct()
     }
