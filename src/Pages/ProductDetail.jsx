@@ -46,16 +46,21 @@ class ProductDetail extends React.Component {
             idstock: stock[0].qty
         }
         console.log("dataAddToCart", dataAddToCart)
-        axios.post(`${API_URL}/users/addtocart`, dataAddToCart, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        }).then((res) => {
-            swal("Berhasil Add To Cart");
-            this.setState({ redirect: true });
-        }).catch((err) => {
-            console.log(err)
-        })
+        swal("Tambahkan Dalam Keranjang", { buttons: ["Cancel", "Tambahkan"], icon: 'info' })
+            .then((accept) => {
+                if (accept) {
+                    axios.post(`${API_URL}/users/addtocart`, dataAddToCart, {
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        }
+                    }).then(async (res) => {
+                        await swal("Berhasil Add To Cart", "", "success");
+                        this.setState({ redirect: true });
+                    }).catch((err) => {
+                        console.log(err)
+                    })
+                }
+            })
     }
 
     render() {

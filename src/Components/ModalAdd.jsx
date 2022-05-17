@@ -7,6 +7,7 @@ import axios from 'axios';
 import { API_URL } from '../helper';
 import { getProduct } from '../redux/actions'
 import moment from 'moment';
+import swal from 'sweetalert';
 
 class ModalAdd extends React.Component {
     constructor(props) {
@@ -17,19 +18,19 @@ class ModalAdd extends React.Component {
                     id: null,
                     idsatuan: null,
                     qty: null,
-                    isnetto : 0
+                    isnetto: 0
                 },
                 {
                     id: null,
                     idsatuan: null,
                     qty: null,
-                    isnetto : 1
+                    isnetto: 1
                 },
                 {
                     id: null,
                     idsatuan: null,
                     qty: null,
-                    isnetto : 0
+                    isnetto: 0
                 }
             ],
             inImage: [``]
@@ -89,7 +90,7 @@ class ModalAdd extends React.Component {
 
     btnSave = () => {
         let temp = [...this.state.inStock];
-        temp[2].qty = this.state.inStock[0].qty * this.state.inStock[1].qty*10;
+        temp[2].qty = this.state.inStock[0].qty * this.state.inStock[1].qty * 10;
         temp[2].idsatuan = this.state.inStock[1].idsatuan;
         this.setState({ inStock: temp });
         let data = {
@@ -109,17 +110,27 @@ class ModalAdd extends React.Component {
             formData.append('images', val.file)
         });
         let token = localStorage.getItem('data');
-        axios.post(`${API_URL}/product/addproduct`, formData, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
+        swal({
+            title: 'Simpan Data',
+            icon: 'warning',
+            buttons: true
         })
-            .then((res) => {
-                this.props.getProduct();
-                this.props.toggle();
-            })
-            .catch((err) => {
-                console.log("add error fe", err);
+            .then((accept) => {
+                if (accept) {
+                    axios.post(`${API_URL}/product/addproduct`, formData, {
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        }
+                    })
+                        .then((res) => {
+                            this.props.getProduct();
+                            this.props.toggle();
+                            swal("Add Item Success!", "", "success");
+                        })
+                        .catch((err) => {
+                            console.log("add error fe", err);
+                        })
+                }
             })
         console.log('datain', data);
     }

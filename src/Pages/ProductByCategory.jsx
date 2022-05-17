@@ -119,17 +119,7 @@ class ProductByCategory extends React.Component {
                                 <h5 className='clr-orange my-1' style={{ float: 'right' }}>| Produk </h5>
                             </div>
                         </div>
-                        <InputGroup className='my-2'>
-                            <Input className='input-blue' type='text' placeholder='Cari Produk atau Obat' innerRef={(e) => this.cariByNama = e} />
-                            <Button style={{ background: '#2B2273', borderLeft: 'none', borderRadius: '0' }} onClick={this.btFilter} >
-                                <RiSearch2Line />
-                            </Button>
-                        </InputGroup>
-                        <div className='d-flex justify-content-end'>
-                            <Link to='/product-page'>
-                                <a className='clr-blue' id="reset-search" style={{ textDecoration: 'none', cursor: 'pointer', fontSize: '14px' }}>ke Halaman Produk</a>
-                            </Link>
-                        </div>
+                        <hr/>
                         <div style={{ height: '1135px' }}>
                             <div className='row'>
                                 {this.printProductList()}

@@ -8,6 +8,7 @@ import { API_URL } from '../helper';
 import { getProduct } from '../redux/actions';
 import { AiOutlinePlusSquare } from 'react-icons/ai';
 import ModalRestock from '../Components/ModalRestock';
+import swal from 'sweetalert';
 
 
 class ManajemenProduk extends React.Component {
@@ -21,7 +22,7 @@ class ManajemenProduk extends React.Component {
             dataForEdit: {},
             modalRestock: false,
             dataForRestock: [],
-            qty:null
+            qty: null
         }
     }
 
@@ -54,15 +55,29 @@ class ManajemenProduk extends React.Component {
         }
         return btn;
     }
-
+    
     btnDelete = (i) => {
-        axios.delete(`${API_URL}/product/${i}`)
-            .then((res) => {
-                this.props.getProduct()
-            })
-            .catch((err) => {
-                console.log('delete error', err)
-            })
+        swal({
+            text: "Anda yakin menghapus item ?",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((accept) => {
+                if (accept) {
+                    axios.delete(`${API_URL}/product/${i}`, {
+                        headers: {
+                            'Authorization': `Bearer ${localStorage.getItem('data')}`
+                        }
+                    })
+                        .then((res) => {
+                            this.props.getProduct()
+                        })
+                        .catch((err) => {
+                            console.log('delete error', err)
+                        })
+                }
+            });
     }
 
     btOnEdit = (data) => {
@@ -77,7 +92,7 @@ class ManajemenProduk extends React.Component {
         return (
             <>
                 <ModalAdd open={this.state.modalAdd} toggle={() => this.setState({ modalAdd: !this.state.modalAdd })} />
-                <ModalEdit openEdit={this.state.modalEdit} data={this.state.dataForEdit} toggleEdit={() => this.setState({ modalEdit: !this.state.modalEdit })} stock={this.state.qty}/>
+                <ModalEdit openEdit={this.state.modalEdit} data={this.state.dataForEdit} toggleEdit={() => this.setState({ modalEdit: !this.state.modalEdit })} stock={this.state.qty} />
                 <div className='container utama'>
                     <div className='row'>
                         <div className='col-md-6 d-flex py-1'>
@@ -89,7 +104,7 @@ class ManajemenProduk extends React.Component {
                             <Button className='bt-orange' onClick={() => this.setState({ modalAdd: !this.state.modalAdd })}>Tambah Produk <AiOutlinePlusSquare style={{ fontSize: '20px' }} /></Button>
                         </div>
                     </div>
-                    <div style={{height:'1150px'}}>
+                    <div style={{ height: '1150px' }}>
                         <Table hover responsive className='my-4'>
                             <thead>
                                 <tr className='text-center'>

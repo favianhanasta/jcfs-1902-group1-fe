@@ -76,11 +76,8 @@ class CheckoutPage extends React.Component {
                             }).catch((err) => {
                                 console.log("btnCheckout err", err)
                             })
-                    } else {
-                        swal("Gagal Checkout");
                     }
                 });
-
         }
     }
 
@@ -96,7 +93,7 @@ class CheckoutPage extends React.Component {
         return this.props.cartList.map((value, index) => {
             return (
                 <>
-                    <div className='row' style={{ padding: 20 }}>
+                    <div className='row' style={{ padding: 20 }} key={index}>
                         <div className='col-4'>
                             <img style={{ width: "100%" }} src={API_URL + value.url} />
                         </div>

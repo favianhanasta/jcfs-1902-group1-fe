@@ -49,18 +49,28 @@ class ModalEdit extends React.Component {
             });
         }
         let token = localStorage.getItem('data');
-        axios.patch(`${API_URL}/product/editproduct/${this.props.data.idproduct}`, formData, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
+        swal({
+            title: 'Yakin dengan ubahan data yang anda lakukan ?',
+            icon: 'warning',
+            buttons: true
         })
-            .then((res) => {
-                this.setState({ inImage: [``] })
-                this.props.getProduct();
-                this.props.toggleEdit();
-            })
-            .catch((err) => {
-                console.log("add error error", err);
+            .then((accept) => {
+                if (accept) {
+                    axios.patch(`${API_URL}/product/editproduct/${this.props.data.idproduct}`, formData, {
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        }
+                    })
+                        .then((res) => {
+                            this.setState({ inImage: [``] })
+                            this.props.getProduct();
+                            this.props.toggleEdit();
+                            swal("Edit Item Success!", "", "success");
+                        })
+                        .catch((err) => {
+                            console.log("add error error", err);
+                        })
+                }
             })
     }
 
@@ -81,21 +91,30 @@ class ModalEdit extends React.Component {
             date: moment().format("YYYY-MM-DD")
         }
         let token = localStorage.getItem('data');
-        axios.patch(API_URL + '/product/editstock', data, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
+        swal({
+            title: 'Update Stock',
+            icon: 'warning',
+            buttons : true
         })
-            .then((res) => {
-                swal("Edit Stock Success!", "", "success");
-                this.btToggle();
+            .then((accept) => {
+                if (accept) {
+                    axios.patch(API_URL + '/product/editstock', data, {
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        }
+                    })
+                        .then((res) => {
+                            swal("Edit Stock Success!", "", "success");
+                            this.btToggle();
+                        })
+                        .catch((err) => { console.log(err) })
+                }
             })
-            .catch((err) => { console.log(err) })
     }
 
     render() {
-        let { nama, harga, idcategory, deskripsi, kemasan, url,stock } = this.props.data;
-        console.log('stock',stock)
+        let { nama, harga, idcategory, deskripsi, kemasan, url, stock } = this.props.data;
+        console.log('stock', stock)
         return (
             <div>
                 <Modal isOpen={this.props.openEdit} toggle={this.btToggle} centered size='lg'>
@@ -167,7 +186,7 @@ class ModalEdit extends React.Component {
                                 <div className='font-price' >
                                     <h5 style={{ marginBottom: '16px' }} className='clr-orange'>Stock per Item</h5>
                                     <div className="d-flex" style={{ height: '10vh' }}>
-                                        <Input className='text-center col-4' onChange={(event) => this.handleStock(event)} type='number' defaultValue={this.props.stock}/>
+                                        <Input className='text-center col-4' onChange={(event) => this.handleStock(event)} type='number' defaultValue={this.props.stock} />
                                         <h5 className='my-1 mx-4'></h5>
                                     </div>
                                 </div>
