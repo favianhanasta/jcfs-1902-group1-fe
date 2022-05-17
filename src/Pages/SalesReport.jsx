@@ -3,13 +3,21 @@ import React from 'react';
 import { Button, Input, Table } from 'reactstrap';
 import { API_URL } from '../helper';
 
+// CHART
+import { Bar } from 'react-chartjs-2'
+import { CategoryScale } from 'chart.js';
+import Chart from 'chart.js/auto';
+Chart.register(CategoryScale);
+// CHART
+
 class SalesReport extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             dataSalesReport: [],
             dataDateSalesReport: [],
-            selectedDate: ""
+            selectedDate: "",
+            nama: ['Reyhan', 'Balthazar', 'Epsa']
         }
     }
 
@@ -101,7 +109,7 @@ class SalesReport extends React.Component {
     render() {
         console.log("dataSalesReport", this.state.dataSalesReport)
         return (
-            <div className='container clr-blue my-4' style={{height:"100vh"}}>
+            <div className='container clr-blue my-4'>
                 <div className='row my-4'>
                     <div className='col-md-6 d-flex py-1'>
                         <h5 className='clr-blue'>Halaman Admin</h5>
@@ -156,6 +164,54 @@ class SalesReport extends React.Component {
                         </tr>
                     </tbody>
                 </Table>
+                {/* CHART START */}
+                <div className='d-flex'>
+                    <div className='p-1 text-center' style={{ width: 120, height: 30, backgroundColor: '#2B2273',color:'white' }}>
+                        <p>By Resep</p>
+                    </div>
+                    <div className='p-1 text-center' style={{ width: 120, height: 30, backgroundColor: '#FFB000',color:'white'  }}>
+                        <p>non-Resep</p>
+                    </div>
+                </div>
+                <Bar
+                    data={{
+                        labels:
+                            this.state.dataSalesReport.map((value, index) => {
+
+                                return (
+                                    `${value.nama}`
+                                )
+
+                            }),
+                        datasets: [{
+                            label: '',
+                            data:
+                                this.state.dataSalesReport.map((value, index) => {
+
+                                    return (
+                                        `${value.qty}`
+                                    )
+
+                                }),
+                            backgroundColor:
+                                this.state.dataSalesReport.map((value, index) => {
+                                    return (
+                                        value.keterangan === "By Resep" ?
+                                            '#2B2273'
+                                            :
+                                            '#FFB000'
+                                    )
+                                }),
+                            borderColor: [
+                                'rgba(54, 162, 235, 0.2)',
+                            ],
+                            borderWidth: 1
+                        }]
+                    }}
+                    height={400}
+                    width={600}
+                />
+                {/* CHART END */}
             </div>
         );
     }
