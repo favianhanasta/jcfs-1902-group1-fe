@@ -138,7 +138,7 @@ class CheckoutPage extends React.Component {
             return <Navigate to='/halaman-transaksi' />
         }
         return (
-            <div className='container clr-blue'>
+            <div className='container clr-blue' style={{marginBottom:'15%'}}>
                 <ModalGantiAlamat
                     openModalGantiAlamat={this.state.openModalGantiAlamat}
                     toggleModalGantiAlamat={() => this.setState({ openModalGantiAlamat: !this.state.openModalGantiAlamat })}
