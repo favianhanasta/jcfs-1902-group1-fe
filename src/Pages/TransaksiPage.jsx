@@ -6,7 +6,6 @@ import { Badge, Button, Input } from 'reactstrap';
 import ModalProdukTransaksi from '../Components/ModalProdukTransaksi';
 import ModalDetailPembayaran from '../Components/ModulDetailPembayaran';
 import { API_URL } from '../helper';
-import imgupload from '../Assets/imageupload.svg';
 import swal from 'sweetalert';
 import PastTransactionUser from '../Components/PastTransactionUser';
 import OrderByResepUser from './OrderByResepUser';
