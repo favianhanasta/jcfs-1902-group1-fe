@@ -39,14 +39,23 @@ class UploadResep extends React.Component {
         this.state.upload.forEach(val => {
             form.append('images', val.file)
         });
-        axios.post(`${API_URL}/transaction/uploadresep`, form)
-            .then((res) => {
-                this.setState({ upload: [``] });
-                swal("Upload Berhasil", "Transaksi anda segera kami proses!", "success");
-                this.setState({redirect:true});
-            })
-            .catch((err) => {
-                console.log('upload', err);
+        swal({
+            title: 'Simpan Resep?',
+            icon: 'warning',
+            buttons: true
+        })
+            .then((accept) => {
+                if (accept) {
+                    axios.post(`${API_URL}/transaction/uploadresep`, form)
+                        .then((res) => {
+                            this.setState({ upload: [``] });
+                            swal("Upload Berhasil", "Transaksi anda segera kami proses!", "success");
+                            this.setState({ redirect: true });
+                        })
+                        .catch((err) => {
+                            console.log('upload', err);
+                        })
+                }
             })
     }
 
@@ -73,7 +82,7 @@ class UploadResep extends React.Component {
             return <Navigate to='/halaman-transaksi' />
         }
         return (
-            <div className='container my-4'>
+            <div className='container my-4' style={{ height: '80vh' }}>
                 <div className='row' style={{ marginBottom: '3%' }}>
                     <div className='col-6'>
                         <h5 className='clr-blue'>Halaman Transaksi</h5>

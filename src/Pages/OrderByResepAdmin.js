@@ -43,7 +43,7 @@ class OrderByResepAdmin extends React.Component {
     render() {
         console.log('s', this.props.byResep)
         return (
-            <div className='container' style={{ marginTop: '1%', minHeight: '100%' }}>
+            <div className='container' style={{ marginTop: '1%', minHeight: '100%',marginBottom:'5%' }}>
                 <div className='row'>
                     <div className='col-md-6 d-flex py-1'>
                         <h5 className='clr-blue'>Halaman Admin</h5>
