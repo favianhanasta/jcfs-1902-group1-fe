@@ -57,10 +57,11 @@ class EditProfilePage extends React.Component {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
-                }).then((res) => {
-                    swal("Berhasil Merubah Data",{
+                }).then(async(res) => {
+                    await swal("Berhasil Merubah Data",{
                         icon:"success",
                     })
+                    window.location.reload()
                 }).catch((err) => {
                     console.log(err)
                 })
